@@ -1,8 +1,7 @@
-FRONTEND:
-
+# FRONTEND:
 npm install
-npm run-script build
+npm run build
 
-
-BACKEND:
+# BACKEND:
+run main.py
 
