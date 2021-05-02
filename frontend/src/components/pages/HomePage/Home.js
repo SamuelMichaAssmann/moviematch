@@ -6,7 +6,6 @@ import Pricing from '../Pricing/Pricing';
 function Home() {
   return (
     <>
-      <p>My Token test = {window.token}</p>
       <Section {...homeObjOne} />
       <Section {...homeObjThree} />
       <Section {...homeObjTwo} />

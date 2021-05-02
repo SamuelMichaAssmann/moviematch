@@ -65,6 +65,7 @@
     "react-icons": "^4.2.0",
     "react-refresh": "^0.8.3",
     "react-router-dom": "^5.2.0",
+    "react-scripts": "^4.0.3",
     "react-transition-group": "^4.4.1",
     "resolve": "1.18.1",
     "resolve-url-loader": "^3.1.2",
@@ -82,9 +83,10 @@
     "workbox-webpack-plugin": "5.1.4"
   },
   "scripts": {
-    "start": "node scripts/start.js",
-    "build": "node scripts/build.js",
-    "test": "node scripts/test.js"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
