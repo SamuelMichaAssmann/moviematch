@@ -4,9 +4,21 @@ import { observer } from 'mobx-react';
 import firebaseConfig from "../../../firebase";
 import firebase from "firebase/app";
 import { Button } from '../Button/Button';
+import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 
 import { createBrowserHistory } from 'history';
+
+const styles = theme => ({
+  notchedOutline: {
+    borderWidth: '1px',
+    borderColor: 'white !important'
+  },
+  cssLabel: {
+    color: 'white !important'
+  },
+
+});
 
 let history = createBrowserHistory();
 let location = history.location;
@@ -101,8 +113,8 @@ export class Register extends React.Component {
   }
 
   render() {
+    const { classes } = this.props;
     return (
-
       <div className="base-container" ref={this.props.containerRef}>
         <div className="header">Register</div>
         <div className="content">
@@ -110,21 +122,55 @@ export class Register extends React.Component {
             <div className="form">
               <div className="form-group">
                 <div className="input-div">
-                  <TextField required type="email" id="outlined-basic" label="Enter your email-adress" name="email" variant="outlined" onChange={this.handleChange} value={this.state.email} />
+                  <TextField
+                    required type="email"
+                    id="outlined-basic"
+                    label="Enter your email-adress"
+                    name="email"
+                    variant="outlined"
+                    InputLabelProps={{ classes: { root: classes.cssLabel } }}
+                    InputProps={{ classes: { notchedOutline: classes.notchedOutline } }}
+                    onChange={this.handleChange}
+                    value={this.state.email}
+                  />
                 </div>
               </div>
               <div className="form-group">
                 <div className="input-div">
-                  <TextField required type="password" id="outlined-basic" label="Enter your password" name="password" variant="outlined" onChange={this.handleChange} value={this.state.password} />
+                  <TextField
+                    required type="password"
+                    id="outlined-basic"
+                    label="Enter your password"
+                    name="password"
+                    variant="outlined"
+                    InputLabelProps={{ classes: { root: classes.cssLabel } }}
+                    InputProps={{ classes: { notchedOutline: classes.notchedOutline } }}
+                    onChange={this.handleChange}
+                    value={this.state.password}
+                  />
                 </div>
               </div>
               <div className="form-group">
                 <div className="input-div">
-                  <TextField required type="password" id="outlined-basic" label="Confirm your password" name="passwordConfirmation" variant="outlined" onChange={this.handleChange} value={this.state.passwordConfirmation} />
+                  <TextField
+                    required type="password"
+                    id="outlined-basic"
+                    label="Confirm your password"
+                    name="passwordConfirmation"
+                    variant="outlined"
+                    InputLabelProps={{ classes: { root: classes.cssLabel } }}
+                    InputProps={{ classes: { notchedOutline: classes.notchedOutline } }}
+                    onChange={this.handleChange}
+                    value={this.state.passwordConfirmation}
+                  />
                 </div>
               </div>
               <div>
-                <Button buttonSize='btn--wide' buttonColor='blue' onClick={this.registerFirebase}>
+                <Button
+                  buttonSize='btn--wide'
+                  buttonColor='blue'
+                  onClick={this.registerFirebase}
+                >
                   Login
                 </Button>
               </div>
@@ -137,4 +183,4 @@ export class Register extends React.Component {
 }
 
 
-export default observer(Register);
+export default observer(withStyles(styles)(Register));

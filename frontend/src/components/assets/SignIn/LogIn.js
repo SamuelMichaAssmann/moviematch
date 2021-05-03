@@ -3,13 +3,20 @@ import './Login.css';
 import { Button } from '../Button/Button';
 import { observer } from 'mobx-react';
 import TextField from '@material-ui/core/TextField';
-
+import { withStyles } from '@material-ui/core/styles';
 import firebase from "firebase/app";
 import { BrowserRouter as Redirect } from 'react-router-dom';
 
+const styles = theme => ({
+    notchedOutline: {
+        borderWidth: '1px',
+        borderColor: 'white !important'
+    },
+    cssLabel: {
+        color: 'white !important'
+    },
 
-
-
+});
 
 export class Login extends React.Component {
     constructor(props) {
@@ -66,6 +73,7 @@ export class Login extends React.Component {
                     });
                 }
                 console.log("Redirecting");
+                <Redirect to="/" />
                 //<Redirect to='/'></Redirect> not working now
 
 
@@ -77,13 +85,10 @@ export class Login extends React.Component {
                 var errorMessage = error.message;
                 alert(errorMessage + "\n" + { errorCode })
             });
-
-
     };
 
-
-
     render() {
+        const { classes } = this.props;
         return (
             <div className="base-container" ref={this.props.containerRef}>
                 <div className="header">SignIn</div>
@@ -96,8 +101,11 @@ export class Login extends React.Component {
                                     label="Enter the username"
                                     name="email"
                                     variant="outlined"
+                                    InputLabelProps={{classes: { root: classes.cssLabel }}}
+                                    InputProps={{classes: { notchedOutline: classes.notchedOutline }}}
                                     value={this.state.email}
-                                    onChange={this.handleChange} />
+                                    onChange={this.handleChange}
+                                />
                             </div>
                         </div>
                         <div className="form-group">
@@ -109,6 +117,8 @@ export class Login extends React.Component {
                                     variant="outlined"
                                     type="password"
                                     color="primary"
+                                    InputLabelProps={{classes: { root: classes.cssLabel }}}
+                                    InputProps={{classes: { notchedOutline: classes.notchedOutline }}}
                                     value={this.state.password}
                                     onChange={this.handleChange} />
                             </div>
@@ -126,4 +136,4 @@ export class Login extends React.Component {
     }
 }
 
-export default observer(Login);
+export default observer(withStyles(styles)(Login));
