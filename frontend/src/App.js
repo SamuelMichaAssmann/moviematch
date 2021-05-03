@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import './App.css';
+import firebase from "firebase/app";
 
 import Home from './components/pages/HomePage/Home';
 import Matching from './components/pages/Matching/Matching';
@@ -12,11 +13,14 @@ import Navbar from './components/assets/Navbar/Navbar';
 import Footer from './components/assets/Footer/Footer';
 import Logout from './components/assets/SignIn/Logout';
 import Error404 from './components/assets/Error/Error404';
-import UserStore from './components/assets/stores/UserStore';
 
 function App() {
 
-  const isLoggedIn = UserStore.isLoggedIn;
+  var user = firebase.auth().currentUser;
+  const isLoggedIn = false;
+  if ( user != null){
+    const isLoggedIn = true;
+  }
 
   if (isLoggedIn) {
     return (

@@ -3,12 +3,18 @@ import { Button } from '../../assets/Button/Button';
 import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import './Navbar.css';
+import firebase from "firebase/app";
 import { FaBars, FaTimes } from 'react-icons/fa';
 import { IconContext } from 'react-icons/lib';
-import UserStore from '../stores/UserStore';
 
 function Navbar() {
-  const isLoggedIn = UserStore.isLoggedIn;
+
+  var user = firebase.auth().currentUser;
+  const isLoggedIn = false;
+  if ( user != null){
+    const isLoggedIn = true;
+  }
+  
   const [click, setClick] = useState(false);
   const [button] = useState(true);
   const handleClick = () => setClick(!click);
