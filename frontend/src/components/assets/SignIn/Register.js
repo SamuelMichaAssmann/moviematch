@@ -1,13 +1,14 @@
 import React from "react";
 import './Login.css';
 import { observer } from 'mobx-react';
-import firebaseConfig from "../../../firebase";
-import firebase from "firebase/app";
+
+import firebase from "../../../firebase"; //firebase globally available
+
+
 import { Button } from '../Button/Button';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 
-import { createBrowserHistory } from 'history';
 
 const styles = theme => ({
   notchedOutline: {
@@ -20,20 +21,7 @@ const styles = theme => ({
 
 });
 
-let history = createBrowserHistory();
-let location = history.location;
-var firebaseui = require('firebaseui');
-var auth = require('firebase/auth');
 
-//initialize App
-firebase.initializeApp(firebaseConfig); //not sure, if we have to put this in the base container for the app
-
-//declare ui config - if we want to use predefined ui (kinda disgusting)
-const uiConfig = {
-  signInOptions: [
-    firebase.auth.EmailAuthProvider.PROVIDER_ID
-  ]
-}
 
 export class Register extends React.Component {
   constructor(props) {
@@ -76,6 +64,7 @@ export class Register extends React.Component {
    If pwdconfirmation does not match : Cancel
    pwdconfirmation does match : login and send verificationmail - user is able to log in after verification
   */
+ 
   registerFirebase() { //register new user with firebase.auth()
 
 
