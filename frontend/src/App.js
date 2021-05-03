@@ -20,7 +20,7 @@ function App() {
 
   if (isLoggedIn) {
     return (
-      <Router basename="/moviematch">
+      <Router>
         <Navbar />
         <Switch>
           <Route path='/' exact component={Home} />
@@ -37,7 +37,7 @@ function App() {
     );
   } else {
     return (
-      <Router basename="/moviematch">
+      <Router>
         <Navbar />
         <Switch>
           <Route path='/' exact component={Home} />
