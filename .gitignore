@@ -9,7 +9,7 @@ node_modules
 coverage
 
 # production
-build
+# build <-- weil dann einfacher auf matchyourmovie.de
 
 # misc
 .DS_Store
