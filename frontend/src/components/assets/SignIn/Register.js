@@ -1,27 +1,10 @@
 import React from "react";
 import './Login.css';
 import { observer } from 'mobx-react';
-
+import { Textfield } from '../../assets/Textfield/Textfield';
 import firebase from "../../../firebase"; //firebase globally available
-
-
 import { Button } from '../Button/Button';
 import { withStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-
-
-const styles = theme => ({
-  notchedOutline: {
-    borderWidth: '1px',
-    borderColor: 'white !important'
-  },
-  cssLabel: {
-    color: 'white !important'
-  },
-
-});
-
-
 
 export class Register extends React.Component {
   constructor(props) {
@@ -64,7 +47,7 @@ export class Register extends React.Component {
    If pwdconfirmation does not match : Cancel
    pwdconfirmation does match : login and send verificationmail - user is able to log in after verification
   */
- 
+
   registerFirebase() { //register new user with firebase.auth()
 
 
@@ -110,49 +93,28 @@ export class Register extends React.Component {
           <div>
             <div className="form">
               <div className="form-group">
-                <div className="input-div">
-                  <TextField
-                    required type="email"
-                    id="outlined-basic"
-                    label="Enter your email-adress"
-                    name="email"
-                    variant="outlined"
-                    InputLabelProps={{ classes: { root: classes.cssLabel } }}
-                    InputProps={{ classes: { notchedOutline: classes.notchedOutline } }}
-                    onChange={this.handleChange}
-                    value={this.state.email}
-                  />
-                </div>
+                <Textfield
+                  type="email"
+                  label='Enter your email-adress'
+                  name='email'
+                  value={this.state.email}
+                  onChange={this.handleChange} />
               </div>
               <div className="form-group">
-                <div className="input-div">
-                  <TextField
-                    required type="password"
-                    id="outlined-basic"
-                    label="Enter your password"
-                    name="password"
-                    variant="outlined"
-                    InputLabelProps={{ classes: { root: classes.cssLabel } }}
-                    InputProps={{ classes: { notchedOutline: classes.notchedOutline } }}
-                    onChange={this.handleChange}
-                    value={this.state.password}
-                  />
-                </div>
+                <Textfield
+                  type="password"
+                  label='Enter your password'
+                  name='password'
+                  value={this.state.password}
+                  onChange={this.handleChange} />
               </div>
               <div className="form-group">
-                <div className="input-div">
-                  <TextField
-                    required type="password"
-                    id="outlined-basic"
-                    label="Confirm your password"
-                    name="passwordConfirmation"
-                    variant="outlined"
-                    InputLabelProps={{ classes: { root: classes.cssLabel } }}
-                    InputProps={{ classes: { notchedOutline: classes.notchedOutline } }}
-                    onChange={this.handleChange}
-                    value={this.state.passwordConfirmation}
-                  />
-                </div>
+                <Textfield
+                  type="password"
+                  label='Confirm your password'
+                  name='passwordConfirmation'
+                  value={this.state.passwordConfirmation}
+                  onChange={this.handleChange} />
               </div>
               <div>
                 <Button
@@ -172,4 +134,4 @@ export class Register extends React.Component {
 }
 
 
-export default observer(withStyles(styles)(Register));
+export default observer(Register);

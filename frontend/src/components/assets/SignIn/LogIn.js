@@ -2,22 +2,9 @@ import React from "react";
 import './Login.css';
 import { Button } from '../Button/Button';
 import { observer } from 'mobx-react';
-import TextField from '@material-ui/core/TextField';
-import { withStyles } from '@material-ui/core/styles';
-
-import firebase from "../../../firebase"; //firebase globally available
-
+import { Textfield } from '../../assets/Textfield/Textfield';
 import { BrowserRouter as Redirect } from 'react-router-dom';
-
-const styles = theme => ({
-    notchedOutline: {
-        borderWidth: '1px',
-        borderColor: 'white !important'
-    },
-    cssLabel: {
-        color: 'white !important'
-    }
-});
+import firebase from "../../../firebase"; //firebase globally available
 
 export class Login extends React.Component {
     constructor(props) {
@@ -50,7 +37,7 @@ export class Login extends React.Component {
 
         })
     }
-   
+
     logInFirebase() {
 
         firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
@@ -73,9 +60,6 @@ export class Login extends React.Component {
                 }
                 console.log("Redirecting");
                 <Redirect to="/" />
-                
-
-
 
             })
             .catch((error) => {
@@ -87,47 +71,32 @@ export class Login extends React.Component {
     };
 
     render() {
-        const { classes } = this.props;
         return (
             <div className="base-container" ref={this.props.containerRef}>
                 <div className="header">SignIn</div>
                 <div className="content">
                     <div className="form">
                         <div className="form-group">
-                            <div className="input-div">
-                                <TextField
-                                    id="outlined-basic"
-                                    label="Enter the username"
-                                    name="email"
-                                    variant="outlined"
-                                    InputLabelProps={{classes: { root: classes.cssLabel }}}
-                                    InputProps={{classes: { notchedOutline: classes.notchedOutline }}}
-                                    value={this.state.email}
-                                    onChange={this.handleChange}
-                                />
-                            </div>
+                            <Textfield
+                                label='Enter the username'
+                                name='email'
+                                value={this.state.email}
+                                onChange={this.handleChange} />
                         </div>
                         <div className="form-group">
-                            <div className="input-div">
-                                <TextField
-                                    id="outlined-basic"
-                                    label="Enter the password"
-                                    name="password"
-                                    variant="outlined"
-                                    type="password"
-                                    color="primary"
-                                    InputLabelProps={{classes: { root: classes.cssLabel }}}
-                                    InputProps={{classes: { notchedOutline: classes.notchedOutline }}}
-                                    value={this.state.password}
-                                    onChange={this.handleChange} />
-                            </div>
+                            <Textfield
+                                label='Enter the password'
+                                name='password'
+                                type='password'
+                                value={this.state.password}
+                                onChange={this.handleChange} />
                         </div>
                         <Button
                             buttonSize='btn--wide'
                             buttonColor='blue'
                             onClick={this.logInFirebase}>
                             Login
-                  </Button>
+                        </Button>
                     </div>
                 </div>
             </div>
@@ -135,4 +104,4 @@ export class Login extends React.Component {
     }
 }
 
-export default observer(withStyles(styles)(Login));
+export default observer(Login);
