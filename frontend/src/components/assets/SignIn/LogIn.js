@@ -14,8 +14,7 @@ const styles = theme => ({
     },
     cssLabel: {
         color: 'white !important'
-    },
-
+    }
 });
 
 export class Login extends React.Component {
