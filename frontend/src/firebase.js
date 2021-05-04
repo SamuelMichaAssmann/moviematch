@@ -1,5 +1,5 @@
 //Import Core_Firebase SDK - has to be installed and named first
-//import firebase from "firebase/app"
+import firebase from "firebase/app"
 
 //Import Analytics for project (Optional)
 import "firebase/auth"
@@ -18,5 +18,6 @@ const firebaseConfig = {
     appId: process.env.REACT_APP_FIREBASE_APP_ID,
     measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID
 }
+firebase.initializeApp(firebaseConfig);
 
-export default firebaseConfig;
+export default firebase;

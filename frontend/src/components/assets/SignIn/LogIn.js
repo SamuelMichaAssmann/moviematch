@@ -4,7 +4,9 @@ import { Button } from '../Button/Button';
 import { observer } from 'mobx-react';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
-import firebase from "firebase/app";
+
+import firebase from "../../../firebase"; //firebase globally available
+
 import { BrowserRouter as Redirect } from 'react-router-dom';
 
 const styles = theme => ({
@@ -48,9 +50,7 @@ export class Login extends React.Component {
 
         })
     }
-    /*
-        User SignIN - sign in - verified ? signIn : signOut (need to be logged in first to see if verified, so he is signed out if not)
-    */
+   
     logInFirebase() {
 
         firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
@@ -73,7 +73,7 @@ export class Login extends React.Component {
                 }
                 console.log("Redirecting");
                 <Redirect to="/" />
-                //<Redirect to='/'></Redirect> not working now
+                
 
 
 
