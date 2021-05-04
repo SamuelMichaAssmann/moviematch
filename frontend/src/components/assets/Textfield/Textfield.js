@@ -2,7 +2,6 @@ import React from 'react';
 import './Textfield.css';
 
 export const Textfield = ({
-    needed,
     label,
     name,
     type,
