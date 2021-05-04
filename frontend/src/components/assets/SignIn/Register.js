@@ -94,6 +94,7 @@ export class Register extends React.Component {
             <div className="form">
               <div className="form-group">
                 <Textfield
+                  needed="true"
                   type="email"
                   label='Enter your email-adress'
                   name='email'
