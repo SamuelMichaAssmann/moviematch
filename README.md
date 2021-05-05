@@ -2,6 +2,6 @@
 npm install
 npm run build
 
-# BACKEND:
-run main.py
-
+# Server
+git pull
+sudo systemctl reload nginx
