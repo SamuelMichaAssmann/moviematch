@@ -1,10 +1,9 @@
 import React from "react";
-import './Login.css';
+import './SignIn.css';
 import { observer } from 'mobx-react';
 import { Textfield } from '../../assets/Textfield/Textfield';
 import firebase from "../../../firebase"; //firebase globally available
 import { Button } from '../Button/Button';
-import { withStyles } from '@material-ui/core/styles';
 
 export class Register extends React.Component {
   constructor(props) {
@@ -67,6 +66,8 @@ export class Register extends React.Component {
           //redirect to VerificationSite?
           alert("Success! You are now a registered member of MovieMatch. Please check your mailbox to verify your adress");
           this.resetForm();
+          
+          window.location.href = '/sign-up';
         })
         .catch((error) => {
           var errorcode = error.code;

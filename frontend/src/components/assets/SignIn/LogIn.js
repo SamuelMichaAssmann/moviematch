@@ -1,9 +1,8 @@
 import React from "react";
-import './Login.css';
+import './SignIn.css';
 import { Button } from '../Button/Button';
 import { observer } from 'mobx-react';
 import { Textfield } from '../../assets/Textfield/Textfield';
-import { BrowserRouter as Redirect } from 'react-router-dom';
 import firebase from "../../../firebase"; //firebase globally available
 
 export class Login extends React.Component {
@@ -59,7 +58,7 @@ export class Login extends React.Component {
                     });
                 }
                 console.log("Redirecting");
-                <Redirect to="/" />
+                window.location.href = '/home';
 
             })
             .catch((error) => {
