@@ -20,3 +20,4 @@ sudo systemctl status moviematch
 
 # nginx
 sudo systemctl reload nginx
+
