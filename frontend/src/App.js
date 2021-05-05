@@ -30,7 +30,6 @@ function App() {
           <Route path='/' exact component={Home} />
           <Route path='/groups' component={Groups} />
           <Route path='/settings' component={Settings} />
-          <Route path='/sign-up' component={SignUp} />
           <Route path='/logout' component={Logout} />
           <Route path='/tutorial' component={Tutorial} />
           <Route path='/match' component={Matching} />
