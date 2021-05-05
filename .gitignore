@@ -22,3 +22,7 @@ yarn-error.log*
 
 path.js
 webpack.config.js
+
+#Python
+venv
+__pycache__
