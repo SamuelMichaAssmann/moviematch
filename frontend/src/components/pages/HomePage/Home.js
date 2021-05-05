@@ -1,7 +1,7 @@
 import React, { useState, useEffect} from 'react';
 import Section from '../../assets/Section/Section';
-import { homeObjOne, homeObjTwo, homeObjThree, homeObjFour } from './Data';
-import Pricing from '../Pricing/Pricing';
+import { homeObjOne, homeObjThree } from './Data';
+
 
 function Home() {
   const [currentTime, setCurrentTime] = useState(0);
@@ -14,12 +14,9 @@ function Home() {
 
   return (
     <>
-    {currentTime}
       <Section {...homeObjOne} />
+      {currentTime}
       <Section {...homeObjThree} />
-      <Section {...homeObjTwo} />
-      <Pricing />
-      <Section {...homeObjFour} />
     </>
   );
 }
