@@ -55,20 +55,38 @@ export default class Matching extends React.Component {
       ? (
         <>
           <div className='darkBg'>
-            <div>
-              <div className='movieThumbnailRow'>
-                <MovieThumbnail src={this.state.thumbnailSrc} height={IMAGE_HEIGHT} />
-                <div>
-                  <h2 className='movieTitle'>{this.state.title}</h2>
-                  <p className='home__sek-subtitle movieDescription'>{this.state.desc}</p>
+            <nav class='movieThumbnailDesktop'>
+              <div>
+                <div className='movieThumbnailRow'>
+                  <MovieThumbnail src={this.state.thumbnailSrc} height={IMAGE_HEIGHT} />
+                  <div>
+                    <h2 className='movieTitle'>{this.state.title}</h2>
+                    <p className='home__sek-subtitle movieDescription'>{this.state.desc}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div align='center'>
-              <RateButton {...likeButton} onClick={this.loadNewMovie} />
-              <RateButton {...neutralButton} />
-              <RateButton {...dislikeButton} />
-            </div>
+              <div align='center'>
+                <RateButton {...likeButton} onClick={this.loadNewMovie} />
+                <RateButton {...neutralButton} />
+                <RateButton {...dislikeButton} />
+              </div>
+            </nav>
+            <nav class='movieThumbnailMobile'>
+              <div>
+                <div className='movieThumbnailRow'>
+                  <MovieThumbnail src={this.state.thumbnailSrc} height={IMAGE_HEIGHT} />
+                  <div align='center'>
+                    <RateButton {...likeButton} onClick={this.loadNewMovie} />
+                    <RateButton {...neutralButton} />
+                    <RateButton {...dislikeButton} />
+                  </div>
+                  <div>
+                    <h2 className='movieTitle'>{this.state.title}</h2>
+                    <p className='home__sek-subtitle movieDescription'>{this.state.desc}</p>
+                  </div>
+                </div>
+              </div>
+            </nav>
           </div>
           <div>
             <div className='movieInfoRow'>
