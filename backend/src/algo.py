@@ -1,12 +1,10 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-
-
+import json
 import requests
 import random
 import threading
-
 
 watchlist = 'https://api.themoviedb.org/3/discover/movie?api_key=d28d1550787892e34121c2918ec031b1&sort_by=popularity.desc&include_adult=false&include_video=false&page=100'
 
@@ -122,13 +120,13 @@ def reload():
     end = sortOut(data, new)
     movie_list = movie_ids_list(end)
     print(movie_list)
-    save(movie_list)
+    save(movie_list + load())
 
 
 def matchfilm():
     movie_id_list = load()
-    if len(movie_id_list) < 3:
-        print("Debug")
+    if len(movie_id_list) < 20:
+        print("Load new movies")
         # maybe async new load
         threading.Thread(target=reload).start()
         movie_id_list = load()
@@ -145,8 +143,4 @@ def matchfilm():
     rating = movie["vote_average"]
     genres = getGenre(movie["genres"])
 
-    return((title, desc, runtime, rating, genres, thumbnailSrc))
-
-
-print(matchfilm())
-#reload()
+    return {"titel": title, "desc": desc, "runtime": runtime, "rating": rating, "genres": genres, "thumbnailSrc": thumbnailSrc}
