@@ -1,79 +1,68 @@
 {
     "adult": false,
-    "backdrop_path": "/rr7E0NoGKxvbkb89eR1GwfoYjpA.jpg",
-    "belongs_to_collection": null,
-    "budget": 63000000,
+    "backdrop_path": "/2l5UHZBcp9cx1PwKLdisJ0gV9jB.jpg",
+    "belongs_to_collection": {
+        "id": 2150,
+        "name": "Shrek Collection",
+        "poster_path": "/qNHZMe92A7Pyl46qUH29hVOtbSK.jpg",
+        "backdrop_path": "/gMWrKQjoTIpYjhc8SxZF20EDIES.jpg"
+    },
+    "budget": 60000000,
     "genres": [
         {
-            "id": 18,
-            "name": "Drama"
+            "id": 16,
+            "name": "Animation"
+        },
+        {
+            "id": 35,
+            "name": "Comedy"
+        },
+        {
+            "id": 14,
+            "name": "Fantasy"
+        },
+        {
+            "id": 12,
+            "name": "Adventure"
         }
     ],
-    "homepage": "http://www.foxmovies.com/movies/fight-club",
-    "id": 550,
-    "imdb_id": "tt0137523",
+    "homepage": "http://www.dreamworksanimation.com/shrek/",
+    "id": 808,
+    "imdb_id": "tt0126029",
     "original_language": "en",
-    "original_title": "Fight Club",
-    "overview": "A ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggression into a shocking new form of therapy. Their concept catches on, with underground \"fight clubs\" forming in every town, until an eccentric gets in the way and ignites an out-of-control spiral toward oblivion.",
-    "popularity": 36.822,
-    "poster_path": "/8kNruSfhk5IoE4eZOc4UpvDn6tq.jpg",
+    "original_title": "Shrek",
+    "overview": "It ain't easy bein' green -- especially if you're a likable (albeit smelly) ogre named Shrek. On a mission to retrieve a gorgeous princess from the clutches of a fire-breathing dragon, Shrek teams up with an unlikely compatriot -- a wisecracking donkey.",
+    "popularity": 129.739,
+    "poster_path": "/iB64vpL3dIObOtMZgX3RqdVdQDc.jpg",
     "production_companies": [
         {
-            "id": 508,
-            "logo_path": "/7PzJdsLGlR7oW4J0J5Xcd0pHGRg.png",
-            "name": "Regency Enterprises",
+            "id": 521,
+            "logo_path": "/kP7t6RwGz2AvvTkvnI1uteEwHet.png",
+            "name": "DreamWorks Animation",
             "origin_country": "US"
         },
         {
-            "id": 711,
-            "logo_path": "/tEiIH5QesdheJmDAqQwvtN60727.png",
-            "name": "Fox 2000 Pictures",
+            "id": 7,
+            "logo_path": "/vru2SssLX3FPhnKZGtYw00pVIS9.png",
+            "name": "DreamWorks Pictures",
             "origin_country": "US"
         },
         {
-            "id": 20555,
-            "logo_path": "/hD8yEGUBlHOcfHYbujp71vD8gZp.png",
-            "name": "Taurus Film",
-            "origin_country": "DE"
-        },
-        {
-            "id": 54051,
-            "logo_path": null,
-            "name": "Atman Entertainment",
-            "origin_country": ""
-        },
-        {
-            "id": 54052,
-            "logo_path": null,
-            "name": "Knickerbocker Films",
-            "origin_country": "US"
-        },
-        {
-            "id": 25,
-            "logo_path": "/qZCc1lty5FzX30aOCVRBLzaVmcp.png",
-            "name": "20th Century Fox",
-            "origin_country": "US"
-        },
-        {
-            "id": 4700,
-            "logo_path": "/A32wmjrs9Psf4zw0uaixF0GXfxq.png",
-            "name": "The Linson Company",
+            "id": 520,
+            "logo_path": "/pU7YTI9FfrICurXpl5V9TfCO0oJ.png",
+            "name": "Pacific Data Images",
             "origin_country": "US"
         }
     ],
     "production_countries": [
         {
-            "iso_3166_1": "DE",
-            "name": "Germany"
-        },
-        {
             "iso_3166_1": "US",
             "name": "United States of America"
         }
     ],
-    "release_date": "1999-10-15",
-    "revenue": 100853753,
-    "runtime": 139,
+    "release_date": "2001-05-18",
+    "revenue": 484409218,
+    "runtime": 90,
     "spoken_languages": [
         {
             "english_name": "English",
@@ -82,11 +71,89 @@
         }
     ],
     "status": "Released",
-    "tagline": "Mischief. Mayhem. Soap.",
-    "title": "Fight Club",
+    "tagline": "The greatest fairy tale never told.",
+    "title": "Shrek",
     "video": false,
-    "vote_average": 8.4,
-    "vote_count": 21510
+    "vote_average": 7.7,
+    "vote_count": 12309
 }
 
+MovieID: 562 - Len: 131 - Genre: [28, 53] - Keywords: [818, 949, 1470, 1562, 1812, 1930, 1953, 9826, 10051, 10950, 12670, 13116, 162914, 207317, 208289, 219404]
 
+MovieID: 22164 - Len: 93 - Genre: [18, 28, 53] - Keywords: [1721, 12380, 187910, 187928]
+
+MovieID: 721625 - Len: 85 - Genre: [53, 10749, 18, 9648] - Keywords: [4458, 6898, 186523, 188973, 263237, 270114]
+
+MovieID: 460793 - Len: 22 - Genre: [12, 16, 35, 10751, 14] - Keywords: [6513, 10115, 207317, 263548]
+
+MovieID: 519337 - Len: 81 - Genre: [27, 53] - Keywords: [6259, 13017, 18249]
+
+MovieID: 811694 - Len: 8 - Genre: [878] - Keywords: []
+
+MovieID: 137227 - Len: 108 - Genre: [16, 12, 10751] - Keywords: [210024]
+
+MovieID: 517764 - Len: 80 - Genre: [53, 9648, 27] - Keywords: []
+
+MovieID: 423 - Len: 150 - Genre: [18, 10752] - Keywords: [836, 1739, 1899, 1956, 1968, 2156, 2394, 2428, 2433, 2434, 2435, 2436, 2652, 5565, 6029, 10349, 14641, 14743, 21747]
+
+MovieID: 82703 - Len: 92 - Genre: [16, 12, 10751] - Keywords: [970, 1160, 2051, 2393, 4379, 5561, 6054, 9825, 10103, 11477, 11478, 15162, 157303, 157894, 179431, 190100, 195506, 199093, 208757, 228041]
+
+MovieID: 10216 - Len: 93 - Genre: [878, 28, 27] - Keywords: [521, 1475, 1718, 3070, 3725, 4375, 6898, 9410, 10562, 10714, 11265, 11628, 12670, 14626, 17987, 163045, 188957, 232090, 235513]
+
+MovieID: 699174 - Len: 26 - Genre: [16, 28] - Keywords: [210024]
+
+MovieID: 10634 - Len: 91 - Genre: [35] - Keywords: [897, 970, 2231, 3230, 4562, 5768, 8631, 10624, 10776, 11488, 12670, 14964, 199688]
+
+MovieID: 362584 - Len: 64 - Genre: [16, 14, 9648] - Keywords: [3133, 209666, 210024, 250170]
+
+MovieID: 2668 - Len: 105 - Genre: [18, 14, 53, 9648, 27] - Keywords: [1415, 10028, 207928, 208024]
+
+MovieID: 615017 - Len: 91 - Genre: [27, 53] - Keywords: [10164, 14690, 15156, 243003]
+
+MovieID: 586097 - Len: 85 - Genre: [27] - Keywords: [2111, 3800, 9707, 10603, 33630]
+
+MovieID: 257445 - Len: 103 - Genre: [12, 27, 35] - Keywords: [818, 2343, 12564, 18035, 186948, 187670]
+
+MovieID: 361743 - Len: 0 - Genre: [28, 18] - Keywords: [9663, 162365]
+
+MovieID: 536506 - Len: 106 - Genre: [35] - Keywords: []
+
+MovieID: 763568 - Len: 90 - Genre: [16, 35, 10751] - Keywords: [4344, 34029, 183528, 267167]
+
+MovieID: 8587 - Len: 89 - Genre: [10751, 16, 18] - Keywords: [697, 2043, 2123, 2887, 4344, 5276, 6464, 9826, 11326, 11436, 13084, 14767, 18035, 18136, 18153, 244492, 272794]
+
+MovieID: 420818 - Len: 118 - Genre: [12, 10751, 16] - Keywords: [409, 2043, 3071, 4344, 6464, 9714, 9872, 11436, 13084, 18035, 188947, 209220, 240119, 245230]
+
+MovieID: 738215 - Len: 72 - Genre: [16, 10402] - Keywords: [4344, 7376, 263297]
+
+MovieID: 109445 - Len: 102 - Genre: [16, 12, 10751] - Keywords: [2011, 2343, 4344, 6513, 7376, 10085, 10115, 10385, 10541, 10794, 11173, 15101, 155801, 179430, 187056, 241738, 272909]
+
+MovieID: 10674 - Len: 88 - Genre: [16, 10751, 12] - Keywords: [478, 2156, 3289, 4344, 4411, 4613, 5600, 5719, 7376, 9672, 11322, 12554, 15036, 33482, 41011, 157904, 163403, 174523, 179411, 229607, 234662, 240303, 252577]
+
+MovieID: 11224 - Len: 74 - Genre: [10751, 14, 16, 10749] - Keywords: [697, 818, 2161, 2283, 2710, 3071, 4344, 5152, 7376, 9673, 13014, 18035, 173003, 208705, 258271, 272784]
+
+MovieID: 11970 - Len: 93 - Genre: [16, 10751, 14, 12, 35, 10749] - Keywords: [2033, 4344, 4402, 6993, 8985, 162861, 179430, 180912, 187301]
+
+MovieID: 3933 - Len: 77 - Genre: [10749, 14, 16] - Keywords: [367, 392, 1332, 2103, 2968, 4062, 4344, 6038, 7578, 10121, 10594, 13027, 13092, 18093, 159947, 177895, 181046, 189093, 207592]
+
+MovieID: 38757 - Len: 100 - Genre: [16, 10751] - Keywords: [1562, 2343, 2673, 3205, 4344, 6946, 7376, 33787, 162219, 163545, 175428, 179411, 179431, 215258, 234183, 243494, 272909]
+
+MovieID: 9444 - Len: 94 - Genre: [16, 10751] - Keywords: [3462, 4344, 158620, 158627, 158628]
+
+MovieID: 46195 - Len: 96 - Genre: [16, 12, 35, 10751] - Keywords: [2551, 3478, 4344, 7453, 10787, 12649, 14828, 18165, 179431]
+
+MovieID: 10020 - Len: 84 - Genre: [10749, 10751, 16, 14] - Keywords: [3071, 3098, 3259, 4344, 7376, 161271, 190915, 272405]
+
+MovieID: 812 - Len: 90 - Genre: [16, 10751, 12, 14, 10749] - Keywords: [2343, 3478, 4344, 4809, 4892, 4895, 4896, 6513, 7376, 9673, 15149, 173259, 179430, 190536, 191012, 234183, 239734]
+
+MovieID: 15165 - Len: 85 - Genre: [16, 10751, 35] - Keywords: [4344]
+
+MovieID: 15167 - Len: 76 - Genre: [16, 10751] - Keywords: [4344, 10551]
+
+MovieID: 9325 - Len: 78 - Genre: [10751, 16, 12] - Keywords: [818, 2398, 2526, 4344, 5650, 10787, 11477, 13014, 14636, 230873]
+
+MovieID: 10693 - Len: 77 - Genre: [16, 10751, 12, 14] - Keywords: [334, 380, 1412, 2343, 2710, 3650, 3930, 4332, 4344, 4418, 5938, 12988, 47972]
+
+MovieID: 756 - Len: 124 - Genre: [16, 10751] - Keywords: [3537, 4344, 5783, 177912, 209220, 265786]
+
+MovieID: 10882 - Len: 75 - Genre: [14, 16, 10749, 10751] - Keywords: [2116, 2343, 2710, 3071, 3098, 3205, 4152, 4344, 5091, 7376, 7430, 10466, 12554, 34137, 179411]
