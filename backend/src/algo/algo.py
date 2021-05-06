@@ -5,6 +5,7 @@
 
 import requests
 import random
+import threading
 
 
 watchlist = 'https://api.themoviedb.org/3/discover/movie?api_key=d28d1550787892e34121c2918ec031b1&sort_by=popularity.desc&include_adult=false&include_video=false&page=100'
@@ -84,19 +85,68 @@ def sortOut(watchlist, new):
     return fin
 
 
-def toString(data):
+def movie_ids_list(data):
+    movie_list = []
     for d in data:
         (movie_id, genre_list, keyword_list, runtime) = d
-        print(f"MovieID: {movie_id} - Len: {runtime} - Genre: {genre_list} - Keywords: {keyword_list}\n")
+        #print(f"MovieID: {movie_id} - Len: {runtime} - Genre: {genre_list} - Keywords: {keyword_list}\n")
+        movie_list.append(movie_id)
+    return movie_list
+
+def save(newMovies):
+    textfile = open("tempsave_forTest.txt", "w")
+    for e in newMovies:
+        textfile.write(str(e) + "\n")
+    textfile.close()
+
+def load():
+    newMovies = []
+    with open("tempsave_forTest.txt") as f:
+        for line in f:
+            newMovies.append(int(line))
+    return newMovies
+
+def getGenre(genre_list):
+    genre = []
+    for g in genre_list:
+        genre.append(g["name"])
+    return genre
+
+def reload():
+    result = processUrl(watchlist)
+    data = getData(result)
+    summed = sumUpData(data)
+    select = ramdomSelect(summed)
+    movie = newMovie(select)
+    new = getData(movie)
+    end = sortOut(data, new)
+    movie_list = movie_ids_list(end)
+    print(movie_list)
+    save(movie_list)
 
 
-result = processUrl(watchlist)
-data = getData(result)
-summed = sumUpData(data)
-select = ramdomSelect(summed)
-movie = newMovie(select)
-new = getData(movie)
-end = sortOut(data, new)
-toString(end)
+def matchfilm():
+    movie_id_list = load()
+    if len(movie_id_list) < 3:
+        print("Debug")
+        # maybe async new load
+        threading.Thread(target=reload).start()
+        movie_id_list = load()
+    
+    movie_id = movie_id_list.pop()
+    save(movie_id_list)
 
-print("Done!")
+    r = requests.get(f'https://api.themoviedb.org/3/movie/{movie_id}?api_key=d28d1550787892e34121c2918ec031b1')
+    movie = r.json()
+    thumbnailSrc = movie["poster_path"]
+    title = movie["title"]
+    desc = movie["overview"]
+    runtime = movie["runtime"]
+    rating = movie["vote_average"]
+    genres = getGenre(movie["genres"])
+
+    return((title, desc, runtime, rating, genres, thumbnailSrc))
+
+
+print(matchfilm())
+#reload()
