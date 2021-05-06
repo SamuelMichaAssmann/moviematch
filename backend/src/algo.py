@@ -125,8 +125,8 @@ def reload():
 
 def matchfilm():
     movie_id_list = load()
-    if len(movie_id_list) < 10:
-        print("Debug")
+    if len(movie_id_list) < 20:
+        print("Load new movies")
         # maybe async new load
         threading.Thread(target=reload).start()
         movie_id_list = load()
