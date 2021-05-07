@@ -26,4 +26,5 @@ webpack.config.js
 #Python
 venv
 __pycache__
-.vscode/settings.json
+.vscode
+tempsave_forTest.txt 

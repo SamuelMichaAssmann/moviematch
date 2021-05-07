@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import './App.css';
-import firebase from "firebase/app";
 
 import Home from './components/pages/HomePage/Home';
 import Matching from './components/pages/Matching/Matching';
@@ -15,12 +14,7 @@ import Logout from './components/assets/SignIn/Logout';
 import Error404 from './components/assets/Error/Error404';
 
 function App() {
-
-  var user = firebase.auth().currentUser;
   const isLoggedIn = false;
-  if ( user != null){
-    const isLoggedIn = true;
-  }
 
   if (isLoggedIn) {
     return (
@@ -30,7 +24,6 @@ function App() {
           <Route path='/' exact component={Home} />
           <Route path='/groups' component={Groups} />
           <Route path='/settings' component={Settings} />
-          <Route path='/sign-up' component={SignUp} />
           <Route path='/logout' component={Logout} />
           <Route path='/tutorial' component={Tutorial} />
           <Route path='/match' component={Matching} />
@@ -46,6 +39,8 @@ function App() {
         <Switch>
           <Route path='/' exact component={Home} />
           <Route path='/sign-up' component={SignUp} />
+          <Route path='/match' component={Matching} />
+          <Route path='/TMDb'  component={() => { window.location.href = 'https://www.themoviedb.org/'; return null; }}/>
           <Route component={Error404} ><Redirect to="/" /></Route>
         </Switch>
         <Footer />

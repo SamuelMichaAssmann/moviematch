@@ -13,7 +13,8 @@ function Section({
   buttonLabel,
   img,
   alt,
-  imgStart
+  imgStart,
+  link
 }) {
   return (
     <>
@@ -43,7 +44,7 @@ function Section({
                 >
                   {description}
                 </p>
-                <Link to='/sign-up'>
+                <Link to={link}>
                   <Button buttonSize='btn--wide' buttonColor='blue'>
                     {buttonLabel}
                   </Button>

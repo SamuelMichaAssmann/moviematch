@@ -67,7 +67,6 @@ export class Register extends React.Component {
           window.location.href = '/sign-up';
         })
         .catch((error) => {
-          var errorcode = error.code;
           var errorMessage = error.message;
           alert(errorMessage + "\nPlease try again.");
           this.resetForm();
@@ -83,7 +82,6 @@ export class Register extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
     return (
       <div className="base-container" ref={this.props.containerRef}>
         <div className="header">Register</div>

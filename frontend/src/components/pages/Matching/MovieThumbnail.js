@@ -8,7 +8,7 @@ export const MovieThumbnail = ({
 
   return (
     <div className={'movieThumbnail'}>
-      <img src={src} height={height}></img>
+      <img src={src} height={height} alt=''></img>
     </div>
   );
 };

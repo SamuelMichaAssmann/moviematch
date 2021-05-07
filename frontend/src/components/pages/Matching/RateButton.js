@@ -17,6 +17,7 @@ export default class RateButton extends React.Component {
                 onClick={this.props.onClick}
                 onMouseOver={() => this.setState({ currentImage: this.props.selectedImageSrc })}
                 onMouseOut={() => this.setState({ currentImage: this.props.imageSrc })}
+                alt=''
             >
             </input>
         );
