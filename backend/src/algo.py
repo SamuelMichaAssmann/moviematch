@@ -99,9 +99,12 @@ def save(newMovies):
 
 def load():
     newMovies = []
-    with open("tempsave_forTest.txt") as f:
-        for line in f:
-            newMovies.append(int(line))
+    try:
+        with open("tempsave_forTest.txt") as f:
+            for line in f:
+                newMovies.append(int(line))
+    except:
+        pass
     return newMovies
 
 def getGenre(genre_list):
@@ -111,6 +114,7 @@ def getGenre(genre_list):
     return genre
 
 def reload():
+    print("Reload...")
     result = processUrl(watchlist)
     data = getData(result)
     summed = sumUpData(data)
@@ -122,14 +126,19 @@ def reload():
     print(movie_list)
     save(movie_list + load())
 
+def prettifyGenre(genre_list):
+    return ", ".join(genre_list)
+
 
 def matchfilm():
     movie_id_list = load()
+    
     if len(movie_id_list) < 20:
-        print("Load new movies")
-        # maybe async new load
-        threading.Thread(target=reload).start()
+        threading.Thread(name='reload', target=reload).start()
         movie_id_list = load()
+    
+    if len(movie_id_list) == 0:
+        return 'bad request!', 400
     
     movie_id = movie_id_list.pop()
     save(movie_id_list)
@@ -141,6 +150,6 @@ def matchfilm():
     desc = movie["overview"]
     runtime = movie["runtime"]
     rating = movie["vote_average"]
-    genres = getGenre(movie["genres"])
+    genres = prettifyGenre(getGenre(movie["genres"]))
 
     return {"titel": title, "desc": desc, "runtime": runtime, "rating": rating, "genres": genres, "thumbnailSrc": thumbnailSrc}

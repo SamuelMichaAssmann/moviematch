@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-d
 import './App.css';
 
 import Home from './components/pages/HomePage/Home';
-import Matching from './components/pages/Matching/Matching';
+import Matching from './components/pages/Matching/Matching2';
 import Groups from './components/pages/Groups/Groups';
 import Settings from './components/pages/Settings/Settings';
 import Tutorial from './components/pages/Tutorial/Tutorial'
