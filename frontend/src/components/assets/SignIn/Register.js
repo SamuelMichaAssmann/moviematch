@@ -49,15 +49,12 @@ export class Register extends React.Component {
 
   registerFirebase() { //register new user with firebase.auth()
 
-
-
-
     if (this.state.password === this.state.passwordConfirmation) {
       this.setState({ confirmation: true })
     }
 
 
-    if (this.state.confirmation === true) {
+    if (this.state.confirmation == true) {
       firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
         .then((userCredential) => {
           //Signed in
@@ -94,6 +91,7 @@ export class Register extends React.Component {
           <div>
             <div className="form">
               <div className="form-group">
+                
                 <Textfield
                   needed="true"
                   type="email"
