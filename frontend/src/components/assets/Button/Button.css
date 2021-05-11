@@ -78,6 +78,15 @@
   width: 100%;
 }
 
+.btn--outline-red {
+  border: 1px solid #f00946;
+}
+
+.btn--outline-red:hover {
+  background-color: #f00946;
+  color: #fff;
+}
+
 .blue {
   background-color: #1C2237;
   color: #fff;

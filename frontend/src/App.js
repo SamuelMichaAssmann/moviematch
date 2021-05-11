@@ -45,6 +45,7 @@ function App() {
         <Switch>
           <Route path='/' exact component={Home} />
           <Route path='/sign-up' component={SignUp} />
+          <Route path='/settings' component={Settings} />
           <Route component={Error404} ><Redirect to="/" /></Route>
         </Switch>
         <Footer />
