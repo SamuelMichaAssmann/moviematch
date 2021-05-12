@@ -76,7 +76,7 @@ function Navbar() {
                 </Link>
               </li> : ""}
 
-              {isLoggedIn ? <li className='nav-item'>
+              {isLoggedIn || true ? <li className='nav-item'>
                 <Link
                   to='/settings'
                   className='nav-links'
