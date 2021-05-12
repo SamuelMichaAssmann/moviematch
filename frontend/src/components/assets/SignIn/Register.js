@@ -49,15 +49,12 @@ export class Register extends React.Component {
 
   registerFirebase() { //register new user with firebase.auth()
 
-
-
-
     if (this.state.password === this.state.passwordConfirmation) {
       this.setState({ confirmation: true })
     }
 
 
-    if (this.state.confirmation === true) {
+    if (this.state.confirmation == true) {
       firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
         .then((userCredential) => {
           //Signed in
@@ -70,7 +67,6 @@ export class Register extends React.Component {
           window.location.href = '/sign-up';
         })
         .catch((error) => {
-          var errorcode = error.code;
           var errorMessage = error.message;
           alert(errorMessage + "\nPlease try again.");
           this.resetForm();
@@ -86,7 +82,6 @@ export class Register extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
     return (
       <div className="base-container" ref={this.props.containerRef}>
         <div className="header">Register</div>
@@ -94,6 +89,7 @@ export class Register extends React.Component {
           <div>
             <div className="form">
               <div className="form-group">
+                
                 <Textfield
                   needed="true"
                   type="email"

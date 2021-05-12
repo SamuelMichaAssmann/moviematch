@@ -1,6 +1,6 @@
 # Start
-npm start
-npm run api
+npm start -> frontend
+npm run api -> backend
 
 ### Install venv
 pip install virtualenv

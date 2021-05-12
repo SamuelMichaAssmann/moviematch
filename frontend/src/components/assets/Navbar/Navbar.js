@@ -11,10 +11,8 @@ function Navbar() {
 
   var user = firebase.auth().currentUser;
   const isLoggedIn = false;
-  if ( user != null){
-    const isLoggedIn = true;
-  }
-  
+  if (user != null) {}
+
   const [click, setClick] = useState(false);
   const [button] = useState(true);
   const handleClick = () => setClick(!click);
@@ -35,7 +33,9 @@ function Navbar() {
               onClick={closeMobileMenu}>
               <img
                 src="images/logo.svg"
-                className='navbar-logo-svg' />
+                className='navbar-logo-svg'
+                alt=''
+              />
 
               MovieMatch
             </Link>
@@ -56,8 +56,7 @@ function Navbar() {
                   Home
                 </Link>
               </li> : ""}
-
-              {isLoggedIn ? <li className='nav-item'>
+              <li className='nav-item'>
                 <Link
                   to='/match'
                   className='nav-links'
@@ -65,7 +64,7 @@ function Navbar() {
                 >
                   Matching
                 </Link>
-              </li> : ""}
+              </li>
 
               {isLoggedIn ? <li className='nav-item'>
                 <Link
