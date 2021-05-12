@@ -16,7 +16,7 @@ app = flask.Flask("__main__")
 # Connect to firebase
 #cred = credentials.Certificate('fbAdminConfig.json') - fbAdmin not working -> delete for now
 #firebase = firebase_admin.initialize_app(cred)       - fbAdmin not working -> delete for now
-pb = pyrebase.initialize_app(json.load(open('F:\\Development\\WebII\\moviematch\\backend\\fbconfig.json')))
+pb = pyrebase.initialize_app(json.load(open('fbconfig.json')))
 auth = pb.auth
 
 # Data source - unecessary tho
