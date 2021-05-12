@@ -3,7 +3,7 @@ import Login from "../../assets/SignIn/LogIn";
 import Register from "../../assets/SignIn/Register";
 import "./SignUp.css"
 
-class SignUp extends React.Component{
+class SignUp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

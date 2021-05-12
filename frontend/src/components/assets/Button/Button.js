@@ -13,19 +13,22 @@ export const Button = ({
   onClick,
   buttonStyle,
   buttonSize,
-  buttonColor
+  buttonColor,
+  extraClasses,
+  extraStyles
 }) => {
   const checkButtonStyle = STYLES.includes(buttonStyle)
     ? buttonStyle
     : STYLES[0];
 
   const checkButtonSize = SIZES.includes(buttonSize) ? buttonSize : SIZES[0];
-
   const checkButtonColor = COLOR.includes(buttonColor) ? buttonColor : null;
+  const checkExtraClasses = (extraClasses == null) ? '' : extraClasses;
 
   return (
     <button
-      className={`btn ${checkButtonStyle} ${checkButtonSize} ${checkButtonColor}`}
+      className={`btn ${checkButtonStyle} ${checkButtonSize} ${checkButtonColor} ${checkExtraClasses}`}
+      style={extraStyles}
       onClick={onClick}
       type={type}
     >

@@ -1,0 +1,7 @@
+.settings {
+    padding-top: 50px;
+    flex-direction: column;
+    display: flex;
+	justify-content: center;
+	align-items: center;
+}

@@ -6,8 +6,14 @@ export const Textfield = ({
     name,
     type,
     value,
-    onChange
+    onChange,
+    width,
+    extraStyles
 }) => {
+
+    const style = (width == null) ? {} : { width: width }
+    const checkExtraStyles = (extraStyles == null) ? {} : extraStyles;
+    const totalStyles = Object.assign(style, checkExtraStyles);
 
     return (
         <div>
@@ -18,6 +24,7 @@ export const Textfield = ({
                     type={type}
                     onChange={onChange} 
                     value={value}
+                    style={totalStyles}
                     />
                 <span>{label}</span>
             </label>
