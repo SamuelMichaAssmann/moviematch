@@ -6,8 +6,8 @@ import pyrebase
 import json
 #from firebase_admin import credentials, auth   - fbAdmin not working -> delete for now
 from flask import Flask, request
-from src.firebase import *
-from src.algo import matchfilm
+from backend.src.firebase import *
+from backend.src.algo import matchfilm
 
 
 # App configuration
