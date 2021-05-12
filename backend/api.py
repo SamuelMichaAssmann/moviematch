@@ -1,7 +1,7 @@
 # Imports
 import flask
 import time
-import firebase_admin  # import firebase_dependencies
+# import firebase_admin  # import firebase_dependencies
 import pyrebase
 import json
 #from firebase_admin import credentials, auth   - fbAdmin not working -> delete for now
