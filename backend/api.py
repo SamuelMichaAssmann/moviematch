@@ -1,13 +1,13 @@
 # Imports
 import flask
 import time
-import firebase_admin  # import firebase_dependencies
+#import firebase_admin  # import firebase_dependencies
 import pyrebase
 import json
 #from firebase_admin import credentials, auth   - fbAdmin not working -> delete for now
 from flask import Flask, request
-from src.firebase import *
-from src.algo import matchfilm
+from backend.src.firebase import *
+from backend.src.algo import matchfilm
 
 
 # App configuration
@@ -17,7 +17,7 @@ app = flask.Flask("__main__")
 #cred = credentials.Certificate('fbAdminConfig.json') - fbAdmin not working -> delete for now
 #firebase = firebase_admin.initialize_app(cred)       - fbAdmin not working -> delete for now
 pb = pyrebase.initialize_app(json.load(open('fbconfig.json')))
-auth = pb.auth
+auth = pb.auth()
 
 # Data source - unecessary tho
 users = [{'uid': 1, 'name': 'Noah Schrainer'}]
@@ -84,7 +84,7 @@ def get_current_time():
 @app.route('/api/match')
 def getMovieData():
     return matchfilm()
-    #matchfilm()
+    
 
 
 if __name__ == "__main__":
