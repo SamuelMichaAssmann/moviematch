@@ -27,4 +27,3 @@ webpack.config.js
 venv
 __pycache__
 .vscode
-tempsave_forTest.txt 
