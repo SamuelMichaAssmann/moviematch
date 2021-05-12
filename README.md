@@ -6,6 +6,9 @@ npm run api -> backend
 pip install virtualenv
 virtualenv venv
 
+### pip clear
+pip freeze | xargs pip uninstall -y
+
 ### Activate venv
 .\backend\venv\Scripts\activate.ps1
 (Bei Fehlern)[https://stackoverflow.com/questions/18713086/virtualenv-wont-activate-on-windows/18713789]
@@ -21,4 +24,3 @@ sudo systemctl status moviematch
 
 # nginx
 sudo systemctl reload nginx
-
