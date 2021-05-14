@@ -24,7 +24,6 @@ def getData(result):
         keyword_list = idToKeywords(movie_id)
         runtime = idToRuntime(movie_id)
         data.append((movie_id, genre_list, keyword_list, runtime))
-        
     return data
 
 

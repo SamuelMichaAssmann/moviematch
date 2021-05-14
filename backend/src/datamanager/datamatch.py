@@ -28,7 +28,7 @@ def setData(user, userdata, path):
         with open(path, 'w') as file:
             json.dump(data, file)
     except (FileNotFoundError, KeyError, TypeError):
-        return []
+        pass
 
 
 def popMovie(user, path):
@@ -38,7 +38,7 @@ def popMovie(user, path):
         with open(path, 'w') as file:
             json.dump(data, file)
     except (FileNotFoundError, KeyError, IndexError, TypeError):
-        return []
+        return None
     return movie
 
 
