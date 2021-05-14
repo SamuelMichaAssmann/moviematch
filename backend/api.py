@@ -1,4 +1,5 @@
 # Imports
+from click.parser import split_arg_string
 import flask
 import time
 #import firebase_admin  # import firebase_dependencies
@@ -8,6 +9,7 @@ import json
 from flask import Flask, request
 from backend.src.firebase import *
 from backend.src.algo import matchfilm
+import sys
 
 
 # App configuration
@@ -40,8 +42,13 @@ def check_token(f):  # middleware - check for valid token before performing fb_u
 
 @app.route("/api/signUp")
 def signup():
+    
     email = request.form.get('email')
     password = request.form.get('password')
+    #email = args["email"]
+    #password = args["password"]
+
+    
 
     if (email is None or password is None):
         return {'message': 'Error missing email or password'}, 400
