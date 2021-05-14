@@ -20,7 +20,7 @@ def getData(id, kind):
         return set()
 
 
-# data -> {getData()}, kind -> {'watchlist', 'antiwatch'}{'watchlist', 'antiwatch', 'matched', 'members'}
+# data -> {getData()}, kind -> {'name', 'email', 'groups', 'watchlist', 'antiwatch', 'age'}{'name', 'watchlist', 'antiwatch', 'matched', 'members'}
 def getList(data, kind):
     try:
         return data[kind]
@@ -36,12 +36,15 @@ def setList(kind, id,  list, input):
         with open(PATH, 'w') as file:
             json.dump(data, file)
     except (FileNotFoundError, KeyError, TypeError):
-        pass
+        return None
+
 
 # complete user
 def setUser(id, name, mail, groups, watchlist, antiwatch, age):
     data = getFirebase()
     try:
+        if id in data["users"]:
+            return None
         data["users"][id] = {"name": name, 
                              "mail": mail,
                              "groups": groups,
@@ -55,7 +58,7 @@ def setUser(id, name, mail, groups, watchlist, antiwatch, age):
         return None
 
 
-# complete user
+# complete  group
 def setGroupe(id, name, watchlist, antiwatch, matched, members):
     data = getFirebase()
     try:
@@ -75,4 +78,4 @@ def setGroupe(id, name, watchlist, antiwatch, matched, members):
 
 # print(setList('users', '12345', 'watchlist', [1696,418078,284303]))
 setUser("56789", "Debbie", "", [], [], [], "17")
-setGroupe("56789", "aasdsd", [], [], [], [])
+setGroupe("45677", "SamuelsFilmabend", [], [], [], [])

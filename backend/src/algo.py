@@ -86,7 +86,6 @@ def movie_ids_list(data):
     movie_list = []
     for d in data:
         (movie_id, genre_list, keyword_list, runtime) = d
-        #print(f"MovieID: {movie_id} - Len: {runtime} - Genre: {genre_list} - Keywords: {keyword_list}\n")
         movie_list.append(movie_id)
     return movie_list
 

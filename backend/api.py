@@ -72,6 +72,7 @@ def token():
     except:
         return {'message': 'There was an error logging in'}, 400   
 
+
 @app.route("/api")
 def version():
     return "Api v0.1.0"
