@@ -1,4 +1,5 @@
 import json
+from os import error
 PATH = '../data/firebase_data.json'
 
 
@@ -44,7 +45,7 @@ def setUser(id, name, mail, groups, watchlist, antiwatch, age):
     data = getFirebase()
     try:
         if id in data["users"]:
-            return None
+            return {"error": 404}
         data["users"][id] = {"name": name, 
                              "mail": mail,
                              "groups": groups,
@@ -59,11 +60,11 @@ def setUser(id, name, mail, groups, watchlist, antiwatch, age):
 
 
 # complete  group
-def setGroupe(id, name, watchlist, antiwatch, matched, members):
+def setGroup(id, name, watchlist, antiwatch, matched, members):
     data = getFirebase()
     try:
         if id in data["groups"]:
-            return None
+            return {error: 404}
         data["groups"][id] = {"name": name, 
                              "watchlist": watchlist,
                              "antiwatch": antiwatch,
@@ -77,5 +78,6 @@ def setGroupe(id, name, watchlist, antiwatch, matched, members):
 
 
 # print(setList('users', '12345', 'watchlist', [1696,418078,284303]))
-setUser("56789", "Debbie", "", [], [], [], "17")
-setGroupe("45677", "SamuelsFilmabend", [], [], [], [])
+# setUser("12434321", "Moritz", "mo@mo.com", [], [], [], "50")
+# setGroup("45677", "SamuelsFilmabend", [], [], [], [])
+setList("users","56789", "watchlist", [12314, 121231234, 23423])

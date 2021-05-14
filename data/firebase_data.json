@@ -32,9 +32,21 @@
             "name": "Debbie",
             "mail": "",
             "groups": [],
-            "watchlist": [],
+            "watchlist": [
+                12314,
+                121231234,
+                23423
+            ],
             "antiwatch": [],
             "age": "17"
+        },
+        "12434321": {
+            "name": "Moritz",
+            "mail": "mo@mo.com",
+            "groups": [],
+            "watchlist": [],
+            "antiwatch": [],
+            "age": "50"
         }
     },
     "groups": {
