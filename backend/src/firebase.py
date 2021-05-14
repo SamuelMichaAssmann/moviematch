@@ -2,9 +2,13 @@ import pyrebase
 import json
 #from firebase_admin import credentials, auth
 from flask import Flask, request
+import pyrebase
 
 
-def check_token(f):  # middleware - check for valid token before performing fb_user action
+pb = pyrebase.initialize_app(json.load(open('fbconfig.json')))
+auth = pb.auth()
+
+def check_token(f):  # middleware - check for valid token before performing fb_user action - not needed anymore
     @wraps(f)
     def wrap(*args, **kwargs):
         if not request.headers.get('authorization'):
@@ -18,15 +22,15 @@ def check_token(f):  # middleware - check for valid token before performing fb_u
     return wrap
 
 
+
 def signup():
-    def signup():
-    
+
     email = request.form.get('email')
     password = request.form.get('password')
     #email = args["email"]
     #password = args["password"]
 
-    
+
 
     if (email is None or password is None):
         return {'message': 'Error missing email or password'}, 400
@@ -50,7 +54,10 @@ def token():
             email,
             password
         )
+        userid = user['localId']
         jwt = user['idToken']
-        return {'token': jwt}, 200
+        return {
+            'token': jwt,
+            'id': userid}, 200
     except:
         return {'message': 'There was an error logging in'}, 400
