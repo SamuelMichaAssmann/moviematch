@@ -55,16 +55,12 @@ export class Register extends React.Component {
       this.setState({ confirmation: true })
     }
 
-
-    // await fetch("api/signup")
     const data = {
       email: this.state.email,
       password: this.state.password
     };
 
-    console.log(data);
     let response = await APIHandler.postRequest('http://127.0.0.1:5000/api/signup', data);
-    console.log(response);
 
     /*
     const args = {
