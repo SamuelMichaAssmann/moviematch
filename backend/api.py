@@ -1,6 +1,7 @@
 # Imports
 from click.parser import split_arg_string
 import flask
+from flask_cors import CORS, cross_origin
 import time
 #import firebase_admin  # import firebase_dependencies
 import pyrebase
@@ -13,7 +14,9 @@ import sys
 
 
 # App configuration
-app = flask.Flask("__main__")
+app = flask.Flask('__main__')
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 # Connect to firebase
 #cred = credentials.Certificate('fbAdminConfig.json') - fbAdmin not working -> delete for now
@@ -39,28 +42,45 @@ def check_token(f):  # middleware - check for valid token before performing fb_u
     return wrap
     ''' # - fbAdmin not working -> delete for now
 
+def _build_cors_preflight_response():
+    ''' Initializes all necessary parameters for CORS, allowing our website to access the API '''
+    response = flask.make_response()
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers', '*')
+    response.headers.add('Access-Control-Allow-Methods', '*')
+    return response
 
-@app.route("/api/signUp")
+@app.route('/api/signup', methods=['POST', 'OPTIONS'])
+@cross_origin()
 def signup():
-    fb.signup()
+    if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
+    return fb.signup(flask.request)
 
 # Api route to get a new token for a valud user
-@app.route("/api/token")
+@app.route('/api/token', methods=['GET', 'OPTIONS'])
+@cross_origin()
 def token():
-    fb.token()
+    if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
+    return fb.token()
 
-@app.route("/api")
+@app.route('/api', methods=['GET', 'OPTIONS'])
+@cross_origin()
 def version():
-    return "Api v0.1.0"
+    if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
+    return 'Api v0.1.0'
 
 
-@app.route('/api/time')
+@app.route('/api/time', methods=['GET', 'OPTIONS'])
+@cross_origin()
 def get_current_time():
+    if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
     return {'time': time.time()}
 
 
-@app.route('/api/match')
-def getMovieData():
+@app.route('/api/match', methods=['GET', 'OPTIONS'])
+@cross_origin()
+def get_movie_data():
+    if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
     return matchfilm()
     
 

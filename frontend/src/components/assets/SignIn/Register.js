@@ -4,6 +4,7 @@ import { observer } from 'mobx-react';
 import { Textfield } from '../../assets/Textfield/Textfield';
 import firebase from "../../../firebase"; //firebase globally available
 import { Button } from '../Button/Button';
+import APIHandler from '../../manage/api/APIHandler'
 
 
 export class Register extends React.Component {
@@ -54,8 +55,12 @@ export class Register extends React.Component {
       this.setState({ confirmation: true })
     }
 
+    const data = {
+      email: this.state.email,
+      password: this.state.password
+    };
 
-    await fetch("api/signup")
+    let response = await APIHandler.postRequest('http://127.0.0.1:5000/api/signup', data);
 
     /*
     const args = {
