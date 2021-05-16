@@ -8,7 +8,8 @@ import pyrebase
 import json
 #from firebase_admin import credentials, auth   - fbAdmin not working -> delete for now
 from flask import Flask, request
-import backend.src.firebase as fb 
+import backend.firebase.firebase_auth as fb_a 
+import backend.firebase.firebase_db as db
 from backend.src.algo import matchfilm
 import sys
 
@@ -24,8 +25,6 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 pb = pyrebase.initialize_app(json.load(open('fbconfig.json')))
 auth = pb.auth()
 
-# Data source - unecessary tho
-users = [{'uid': 1, 'name': 'Noah Schrainer'}]
 
 '''
 def check_token(f):  # middleware - check for valid token before performing fb_user action
@@ -54,14 +53,15 @@ def _build_cors_preflight_response():
 @cross_origin()
 def signup():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
-    return fb.signup(flask.request)
+    return fb_a.signup(flask.request)
 
 # Api route to get a new token for a valud user
 @app.route('/api/token', methods=['GET', 'OPTIONS'])
 @cross_origin()
-def token():
+def signIn():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
-    return fb.token()
+    return fb_a.signIn()
+
 
 @app.route('/api', methods=['GET', 'OPTIONS'])
 @cross_origin()
