@@ -61,6 +61,7 @@ export class Register extends React.Component {
     };
 
     let response = await APIHandler.postRequest('http://127.0.0.1:5000/api/signup', data);
+    document.cookie = "uid = " + response
 
     /*
     const args = {
