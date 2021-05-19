@@ -78,31 +78,40 @@ class Settings extends React.Component {
                 extraStyles={{ 'margin-bottom': '75px' }} />
             </div>
 
-            <div>
+            <div className='settingsButtonDiv'>
               <Button
                 buttonStyle='btn--outline'
+                extraClasses='settingsButton settingsButtonTop'
                 onClick={() => { console.log('Pressed') }}
               >
                 Submit changes
+              </Button>
+
+              <Button
+                buttonStyle='btn--outline'
+                extraClasses='settingsButton settingsButtonBottom'
+                onClick={() => { console.log('Pressed 2') }}
+              >
+                Re-send verification email
               </Button>
             </div>
 
             <br></br>
             <br></br>
 
-            <div>
+            <div className='settingsButtonDiv'>
             <Button
                 buttonStyle='btn--outline'
-                extraStyles={{ 'margin-right': '30px' }}
-                onClick={() => { console.log('Pressed 2') }}
+                extraClasses='btn--outline-red settingsButton settingsButtonTop'
+                onClick={() => { console.log('Pressed 3') }}
               >
-                Re-send verification email
+                Reset data
               </Button>
 
               <Button
                 buttonStyle='btn--outline'
-                extraClasses='btn--outline-red'
-                onClick={() => { console.log('Pressed 3') }}
+                extraClasses='btn--outline-red settingsButton settingsButtonBottom'
+                onClick={() => { console.log('Pressed 4') }}
               >
                 <FaSkull /> Delete account <FaSkull />
               </Button>

@@ -1,27 +1,32 @@
 # Imports
+from click.parser import split_arg_string
 import flask
+from flask_cors import CORS, cross_origin
 import time
-# import firebase_admin  # import firebase_dependencies
+#import firebase_admin  # import firebase_dependencies
 import pyrebase
 import json
 #from firebase_admin import credentials, auth   - fbAdmin not working -> delete for now
-from flask import request
-from backend.src.firebase import *
 from backend.src.algo import matchfilm
 from backend.src.datamanager.datamatch import popMovie
+from flask import Flask, request
+import backend.firebase.firebase_auth as fb_a 
+import backend.firebase.firebase_db as db
+import sys
+
 
 
 # App configuration
-app = flask.Flask("__main__")
+app = flask.Flask('__main__')
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 # Connect to firebase
 #cred = credentials.Certificate('fbAdminConfig.json') - fbAdmin not working -> delete for now
 #firebase = firebase_admin.initialize_app(cred)       - fbAdmin not working -> delete for now
 pb = pyrebase.initialize_app(json.load(open('fbconfig.json')))
-auth = pb.auth
+auth = pb.auth()
 
-# Data source - unecessary tho
-users = [{'uid': 1, 'name': 'Noah Schrainer'}]
 
 '''
 def check_token(f):  # middleware - check for valid token before performing fb_user action
@@ -38,58 +43,54 @@ def check_token(f):  # middleware - check for valid token before performing fb_u
     return wrap
     ''' # - fbAdmin not working -> delete for now
 
+def _build_cors_preflight_response():
+    ''' Initializes all necessary parameters for CORS, allowing our website to access the API '''
+    response = flask.make_response()
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers', '*')
+    response.headers.add('Access-Control-Allow-Methods', '*')
+    return response
 
-@app.route("/api/signUp")
+@app.route('/api/signup', methods=['POST', 'OPTIONS'])
+@cross_origin()
 def signup():
-    email = request.form.get('email')
-    password = request.form.get('password')
-
-    if (email is None or password is None):
-        return {'message': 'Error missing email or password'}, 400
-    try:
-        user = auth.create_user_with_email_and_password(
-            email=email,
-            password=password
-        )
-        return {'message': f'Successfully created user {user.uid}'}, 201
-    except:
-        return {'message': 'Error creating user'}, 400
-
+    if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
+    return fb_a.signup(flask.request)
 
 # Api route to get a new token for a valud user
-@app.route("/api/token")
-def token():
-    email = request.form.get('email')
-    password = request.form.get('password')
-
-    try:
-        user = auth.sign_in_with_email_and_password(
-            email,
-            password
-        )
-        jwt = user['idToken']
-        return {'token': jwt}, 200
-    except:
-        return {'message': 'There was an error logging in'}, 400   
+@app.route('/api/token', methods=['GET', 'OPTIONS'])
+@cross_origin()
+def signIn():
+    if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
+    return fb_a.signIn()
 
 
-@app.route("/api")
+
+@app.route('/api', methods=['GET', 'OPTIONS'])
+@cross_origin()
 def version():
-    return "Api v0.1.0"
+    if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
+    return 'Api v0.1.0'
 
 
-@app.route('/api/time')
+@app.route('/api/time', methods=['GET', 'OPTIONS'])
+@cross_origin()
 def get_current_time():
+    if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
     return {'time': time.time()}
 
 
-@app.route('/api/match')
-def getMovieData():
+@app.route('/api/match', methods=['GET', 'OPTIONS'])
+@cross_origin()
+def get_movie_data():
+    if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
     return matchfilm()
 
+  
 @app.route('/api/film')
 def getFilmList():
     return {"film": popMovie('username1', '../data/usermatch.json')}
+
 
 
 if __name__ == "__main__":
