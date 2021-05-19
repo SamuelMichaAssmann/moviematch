@@ -22,19 +22,44 @@ db = pb.database()
 
 testmail = input("Please input email")
 testpasswort = input("Please input pwd")
+age = input("Age")
 
-def createUser(email, password):
-  try:
-          print("trying")
-          user = auth.create_user_with_email_and_password(
-              email,
-              password
-          )
-          pprint.pprint(user)
-          print( {'message': f'Successfully created user {user.uid}'}, 201)
-  except Exception as e:
-          print( {'message': 'Error creating user'}, 400)
-          print("\n" + str(e))
+def pushNewUser(userid, email):
+    data = {
+        "name": "",
+        "email": email,
+        "groups": "",
+        "watchlist": "",
+        "antiwatch": "",
+        "age": ""
+    }
+
+    try:
+        print("writing user/ creating user in db")
+        db.child("users").set(userid)
+        print("Successfully created user in db")
+
+        print("writing user/ writing user data to db")
+        db.child("users").child(userid).set(data)
+        print("successfully wrote user-data to db")
+        return {'message': "User successfully written to db"}, 200
+    except Exception as e:
+        print("\n" + str(e))
+        return {'message': "Error while writing user to db\n" + str(e)}, 400
+
+def updateAge(userid, age):
+    data = {
+        "age": age
+    }
+
+    try:
+        print("\nupdating age")
+        db.child("users").child(userid).update(data)
+        print("\nSuccessfully updated user-age")
+        return {'message': "User-Age successfully updated"}, 200
+    except Exception as e:
+        print("Error:\n " + str(e))
+        return {'message': "Error while updating User-Age\n" + str(e)}, 400        
 
 def updateName(userid, name):
     data = {
@@ -55,4 +80,41 @@ def updateName(userid, name):
 
 
 
-updateName("njeWiwwulKNoP7xQ9vhNUIB0xKB2", "Moritz")
+def updateWatchlist(userid, newwatchlist):
+    oldWL = getWatchlist(userid)
+
+    data = {
+        "watchlist" : list(oldWL.union(newwatchlist))
+        }
+
+    try:
+        print("\nupdating wl")
+        db.child("users").child(userid).update(data)
+        print("\nSuccessfully updated wl")
+        return {'message': "wl successfully updated"}, 200
+    except Exception as e:
+        print("Error:\n " + str(e))
+        return {'message': "Error while updating wl\n" + str(e)}, 400
+
+
+
+def getWatchlist(userid):
+    wl = db.child("users").child(userid).child("watchlist").get()
+    returnWL = set()
+    
+    for x in wl.each():
+       returnWL.add(x.val())
+    
+    print("\n")
+
+    return returnWL
+
+newWl = {"Joker", "Test", "Inception"}
+
+updateWatchlist("5KLEFKGKojeGsskzUCbQQN507Rs1", newWl)
+updateName("5KLEFKGKojeGsskzUCbQQN507Rs1","Lukas Becker")
+updateAge("5KLEFKGKojeGsskzUCbQQN507Rs1", 20)
+
+
+
+
