@@ -1,0 +1,74 @@
+.groupContainer {
+    flex-direction: column;
+    display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.groupDesc {
+    color: white;
+    text-align: center;
+    width: 60%;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.createGroupButton {
+    width: 500px;
+}
+
+.createGroupInput {
+    margin-top: 30px;
+    width: 400px;
+}
+
+.createGroupInnerButtonContainer {
+    flex-direction: row;
+    display: flex;
+	justify-content: center;
+	align-items: center;
+    margin-top: 20px;
+}
+
+.groupListContainer {
+    padding-bottom: 10px;
+}
+
+.groupListEntry {
+    margin: auto;
+    padding: 20px;
+    width: 500px;
+    height: auto;
+    color: white;
+    border-radius: 15px;
+    border: 0px solid white;
+    display: flex;
+    align-items: center;
+}
+
+.groupListEntry:hover {
+    background: linear-gradient(120deg, rgba(233, 62, 58, 1) 0%, rgba(235, 78, 59, 1) 30%, rgba(240, 125, 62, 1) 80%, rgba(246, 160, 48, 1) 100%);
+    transition: all 0.2s ease-out;
+    cursor: pointer;
+}
+
+.groupListIcon {
+    width: 60px;
+    margin-right: 25px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.groupListEntryName {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.groupListEntryMembers {
+    font-size: 16px;
+    color: #b3b3b3;
+}
+
+.groupListEntry:hover .groupListEntryMembers {
+    color: white;
+}

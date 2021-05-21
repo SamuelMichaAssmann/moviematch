@@ -8,7 +8,8 @@ export const Textfield = ({
     value,
     onChange,
     width,
-    extraStyles
+    extraStyles,
+    extraClasses
 }) => {
 
     const style = (width == null) ? {} : { width: width }
@@ -17,7 +18,7 @@ export const Textfield = ({
 
     return (
         <div>
-            <label class="pure-material-textfield-outlined">
+            <label class={"pure-material-textfield-outlined " + extraClasses}>
                 <input
                     placeholder=" "
                     name={name}
