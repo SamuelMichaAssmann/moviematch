@@ -27,13 +27,12 @@ function Matching() {
         getMovie();
     }, [])
 
+
     const getMovie = (info) => {
         setLike(info);
+        setState({loaded: false})
 
-        fetch('/api/match', {
-            retries: 3,
-            retryDelay: 1000
-        }).then(res => res.json()).then(data => {
+        fetch('/api/match').then(res => res.json()).then(data => {
             setState({
                 loaded: true,
                 thumbnailSrc: BASE_THUMBNAIL_URL + data.thumbnailSrc,

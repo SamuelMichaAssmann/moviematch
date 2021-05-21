@@ -9,6 +9,7 @@ from flask import request
 from backend.src.firebase import *
 from backend.src.algo import matchfilm
 from backend.src.datamanager.datamatch import popMovie
+from backend.src.match.moviedata import movieInfo
 
 
 # App configuration
@@ -85,7 +86,7 @@ def get_current_time():
 
 @app.route('/api/match')
 def getMovieData():
-    return matchfilm()
+    return movieInfo(request.headers.get('user_id'))
 
 @app.route('/api/film')
 def getFilmList():
