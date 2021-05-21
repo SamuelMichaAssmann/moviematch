@@ -40,8 +40,3 @@ def popMovie(user, path):
     except (FileNotFoundError, KeyError, IndexError, TypeError):
         return None
     return movie
-
-
-print(getData('username1', GROUPE))
-setData('username1', [1234,1234,435,123,6457], GROUPE)
-print(popMovie('username1', GROUPE))
