@@ -9,12 +9,13 @@ import json
 #from firebase_admin import credentials, auth   - fbAdmin not working -> delete for now
 from backend.src.algo import matchfilm
 from backend.src.datamanager.datamatch import popMovie
+from backend.src.firebase import *
+from backend.src.algo import matchfilm
+from backend.src.match.moviedata import movieInfo
 from flask import Flask, request
 import backend.firebase.firebase_auth as fb_a 
 import backend.firebase.firebase_db as db
 import sys
-
-
 
 # App configuration
 app = flask.Flask('__main__')
@@ -85,6 +86,11 @@ def get_current_time():
 def get_movie_data():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
     return matchfilm()
+
+
+@app.route('/api/match1')
+def getMovieData():
+    return movieInfo(request.headers.get('user_id'))
 
   
 @app.route('/api/film')
