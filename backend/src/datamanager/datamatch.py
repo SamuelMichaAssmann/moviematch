@@ -48,12 +48,8 @@ def popMovie(user, path):
             json.dump(data, file)
     except (FileNotFoundError, KeyError, IndexError, TypeError):
         return None
-<<<<<<< HEAD
-    return movie
-=======
     return movie
 
 
 def generate():
     print("KI ACTIVATE")
->>>>>>> datamanage
