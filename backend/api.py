@@ -7,10 +7,9 @@ import time
 import pyrebase
 import json
 #from firebase_admin import credentials, auth   - fbAdmin not working -> delete for now
-from backend.src.algo import matchfilm
+from backend.src.ai.algo import matchfilm
 from backend.src.datamanager.datamatch import popMovie
-from backend.src.firebase import *
-from backend.src.algo import matchfilm
+from backend.firebase import *
 from backend.src.match.moviedata import movieInfo
 from flask import Flask, request
 import backend.firebase.firebase_auth as fb_a 
