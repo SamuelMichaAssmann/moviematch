@@ -24,7 +24,6 @@ def getData(result):
         keyword_list = idToKeywords(movie_id)
         runtime = idToRuntime(movie_id)
         data.append((movie_id, genre_list, keyword_list, runtime))
-        
     return data
 
 
@@ -87,7 +86,6 @@ def movie_ids_list(data):
     movie_list = []
     for d in data:
         (movie_id, genre_list, keyword_list, runtime) = d
-        #print(f"MovieID: {movie_id} - Len: {runtime} - Genre: {genre_list} - Keywords: {keyword_list}\n")
         movie_list.append(movie_id)
     return movie_list
 
@@ -140,8 +138,6 @@ def matchfilm():
     if len(movie_id_list) == 0:
         return 'bad request!', 400
     
-    movie_id = movie_id_list.pop()
-    save(movie_id_list)
 
     r = requests.get(f'https://api.themoviedb.org/3/movie/{movie_id}?api_key=d28d1550787892e34121c2918ec031b1')
     movie = r.json()

@@ -7,11 +7,14 @@ import time
 import pyrebase
 import json
 #from firebase_admin import credentials, auth   - fbAdmin not working -> delete for now
+from backend.src.ai.algo import matchfilm
+from backend.src.datamanager.datamatch import popMovie
+from backend.firebase import *
+from backend.src.match.moviedata import movieInfo
 from flask import Flask, request
-import backend.src.firebase as fb 
-from backend.src.algo import matchfilm
+import backend.firebase.firebase_auth as fb_a 
+import backend.firebase.firebase_db as db
 import sys
-
 
 # App configuration
 app = flask.Flask('__main__')
@@ -24,8 +27,6 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 pb = pyrebase.initialize_app(json.load(open('fbconfig.json')))
 auth = pb.auth()
 
-# Data source - unecessary tho
-users = [{'uid': 1, 'name': 'Noah Schrainer'}]
 
 '''
 def check_token(f):  # middleware - check for valid token before performing fb_user action
@@ -54,14 +55,16 @@ def _build_cors_preflight_response():
 @cross_origin()
 def signup():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
-    return fb.signup(flask.request)
+    return fb_a.signup(flask.request)
 
 # Api route to get a new token for a valud user
 @app.route('/api/token', methods=['GET', 'OPTIONS'])
 @cross_origin()
-def token():
+def signIn():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
-    return fb.token()
+    return fb_a.signIn()
+
+
 
 @app.route('/api', methods=['GET', 'OPTIONS'])
 @cross_origin()
@@ -82,7 +85,16 @@ def get_current_time():
 def get_movie_data():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
     return matchfilm()
-    
+
+
+@app.route('/api/match1')
+def getMovieData():
+    return movieInfo(request.headers.get('user_id'))
+
+  
+@app.route('/api/film')
+def getFilmList():
+    return {"film": popMovie('username1', '../data/usermatch.json')}
 
 
 if __name__ == "__main__":
