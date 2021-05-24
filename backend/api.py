@@ -1,14 +1,19 @@
 # Imports
+from click.parser import split_arg_string
 import flask
 import time
-# import firebase_admin  # import firebase_dependencies
+#import firebase_admin  # import firebase_dependencies
 import pyrebase
 import json
 #from firebase_admin import credentials, auth   - fbAdmin not working -> delete for now
-from flask import request
 from backend.src.firebase import *
 from backend.src.algo import matchfilm
 from backend.src.datamanager.datamatch import popMovie
+from backend.src.match.moviedata import movieInfo
+from flask import Flask, request
+import backend.src.firebase as fb 
+from backend.src.algo import matchfilm
+import sys
 
 
 # App configuration
@@ -18,7 +23,7 @@ app = flask.Flask("__main__")
 #cred = credentials.Certificate('fbAdminConfig.json') - fbAdmin not working -> delete for now
 #firebase = firebase_admin.initialize_app(cred)       - fbAdmin not working -> delete for now
 pb = pyrebase.initialize_app(json.load(open('fbconfig.json')))
-auth = pb.auth
+auth = pb.auth()
 
 # Data source - unecessary tho
 users = [{'uid': 1, 'name': 'Noah Schrainer'}]
@@ -41,36 +46,12 @@ def check_token(f):  # middleware - check for valid token before performing fb_u
 
 @app.route("/api/signUp")
 def signup():
-    email = request.form.get('email')
-    password = request.form.get('password')
-
-    if (email is None or password is None):
-        return {'message': 'Error missing email or password'}, 400
-    try:
-        user = auth.create_user_with_email_and_password(
-            email=email,
-            password=password
-        )
-        return {'message': f'Successfully created user {user.uid}'}, 201
-    except:
-        return {'message': 'Error creating user'}, 400
-
+    fb.signup()
 
 # Api route to get a new token for a valud user
 @app.route("/api/token")
 def token():
-    email = request.form.get('email')
-    password = request.form.get('password')
-
-    try:
-        user = auth.sign_in_with_email_and_password(
-            email,
-            password
-        )
-        jwt = user['idToken']
-        return {'token': jwt}, 200
-    except:
-        return {'message': 'There was an error logging in'}, 400   
+    fb.token()
 
 
 @app.route("/api")
@@ -85,7 +66,8 @@ def get_current_time():
 
 @app.route('/api/match')
 def getMovieData():
-    return matchfilm()
+    return movieInfo(request.headers.get('user_id'))
+
 
 @app.route('/api/film')
 def getFilmList():

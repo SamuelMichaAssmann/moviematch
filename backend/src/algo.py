@@ -138,8 +138,6 @@ def matchfilm():
     if len(movie_id_list) == 0:
         return 'bad request!', 400
     
-    movie_id = movie_id_list.pop()
-    save(movie_id_list)
 
     r = requests.get(f'https://api.themoviedb.org/3/movie/{movie_id}?api_key=d28d1550787892e34121c2918ec031b1')
     movie = r.json()

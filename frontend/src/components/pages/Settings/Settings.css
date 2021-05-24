@@ -5,3 +5,22 @@
 	justify-content: center;
 	align-items: center;
 }
+
+.settingsButton {
+    display: block;
+    width: 100%;
+}
+
+.settingsButtonTop {
+    margin-bottom: 20px;
+}
+
+.settingsButtonBottom {
+    margin-bottom: 30px;
+}
+
+@media screen and (max-width: 991px) {
+    .settingsButtonDiv {
+        width: 100%;
+    }
+}

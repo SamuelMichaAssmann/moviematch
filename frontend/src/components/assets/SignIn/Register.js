@@ -5,6 +5,7 @@ import { Textfield } from '../../assets/Textfield/Textfield';
 import firebase from "../../../firebase"; //firebase globally available
 import { Button } from '../Button/Button';
 
+
 export class Register extends React.Component {
   constructor(props) {
     super(props)
@@ -47,13 +48,26 @@ export class Register extends React.Component {
    pwdconfirmation does match : login and send verificationmail - user is able to log in after verification
   */
 
-  registerFirebase() { //register new user with firebase.auth()
+  async registerFirebase() { //register new user with firebase.auth()
 
     if (this.state.password === this.state.passwordConfirmation) {
       this.setState({ confirmation: true })
     }
 
 
+    await fetch("api/signup")
+
+    /*
+    const args = {
+      email: this.state.email,
+      password: this.state.password  
+    };
+
+    const response = await axios.post('http://localhost:5000/api/signup', args);
+    console.log(response);
+    */
+  
+/*
     if (this.state.confirmation == true) {
       firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
         .then((userCredential) => {
@@ -78,7 +92,7 @@ export class Register extends React.Component {
       this.resetForm();
       console.log("resetRunning");
 
-    }
+     }*/
   }
 
   render() {
