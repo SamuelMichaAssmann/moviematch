@@ -18,7 +18,7 @@ export const Textfield = ({
 
     return (
         <div>
-            <label class={"pure-material-textfield-outlined " + extraClasses}>
+            <label className={"pure-material-textfield-outlined " + extraClasses}>
                 <input
                     placeholder=" "
                     name={name}

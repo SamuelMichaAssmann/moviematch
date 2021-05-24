@@ -27,27 +27,32 @@ export default class Groups extends React.Component {
         {
           id: 1,
           name: 'Weekly movie night with the boys',
-          members: ['Samuel', 'Moritz', 'Djemie']
+          members: ['Samuel', 'Moritz', 'Djemie'],
+          owner: 10
         },
         {
           id: 42,
           name: 'Test group',
-          members: ['Test A', 'Test B', 'Test C', 'Test D', 'Test E']
+          members: ['Test A', 'Test B', 'Test C', 'Test D', 'Test E'],
+          owner: 10
         },
         {
           id: 48393,
           name: 'Lonely group',
-          members: ['Lonely person']
+          members: ['Lonely person'],
+          owner: 10
         },
         {
           id: 999,
           name: 'Abanboned group',
-          members: []
+          members: [],
+          owner: 10
         },
         {
           id: 83409,
           name: 'A group with a very long name, which should hopefully be cut off by our function, but we\'ll have to wait and see.',
-          members: ['A person with a very long name who is part of the group with the very long name', 'John', 'Another person with a very long name who is part of the group with the very long name']
+          members: ['A person with a very long name who is part of the group with the very long name', 'John', 'Another person with a very long name who is part of the group with the very long name'],
+          owner: 10
         }
       ]
     });
@@ -70,7 +75,7 @@ export default class Groups extends React.Component {
         <div className='createGroupInnerButtonContainer'>
           <Button
             buttonStyle='btn--outline'
-            extraStyles={{'margin-right': '20px'}}
+            extraStyles={{marginRight: '20px'}}
             onClick={() => { console.log('To be implemented!'); }}
           >
             Create
