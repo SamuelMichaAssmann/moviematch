@@ -36,11 +36,11 @@ def pushNewUser(userid, email):
 
     try:
         print("writing user/ creating user in db")
-        db.child("users").set(userid)
+        db.child("users").child(userid).set(data)
         print("Successfully created user in db")
 
         print("writing user/ writing user data to db")
-        db.child("users").child(userid).set(data)
+        #db.child("users").child(userid).set(data)
         print("successfully wrote user-data to db")
         return {'message': "User successfully written to db"}, 200
     except Exception as e:
@@ -81,11 +81,17 @@ def updateName(userid, name):
 
 
 def updateWatchlist(userid, newwatchlist):
-    oldWL = getWatchlist(userid)
+    oldWL = set(getWatchlist(userid))
 
-    data = {
-        "watchlist" : list(oldWL.union(newwatchlist))
+    if "initial item" in oldWL:
+        data = {
+            "watchlist" : list(newwatchlist)
         }
+    else:
+
+        data = {
+            "watchlist" : list(oldWL.union(newwatchlist))
+            }
 
     try:
         print("\nupdating wl")
@@ -99,21 +105,31 @@ def updateWatchlist(userid, newwatchlist):
 
 
 def getWatchlist(userid):
-    wl = db.child("users").child(userid).child("watchlist").get()
-    returnWL = set()
+
     
-    for x in wl.each():
-       returnWL.add(x.val())
+    try:
+        tempwl = db.child("users").child(userid).child("watchlist").get()
+        flag = True
+    except:
+        flag = False
+
+    wl = set()
+    print(tempwl)
     
-    print("\n")
+    if flag == False:
+        for x in tempwl.each():
+            wl.add(x.val())
+    else:
+        wl.add("initial item")
+        
 
-    return returnWL
+    return list(wl)
 
-newWl = {"Joker", "Test", "Inception"}
+newWl = {"Joker", "Test", "Inception", "Test2"}
 
-updateWatchlist("5KLEFKGKojeGsskzUCbQQN507Rs1", newWl)
-updateName("5KLEFKGKojeGsskzUCbQQN507Rs1","Lukas Becker")
-updateAge("5KLEFKGKojeGsskzUCbQQN507Rs1", 20)
+
+pushNewUser("1234", "test@test.com")
+updateWatchlist("1234", newWl)
 
 
 

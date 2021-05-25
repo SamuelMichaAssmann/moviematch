@@ -1,5 +1,6 @@
 import json
 from os import error
+import backend.firebase.firebase_db as db
 PATH = '../data/firebase_data.json'
 
 
@@ -29,7 +30,7 @@ def getList(data, kind):
         return []
 
 
-# kind -> {'user', 'groupe'}, list -> {'name', 'email', 'groups', 'watchlist', 'antiwatch', 'age'}{'name', 'watchlist', 'antiwatch', 'matched', 'members'}
+# kind -> {'user', 'group'}, list -> {'name', 'email', 'groups', 'watchlist', 'antiwatch', 'age'}{'name', 'watchlist', 'antiwatch', 'matched', 'members'}
 def setList(kind, id,  list, input):
     data = getFirebase()
     try:
@@ -81,3 +82,4 @@ def setGroup(id, name, watchlist, antiwatch, matched, members):
 # setUser("12434321", "Moritz", "mo@mo.com", [], [], [], "50")
 # setGroup("45677", "SamuelsFilmabend", [], [], [], [])
 setList("users","56789", "watchlist", [12314, 121231234, 23423])
+

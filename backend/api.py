@@ -7,7 +7,7 @@ import time
 import pyrebase
 import json
 #from firebase_admin import credentials, auth   - fbAdmin not working -> delete for now
-from backend.src.algo import matchfilm
+from backend.src.ai.algo import matchfilm
 from backend.src.datamanager.datamatch import popMovie
 from flask import Flask, request
 import backend.firebase.firebase_auth as fb_a 
@@ -22,9 +22,9 @@ cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 # Connect to firebase
-#cred = credentials.Certificate('fbAdminConfig.json') - fbAdmin not working -> delete for now
+#cred = credentials.Certificate('firebase/fbAdminConfig.json') - fbAdmin not working -> delete for now
 #firebase = firebase_admin.initialize_app(cred)       - fbAdmin not working -> delete for now
-pb = pyrebase.initialize_app(json.load(open('fbconfig.json')))
+pb = pyrebase.initialize_app(json.load(open('firebase/fbconfig.json')))
 auth = pb.auth()
 
 
@@ -58,12 +58,24 @@ def signup():
     return fb_a.signup(flask.request)
 
 # Api route to get a new token for a valud user
-@app.route('/api/token', methods=['GET', 'OPTIONS'])
+@app.route('/api/signin', methods=['POST', 'OPTIONS'])
 @cross_origin()
 def signIn():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
-    return fb_a.signIn()
+    return fb_a.signIn(flask.request)
 
+
+@app.route('/api/resendV', methods=['POST', 'OPTIONS'])
+@cross_origin()
+def resendV():
+    if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
+    return fb_a.resendV(flask.request)
+
+@app.route('/api/resetPwd', methods=['POST', 'OPTIONS'])
+@cross_origin()
+def resendV():
+    if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
+    return fb_a.updatePwd(flask.request)
 
 
 @app.route('/api', methods=['GET', 'OPTIONS'])
