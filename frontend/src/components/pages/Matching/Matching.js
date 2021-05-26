@@ -22,11 +22,11 @@ function Matching() {
         genres: ''
     });
 
-    const [like, setLike] = useState('')
+    const [like, setLike] = useState('');
 
     useEffect(() => {
         getMovie();
-    }, [])
+    }, []);
 
 
     const getMovie = (info) => {
