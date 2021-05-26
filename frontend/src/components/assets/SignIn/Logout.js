@@ -2,7 +2,8 @@ import React from 'react';
 import { BrowserRouter as Redirect } from 'react-router-dom';
 
 function Logout() {
-    return <Redirect to="/" />;
+    localStorage.clear();
+    return window.location.href = "/home";
 }
 
 export default Logout;
