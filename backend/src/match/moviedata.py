@@ -26,7 +26,6 @@ def getGenre(genre_list):
 
 def movieInfo(user):
     movie_id = popMovie(user, 1)
-    print(movie_id)
     if (movie_id == None):
         return 'Loading...', 200
     try:

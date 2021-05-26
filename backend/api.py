@@ -71,11 +71,11 @@ def resendV():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
     return fb_a.resendV(flask.request)
 
-@app.route('/api/resetPwd', methods=['POST', 'OPTIONS'])
-@cross_origin()
-def resendV():
-    if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
-    return fb_a.updatePwd(flask.request)
+# @app.route('/api/resetPwd', methods=['POST', 'OPTIONS'])
+# @cross_origin()
+# def resendV():
+#     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
+#     return fb_a.updatePwd(flask.request)
 
 
 @app.route('/api', methods=['GET', 'OPTIONS'])
@@ -96,13 +96,7 @@ def get_current_time():
 @cross_origin()
 def get_movie_data():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
-    return matchfilm()
-
-
-@app.route('/api/match1')
-def getMovieData():
-    return movieInfo('username1')
-# request.headers.get('user_id')
+    return movieInfo(flask.request.args.get('user_id'))
 
   
 @app.route('/api/film')

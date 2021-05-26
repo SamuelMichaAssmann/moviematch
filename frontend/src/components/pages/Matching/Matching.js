@@ -20,10 +20,11 @@ function Matching() {
         desc: '',
         runtime: 0,
         rating: 0,
-        genres: ''
+        genres: 'none'
     });
 
     const [like, setLike] = useState('')
+    const movie_id = "";
 
     useEffect(() => {
         getMovie();
@@ -32,9 +33,17 @@ function Matching() {
 
     const getMovie = (info) => {
         setLike(info);
-        setState({ loaded: false })
+        setState({
+            loaded: false,
+            thumbnailSrc: '',
+            title: '',
+            desc: '',
+            runtime: 0,
+            rating: 0,
+            genres: 'none'
+        })
 
-        APIHandler.getRequest('http://localhost:5000/api/match', {"user_id": "username1"}).then(res => res.json()).then(data => {
+        APIHandler.getRequest('http://localhost:5000/api/match', { "user_id": "username1" }).then(data => {
             setState({
                 loaded: true,
                 thumbnailSrc: (data.thumbnailSrc == null)
@@ -60,17 +69,19 @@ function Matching() {
     return (
         <>
             <div className='darkBg'>
+
                 <nav class='movieThumbnailDesktop'>
+
                     <div className='movieThumbnailRow'>
                         {state.loaded ? "" : <Loading />}
-                            <MovieThumbnail
-                                src={state.thumbnailSrc}
-                                height={IMAGE_HEIGHT}
-                            />
-                            <div>
-                                <h2 className='movieTitle'>{state.title}</h2>
-                                <p className='home__sek-subtitle movieDescription'>{state.desc}</p>
-                            </div>
+                        <MovieThumbnail
+                            src={state.thumbnailSrc}
+                            height={IMAGE_HEIGHT}
+                        />
+                        <div>
+                            <h2 className='movieTitle'>{state.title}</h2>
+                            <p className='home__sek-subtitle movieDescription'>{state.desc}</p>
+                        </div>
                     </div>
                     <div align='center'>
                         <RateButton {...likeButton} onClick={() => getMovie('like')} />
@@ -81,7 +92,8 @@ function Matching() {
                 <nav class='movieThumbnailMobile'>
                     <div>
                         <div className='movieThumbnailRow'>
-                            {state.loaded ? <MovieThumbnail src={state.thumbnailSrc} height={IMAGE_HEIGHT} /> : <Loading />}
+                            {state.loaded ? "" : <Loading />}
+                            <MovieThumbnail src={state.thumbnailSrc} height={IMAGE_HEIGHT} />
                             <div align='center'>
                                 <RateButton {...likeButton} onClick={() => getMovie('like')} />
                                 <RateButton {...neutralButton} onClick={() => getMovie('neutral')} />

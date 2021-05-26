@@ -1,6 +1,6 @@
 
 import numpy as np
-from sklearn.cluster import MeanShift# as ms
+from sklearn.cluster import MeanShift
 from sklearn.datasets.samples_generator import make_blobs
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
@@ -85,20 +85,11 @@ def cluster(watchlist):
     # plt.show()
 
 
-    top = []
+    genre_weigh = []
     genre = getGenre()
     for cluster in cluster_centers:
         arr = cluster.tolist()
         for g in genre:
-            top.append((g, arr[genre.index(g)]))
+            genre_weigh.append((g, arr[genre.index(g)]))
             
-    return top
-
-
-def getMax(cluster):
-    return max(cluster, key=lambda item:item[1])
-
-
-getMax(cluster(url1))
-getMax(cluster(url2))
-getMax(cluster(url1 + url2))
+    return (max(genre_weigh, key=lambda item:item[1]), genre_weigh)

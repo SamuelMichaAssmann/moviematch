@@ -41,7 +41,6 @@ def popMovie(user, path):
     data = getAllData(path)
     try:
         movie = data[user].pop()
-        print(movie)
         if len(data[user]) < 20:
             threading.Thread(target=generate).start()
         with open(getPath(path), 'w') as file:
