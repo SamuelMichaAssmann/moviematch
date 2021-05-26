@@ -40,6 +40,7 @@ function App() {
           <Route path='/' exact component={Home} />
           <Route path='/sign-up' component={SignUp} />
           <Route path='/settings' component={Settings} />
+          <Route path='/tutorial' component={Tutorial} />
           <Route path='/match' component={Matching} />
           <Route path='/TMDb'  component={() => { window.location.href = 'https://www.themoviedb.org/'; return null; }}/>
           <Route component={Error404} ><Redirect to="/" /></Route>

@@ -7,12 +7,10 @@ import pyrebase
 import json
 #from firebase_admin import credentials, auth   - fbAdmin not working -> delete for now
 from backend.src.firebase import *
-from backend.src.algo import matchfilm
 from backend.src.datamanager.datamatch import popMovie
 from backend.src.match.moviedata import movieInfo
 from flask import Flask, request
-import backend.src.firebase as fb 
-from backend.src.algo import matchfilm
+import backend.src.firebase as fb
 import sys
 
 
@@ -66,7 +64,8 @@ def get_current_time():
 
 @app.route('/api/match')
 def getMovieData():
-    return movieInfo(request.headers.get('user_id'))
+    return movieInfo('username1')
+# request.headers.get('user_id')
 
 
 @app.route('/api/film')

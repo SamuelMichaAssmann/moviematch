@@ -1,7 +1,3 @@
-.center {
-    margin: auto;
-}
-
 .center input {
     display: block;
     margin-left: auto;
@@ -56,27 +52,15 @@
     justify-content: center;
 }
 
-.movieInfoElement {
-    margin-right: 50px;
-    margin-left: 50px;
-}
-
 .movieInfoHeader {
-    max-width: 440px;
-    margin-left: 20px;
-    margin-bottom: 15px;
     font-size: 28px;
-    line-height: 24px;
     text-align: center;
+    padding-bottom: 10px;
     color: #1c2237;
 }
 
 .movieInfoText {
-    max-width: 400px;
-    margin-left: 20px;
-    margin-bottom: 0px;
     font-size: 24px;
-    line-height: 24px;
     text-align: center;
     color: #1c2237;
 }
@@ -86,11 +70,31 @@
     width: 100%;
 }
 
+.movieTable {
+    border-collapse: collapse;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.movieRow {
+    text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.movieInfo {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
 @media screen and (min-width: 992px) {
     .movieThumbnailDesktop {
         display: block;
     }
-
     .movieThumbnailMobile {
         display: none;
     }
@@ -100,34 +104,32 @@
     .movieThumbnailDesktop {
         display: none;
     }
-
     .movieThumbnailMobile {
         display: block;
     }
-
     .movieThumbnailRow {
         max-width: 100%;
         flex-basis: 100%;
         flex-direction: column;
     }
-
     .movieThumbnail {
         padding-bottom: 30px;
     }
-
     .movieTitle, .movieDescription, .movieInfoHeader, .movieInfoText {
         margin-left: 20px;
         margin-right: 20px;
         text-align: center;
     }
-
     .movieInfoRow {
         flex-direction: column;
     }
-
     .rateButton {
         margin-left: 10px;
         margin-right: 10px;
         margin-bottom: 50px;
     }
+    .movieRow {
+        display: block;
+        text-align: center;
+      }
 }
