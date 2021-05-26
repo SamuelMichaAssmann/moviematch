@@ -79,11 +79,11 @@ function Navbar() {
 
               {isLoggedIn || true ? <li className='nav-item'>
                 <Link
-                  to='/settings'
+                  to='/groups'
                   className='nav-links'
                   onClick={closeMobileMenu}
                 >
-                  Settings
+                  Groups
                 </Link>
               </li> : ""}
 

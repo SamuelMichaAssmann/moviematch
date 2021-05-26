@@ -1,24 +1,17 @@
+import APIHandler from './APIHandler'
+
 const BASE_URL = 'https://api.themoviedb.org/3/';
 const API_KEY = 'd28d1550787892e34121c2918ec031b1';
 
 class MovieDBHandler {
 
     /**
-     * Performs a GET request and returns the results as an object.
+     * Performs a GET request to the MovieDB API and returns the results as an object.
      * @param {String} addUrl
      * @param {Object} args 
      */
     static async getRequest(addUrl, args={}) {
-        let url = `${BASE_URL}${addUrl}?api_key=${API_KEY}`;
-        Object.entries(args).forEach(entry => {
-            const [key, value] = entry;
-            url += `&${key}=${value}`;
-        });
-
-        const response = await fetch(url);
-        const json = await response.json();
-
-        return json;
+        return APIHandler.getRequest(`${BASE_URL}${addUrl}?api_key=${API_KEY}`, args);
     }
 
     /**
@@ -26,7 +19,7 @@ class MovieDBHandler {
      * Each entry in the list is an object: { id: Number, name: String }
      */
     static async getGenres() {
-        let response = await this.getRequest('genre/movie/list');
+        let response = this.getRequest('genre/movie/list');
         return response['genres'];
     }
 
@@ -35,7 +28,7 @@ class MovieDBHandler {
      * @param {Number} id 
      */
     static async getMovieInfo(id) {
-        return await this.getRequest(`movie/${id}`);
+        return this.getRequest(`movie/${id}`);
     }
 
     /**
@@ -58,13 +51,13 @@ class MovieDBHandler {
             'include_video': false
         };
 
-        if (genres != null) filter['with_genres'] = await this.getGenreIDList(genres);
+        if (genres != null) filter['with_genres'] = this.getGenreIDList(genres);
         if (keywords != null) filter['with_keywords'] = keywords;
         if (minRating != null) filter['vote_average.gte'] = minRating;
         if (minRuntime != null) filter['with_runtime.gte'] = minRuntime;
         if (maxRuntime != null) filter['with_runtime.lte'] = maxRuntime;
 
-        let response = await this.getRequest('discover/movie', filter);
+        let response = this.getRequest('discover/movie', filter);
         return response['results'];
     }
 
@@ -73,7 +66,7 @@ class MovieDBHandler {
      * @param {Array} names
      */
     static async getGenreIDList(names) {
-        let genres = await this.getGenres();
+        let genres = this.getGenres();
         let genreIDs = [];
         genres.forEach(entry => {
             if (names.includes(entry['name'])) {
