@@ -109,7 +109,7 @@ export default class GroupListEntry extends React.Component {
 
     joinGroup() {
         this.setState({ canClickGroup: false });
-        window.open(`group?id=${this.state.id}`, '_self');
+        window.location.href = `group?id=${this.state.id}`;
     }
 
     render() {

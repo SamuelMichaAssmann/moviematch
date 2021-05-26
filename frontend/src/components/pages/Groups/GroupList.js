@@ -9,7 +9,7 @@ export const GroupList = ({
         return (
             <GroupListEntry key={index} {...group} />
         );
-    })
+    });
 
     return (
         <ul>{groupElements}</ul>

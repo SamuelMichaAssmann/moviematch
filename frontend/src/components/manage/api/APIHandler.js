@@ -7,9 +7,11 @@ export default class APIHandler {
      * @returns The result as an object.
      */
     static async getRequest(url, args) {
+        let firstArgument = true;
         Object.entries(args).forEach(entry => {
             const [key, value] = entry;
-            url += `&${key}=${value}`;
+            url += `${firstArgument ? '?' : '&'}${key}=${value}`;
+            firstArgument = false;
         });
 
         const response = await fetch(url);

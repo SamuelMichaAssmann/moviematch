@@ -1,0 +1,31 @@
+.groupViewContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.groupMember {
+    display: flex;
+    margin-bottom: 8px;
+}
+
+.groupMemberStatus {
+    height: 24px;
+    width: 24px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 8px;
+}
+
+.groupMemberText {
+    color: white;
+    font-size: 18px;
+}
+
+.online {
+    background-color: rgb(70, 190, 80);
+}
+
+.offline {
+    background-color: rgb(102, 95, 95);
+}

@@ -5,6 +5,7 @@ import './App.css';
 import Home from './components/pages/HomePage/Home';
 import Matching from './components/pages/Matching/Matching';
 import Groups from './components/pages/Groups/Groups';
+import Group from './components/pages/Group/Group';
 import Settings from './components/pages/Settings/Settings';
 import Tutorial from './components/pages/Tutorial/Tutorial'
 import SignUp from './components/pages/SignUp/SignUp';
@@ -23,6 +24,7 @@ function App() {
         <Switch>
           <Route path='/' exact component={Home} />
           <Route path='/groups' component={Groups} />
+          <Route path='/group' component={Group} />
           <Route path='/settings' component={Settings} />
           <Route path='/logout' component={Logout} />
           <Route path='/tutorial' component={Tutorial} />
@@ -40,6 +42,7 @@ function App() {
           <Route path='/' exact component={Home} />
           <Route path='/sign-up' component={SignUp} />
           <Route path='/groups' component={Groups} />
+          <Route path='/group' component={Group} />
           <Route path='/settings' component={Settings} />
           <Route path='/tutorial' component={Tutorial} />
           <Route path='/match' component={Matching} />
