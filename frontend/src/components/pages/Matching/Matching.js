@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import '../../assets/Section/Section.css';
-import './Matching.css';
-import Loading from '../../assets/Loading/Loading';
-import RateButton from './RateButton';
-import { MovieThumbnail } from './MovieThumbnail';
+import '../../assets/Section/Section.css'
+import './Matching.css'
+import Loading from '../../assets/Loading/Loading'
+import RateButton from './RateButton'
+import { MovieThumbnail } from './MovieThumbnail'
 import { likeButton, neutralButton, dislikeButton } from './Data';
 import { AiFillStar } from 'react-icons/ai';
+import APIHandler from '../../manage/api/APIHandler';
 
 const BASE_THUMBNAIL_URL = 'https://image.tmdb.org/t/p/w500';
 const IMAGE_HEIGHT = 400;
@@ -33,7 +34,7 @@ function Matching() {
         setLike(info);
         setState({ loaded: false })
 
-        fetch('/api/match').then(res => res.json()).then(data => {
+        APIHandler.getRequest('http://localhost:5000/api/match', {"user_id": "username1"}).then(res => res.json()).then(data => {
             setState({
                 loaded: true,
                 thumbnailSrc: (data.thumbnailSrc == null)
