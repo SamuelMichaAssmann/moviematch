@@ -31,7 +31,7 @@ function Matching() {
 
     const getMovie = (info) => {
         setLike(info);
-        setState({loaded: false})
+        setState({ loaded: false })
 
         fetch('/api/match').then(res => res.json()).then(data => {
             setState({
@@ -60,18 +60,16 @@ function Matching() {
         <>
             <div className='darkBg'>
                 <nav class='movieThumbnailDesktop'>
-                    <div>
-                        <div className='movieThumbnailRow'>
+                    <div className='movieThumbnailRow'>
+                        {state.loaded ? "" : <Loading />}
                             <MovieThumbnail
                                 src={state.thumbnailSrc}
                                 height={IMAGE_HEIGHT}
                             />
                             <div>
-                                {state.loaded ? "" : <Loading />}
                                 <h2 className='movieTitle'>{state.title}</h2>
                                 <p className='home__sek-subtitle movieDescription'>{state.desc}</p>
                             </div>
-                        </div>
                     </div>
                     <div align='center'>
                         <RateButton {...likeButton} onClick={() => getMovie('like')} />
@@ -96,21 +94,29 @@ function Matching() {
                     </div>
                 </nav>
             </div>
-            <div>
-                <div className='movieInfoRow'>
-                    <div className='movieInfoElement'>
-                        <h2 className='movieInfoHeader'>Runtime</h2>
-                        <p className='home__sek-subtitle movieInfoText'>{state.runtime} minutes</p>
-                    </div>
-                    <div className='movieInfoElement'>
-                        <h2 className='movieInfoHeader'>Rating</h2>
-                        <p className='home__sek-subtitle movieInfoText'><AiFillStar /> {state.rating}</p>
-                    </div>
-                    <div className='movieInfoElement'>
-                        <h2 className='movieInfoHeader'>Genres</h2>
-                        <p className='home__sek-subtitle movieInfoText'>{state.genres}</p>
-                    </div>
-                </div>
+            <div className="movieInfo">
+                <table className="movieTable">
+                    <tr>
+                        <td className="movieRow">
+                            <div>
+                                <p className='movieInfoHeader'>Runtime</p>
+                                <p className='movieInfoText'>{state.runtime} minutes</p>
+                            </div>
+                        </td>
+                        <td className="movieRow">
+                            <div>
+                                <p className='movieInfoHeader'>Rating</p>
+                                <p className='movieInfoText'><AiFillStar /> {state.rating}</p>
+                            </div>
+                        </td>
+                        <td className="movieRow">
+                            <div>
+                                <p className='movieInfoHeader'>Genres</p>
+                                <p className='movieInfoText'>{state.genres}</p>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
             </div>
         </>
     );

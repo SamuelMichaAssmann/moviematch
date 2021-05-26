@@ -12,6 +12,7 @@ import StepConnector from '@material-ui/core/StepConnector';
 import Typography from '@material-ui/core/Typography';
 import { Button } from '../../assets/Button/Button';
 import Button2 from '@material-ui/core/Button';
+import Matching from '../../pages/Matching/Matching';
 
 const ColorlibConnector = withStyles({
     alternativeLabel: {
@@ -89,16 +90,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function getSteps() {
-    return ['Select some genre', 'Select some movies', 'Verify your email'];
+    return ['Userdata', 'Select some movies', 'Verify your email'];
 }
 
 // Content
 function getStepContent(step) {
     switch (step) {
         case 0:
-            return 'page 1';
+            return ;
         case 1:
-            return 'page 2';
+            return <Matching />;
         case 2:
             return 'page 3';
         default:
@@ -108,7 +109,7 @@ function getStepContent(step) {
 
 export default function CustomizedSteppers() {
     const stepper = useStyles();
-    const [activeStep, setActiveStep] = React.useState(1);
+    const [activeStep, setActiveStep] = React.useState(0);
     const steps = getSteps();
 
     const handleNext = () => {
@@ -132,34 +133,34 @@ export default function CustomizedSteppers() {
                     </Step>
                 ))}
             </Stepper>
-            <div>
-                {activeStep === steps.length ? (
-                    <div className="center">
-                        <Button2 onClick={handleReset} className={stepper.button}>
-                            Reset
-                        </Button2>
-                    </div>
-                ) : (
-                    <div className="center">
-                        <Typography className={stepper.instructions}>{getStepContent(activeStep)}</Typography>
-                        <div>
-                            <Button2
-                                disabled={activeStep === 0}
-                                onClick={handleBack}
-                                className={stepper.button}>
-                                Back
+            
+            {getStepContent(activeStep)}
+
+            {activeStep === steps.length ? (
+                <div className="center">
+                    <Button2 onClick={handleReset} className={stepper.button}>
+                        Reset
+                    </Button2>
+                </div>
+            ) : (
+                <div className="center">
+                    <div>
+                        <Button2
+                            disabled={activeStep === 0}
+                            onClick={handleBack}
+                            className={stepper.button}>
+                            Back
                             </Button2>
-                            <Button
-                                buttonSize='btn--wide'
-                                buttonColor='blue'
-                                onClick={handleNext}
-                                className={stepper.button}>
-                                {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                            </Button>
-                        </div>
+                        <Button
+                            buttonSize='btn--wide'
+                            buttonColor='blue'
+                            onClick={handleNext}
+                            className={stepper.button}>
+                            {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                        </Button>
                     </div>
-                )}
-            </div>
+                </div>
+            )}
         </div>
     );
 }

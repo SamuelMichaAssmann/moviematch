@@ -84,6 +84,7 @@ def cluster(watchlist):
 
     # plt.show()
 
+
     top = []
     genre = getGenre()
     for cluster in cluster_centers:
