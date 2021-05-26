@@ -71,7 +71,7 @@ export class Register extends React.Component {
     uM.setUserID(response['uid']);
     uM.setUserMail(response['email']);
     this.setState({ loading: false });
-    window.location.href = '/home'; //relink to verification - TODO
+    window.location.href = '/tutorial'; //relink to verification - TODO
     
 
     /*
