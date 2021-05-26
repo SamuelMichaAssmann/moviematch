@@ -43,7 +43,7 @@ function Matching() {
             genres: 'none'
         })
 
-        APIHandler.getRequest('http://localhost:5000/api/match', { "user_id": "username1" }).then(data => {
+        APIHandler.getRequest('http://localhost:5000/api/match', { "user_id": localStorage.getItem("uid") }).then(data => {
             setState({
                 loaded: true,
                 thumbnailSrc: (data.thumbnailSrc == null)
