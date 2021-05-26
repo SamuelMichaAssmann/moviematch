@@ -11,3 +11,6 @@ pw: DaMiPaWo200!
 
 user: service@matchyourmovie.de
 pw: DaMiPaWo200!
+
+user: media@matchyourmovie.de
+pw: DaMiPaWo200!
