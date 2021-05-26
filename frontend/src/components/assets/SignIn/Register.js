@@ -63,14 +63,14 @@ export class Register extends React.Component {
       password: this.state.password
     };
 
-    this.state.loading = this.setState(true)
+    this.state.loading = this.setState({loading : true})
     let response = await APIHandler.postRequest('http://127.0.0.1:5000/api/signup', data);
     console.log(response)
     //may need to have a look - states are updated now matter if success or not
-    uM.setUserLoginState(true)
-    uM.setUserID(response['uid'])
-    uM.setUserMail(response['email'])
-    this.state.loading = this.setState(false)
+    localStorage.setItem('loginState' , 'true')
+    localStorage.setItem('uid' , response['uid'])
+    localStorage.setItem('email', response['email'])
+    this.state.loading = this.setState({loading : false})
     window.location.href = "/home" //relink to verification - TODO
     
 

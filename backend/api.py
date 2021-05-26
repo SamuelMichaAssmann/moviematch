@@ -71,11 +71,11 @@ def resendV():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
     return fb_a.resendV(flask.request)
 
-# @app.route('/api/resetPwd', methods=['POST', 'OPTIONS'])
-# @cross_origin()
-# def resendV():
-#     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
-#     return fb_a.updatePwd(flask.request)
+@app.route('/api/resetPwd', methods=['POST', 'OPTIONS'])
+@cross_origin()
+def resetPwd():
+     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
+     return fb_a.updatePwd(flask.request)
 
 
 @app.route('/api', methods=['GET', 'OPTIONS'])
