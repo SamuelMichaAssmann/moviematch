@@ -14,7 +14,7 @@ class Verification extends React.Component {
 
       resendMail(){
         const data = {
-            email: uM.getUserMail()
+            email: uM.getUserMail() //not needed - token is required!
             };
       
           let response = await APIHandler.postRequest('http://127.0.0.1:5000/api/resendV', data);
@@ -33,7 +33,7 @@ class Verification extends React.Component {
                     <Button
                     buttonSize='btn--wide'
                     buttonColor='blue'
-                    onClick={this.registerFirebase}
+                    onClick={this.resendMail}
                     >Resend verification-mail</Button>
                 </div>
                 <div>

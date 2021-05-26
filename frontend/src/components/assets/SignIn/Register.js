@@ -66,11 +66,12 @@ export class Register extends React.Component {
     this.state.loading = this.setState(true)
     let response = await APIHandler.postRequest('http://127.0.0.1:5000/api/signup', data);
     console.log(response)
+    //may need to have a look - states are updated now matter if success or not
     uM.setUserLoginState(true)
     uM.setUserID(response['uid'])
     uM.setUserMail(response['email'])
     this.state.loading = this.setState(false)
-    window.location.href = "/home"
+    window.location.href = "/home" //relink to verification - TODO
     
 
     /*

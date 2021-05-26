@@ -57,7 +57,7 @@ def signup(request):
         return {
             'message': f"Successfully created user",
             'uid' : user['localId'],
-            'email' : email
+            'email' : emailgit
         }, 201
     except Exception as e:
         print("Errormsg: \n" + str(e))
