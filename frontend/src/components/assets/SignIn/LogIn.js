@@ -4,13 +4,17 @@ import { Button } from '../Button/Button';
 import { observer } from 'mobx-react';
 import { Textfield } from '../../assets/Textfield/Textfield';
 import firebase from "../../../firebase"; //firebase globally available
+import APIHandler from '../../manage/api/APIHandler'
+import * as uM from '../../../userManager'
+import Loading from '../Loading/Loading'
 
 export class Login extends React.Component {
     constructor(props) {
         super(props)
         this.state = { //use this to constantly update input fields
             email: '',
-            password: ''
+            password: '',
+            loading : false
 
         }
 
@@ -37,7 +41,29 @@ export class Login extends React.Component {
         })
     }
 
-    logInFirebase() {
+    async logInFirebase() {
+
+
+        const data = {
+            email: this.state.email,
+            password: this.state.password
+          };
+
+        this.state.loading = this.setState(true)
+        let response = await APIHandler.postRequest('http://127.0.0.1:5000/api/signin', data);
+        var uid = response["id"]
+        uM.setUserID(uid)
+        uM.setUserLoginState(true)
+        this.state.loading = this.setState(false)
+        window.location.href = "/home"
+
+        
+
+
+        //console.log("Redirecting");
+        //window.location.href = '/home';
+
+        /*
 
         firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
             .then((userCredential) => {
@@ -57,8 +83,7 @@ export class Login extends React.Component {
                         // An error happened.
                     });
                 }
-                console.log("Redirecting");
-                window.location.href = '/home';
+                
 
             })
             .catch((error) => {
@@ -66,7 +91,7 @@ export class Login extends React.Component {
                 var errorCode = error.code;
                 var errorMessage = error.message;
                 alert(errorMessage + "\n" + { errorCode })
-            });
+            });*/
     };
 
     render() {
@@ -74,6 +99,10 @@ export class Login extends React.Component {
             <div className="base-container" ref={this.props.containerRef}>
                 <div className="header">SignIn</div>
                 <div className="content">
+                    <div className="loading">
+                    {this.state.loading ? <Loading/> : "" }
+                    </div>
+                    
                     <div className="form">
                         <div className="form-group">
                             <Textfield

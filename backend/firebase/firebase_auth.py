@@ -9,7 +9,7 @@ import backend.firebase.firebase_db  as db
 
 
 
-pb = pyrebase.initialize_app(json.load(open('fbconfig.json')))
+pb = pyrebase.initialize_app(json.load(open('firebase/fbconfig.json')))
 auth = pb.auth()
 
 
@@ -47,14 +47,24 @@ def signup(request):
 
         try:
             db.pushNewUser(user['localId'], user['email'])
+            auth.send_email_verification(user['idToken'])
         except Exception as e:
             print("failed to push User to db\n" + str(e))
-            return {'message': f"Failed to push User to db {e}"}, 400
+            return {'message': f"Failed to push User to db",
+            'error' : str(e)
+            }, 400
 
-        return {'message': f"Successfully created user {user['localId']}"}, 201
+        return {
+            'message': f"Successfully created user",
+            'uid' : user['localId'],
+            'email' : email
+        }, 201
     except Exception as e:
         print("Errormsg: \n" + str(e))
-        return {'message': 'Error creating user \n ' + str(e)}, 400
+        return {
+            'message': 'Error creating user',
+            'error' : str(e)
+            }, 400
 
 
 
@@ -70,11 +80,30 @@ def signIn(request):
         userid = user['localId']
         jwt = user['idToken']
         return {
-            'token': jwt,
+            'message' : 'Success',
             'id': userid}, 200
-    except:
-        return {'message': 'There was an error logging in'}, 400
+    except Exception as e:
+        print(str(e))
+        return {
+            'message': 'There was an error logging in',
+            'error' : str(e)
+            }, 400
 
+def updatePwd(request):
+    email = request.json['email']
+
+    try:
+        auth.send_password_reset_email(email)
+        return {'message' : "Password-reset Email send"}, 200
+    except Exception as e:
+        return {
+            'message' : "There was an error sending the Email",
+            'error' : str(e)
+        }, 400
+
+#currently unavailable
+def resendV(request):
+    auth.send_email_verification()
 
 
 

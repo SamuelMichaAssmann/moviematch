@@ -40,3 +40,9 @@
     align-items: flex-start;
     width: fit-content;
 }
+
+.loading {
+    align-self: center;
+    width: 10px;
+    height: 10px
+}

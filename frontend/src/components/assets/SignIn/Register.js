@@ -5,6 +5,8 @@ import { Textfield } from '../../assets/Textfield/Textfield';
 import firebase from "../../../firebase"; //firebase globally available
 import { Button } from '../Button/Button';
 import APIHandler from '../../manage/api/APIHandler'
+import Loading from "../Loading/Loading";
+import * as uM from '../../../userManager'
 
 
 export class Register extends React.Component {
@@ -14,7 +16,8 @@ export class Register extends React.Component {
       email: '',
       password: '',
       passwordConfirmation: '',
-      confirmation: false
+      confirmation: false,
+      loading : false
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -60,8 +63,16 @@ export class Register extends React.Component {
       password: this.state.password
     };
 
+    this.state.loading = this.setState(true)
     let response = await APIHandler.postRequest('http://127.0.0.1:5000/api/signup', data);
-    document.cookie = "uid = " + response
+    console.log(response)
+    //may need to have a look - states are updated now matter if success or not
+    uM.setUserLoginState(true)
+    uM.setUserID(response['uid'])
+    uM.setUserMail(response['email'])
+    this.state.loading = this.setState(false)
+    window.location.href = "/home" //relink to verification - TODO
+    
 
     /*
     const args = {
@@ -104,6 +115,10 @@ export class Register extends React.Component {
   render() {
     return (
       <div className="base-container" ref={this.props.containerRef}>
+        <div className = "loading">
+        {this.state.loading ? <Loading/> : ""} 
+        </div>
+        
         <div className="header">Register</div>
         <div className="content">
           <div>
