@@ -97,7 +97,7 @@ function getSteps() {
 function getStepContent(step) {
     switch (step) {
         case 0:
-            return ;
+            return 'page 1';
         case 1:
             return <Matching />;
         case 2:
