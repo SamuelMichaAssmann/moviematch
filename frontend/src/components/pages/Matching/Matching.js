@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import '../../assets/Section/Section.css'
-import './Matching.css'
-import Loading from '../../assets/Loading/Loading'
-import RateButton from './RateButton'
-import { MovieThumbnail } from './MovieThumbnail'
+import '../../assets/Section/Section.css';
+import './Matching.css';
+import Loading from '../../assets/Loading/Loading';
+import RateButton from './RateButton';
+import { MovieThumbnail } from './MovieThumbnail';
 import { likeButton, neutralButton, dislikeButton } from './Data';
-import { AiFillStar } from 'react-icons/ai'
+import { AiFillStar } from 'react-icons/ai';
 
 const BASE_THUMBNAIL_URL = 'https://image.tmdb.org/t/p/w500';
 const IMAGE_HEIGHT = 400;
