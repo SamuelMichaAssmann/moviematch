@@ -11,7 +11,8 @@ class MovieDBHandler {
      * @param {Object} args 
      */
     static async getRequest(addUrl, args={}) {
-        return APIHandler.getRequest(`${BASE_URL}${addUrl}?api_key=${API_KEY}`, args);
+        args['api_key'] = API_KEY;
+        return APIHandler.getRequest(`${BASE_URL}${addUrl}`, args);
     }
 
     /**
