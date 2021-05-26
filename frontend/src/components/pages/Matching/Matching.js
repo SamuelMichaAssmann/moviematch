@@ -23,12 +23,12 @@ function Matching() {
         genres: 'none'
     });
 
-    const [like, setLike] = useState('')
-    const movie_id = "";
+    const [like, setLike] = useState('');
+    const movie_id = '';
 
     useEffect(() => {
         getMovie();
-    }, [])
+    }, []);
 
 
     const getMovie = (info) => {

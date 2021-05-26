@@ -63,15 +63,16 @@ export class Register extends React.Component {
       password: this.state.password
     };
 
-    this.state.loading = this.setState({loading : true})
+    this.setState({ loading: true });
     let response = await APIHandler.postRequest('http://127.0.0.1:5000/api/signup', data);
-    console.log(response)
+    console.log(response);
     //may need to have a look - states are updated now matter if success or not
+
     localStorage.setItem('loginState' , 'true')
     localStorage.setItem('uid' , response['uid'])
     localStorage.setItem('email', response['email'])
-    this.state.loading = this.setState({loading : false})
-    window.location.href = "/home" //relink to verification - TODO
+    this.setState({loading : false})
+    window.location.href = '/tutorial'; //relink to verification - TODO
     
 
     /*

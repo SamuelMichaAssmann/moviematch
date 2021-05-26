@@ -4,6 +4,10 @@
     justify-content: center;
 }
 
+.groupFilm {
+    width: 60%;
+}
+
 .groupMember {
     display: flex;
     margin-bottom: 8px;
