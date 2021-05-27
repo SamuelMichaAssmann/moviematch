@@ -2,7 +2,8 @@ import React from 'react';
 import './Group.css';
 import { MemberStatus } from './MemberStatus';
 import { GroupMember } from './GroupMember';
-import Matching from '../Matching/Matching';
+import Matching from '../../assets/Matching/Matching';
+import { matchingObj } from './Data'
 
 export default class Group extends React.Component {
 
@@ -59,7 +60,7 @@ export default class Group extends React.Component {
             <div className='groupViewContainer darkBg'>
                 <div className='groupFilm'></div>
                 <div className='groupMemberList'>{this.getMemberDivs()}</div>
-                <Matching/>
+                <Matching {...matchingObj} />
             </div>  
         );
     }
