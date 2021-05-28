@@ -13,6 +13,7 @@ import { Button } from '../../assets/Button/Button';
 import Button2 from '@material-ui/core/Button';
 import Matching from '../../assets/Matching/Matching';
 import { matchingObj } from './Data'
+import Userdata2 from '../../assets/userdata/Userdata2';
 
 const ColorlibConnector = withStyles({
     alternativeLabel: {
@@ -97,7 +98,7 @@ function getSteps() {
 function getStepContent(step) {
     switch (step) {
         case 0:
-            return 'page 1';
+            return <Userdata2/>;
         case 1:
             return <Matching {...matchingObj} />;
         case 2:
