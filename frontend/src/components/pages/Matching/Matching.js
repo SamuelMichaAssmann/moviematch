@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import '../../assets/Section/Section.css'
-import './Matching.css'
-import Loading from '../../assets/Loading/Loading'
-import RateButton from './RateButton'
-import { MovieThumbnail } from './MovieThumbnail'
+import '../../assets/Section/Section.css';
+import './Matching.css';
+import Loading from '../../assets/Loading/Loading';
+import RateButton from './RateButton';
+import { MatchingType } from './MatchingType';
+import { MovieThumbnail } from './MovieThumbnail';
 import { likeButton, neutralButton, dislikeButton } from './Data';
 import { AiFillStar } from 'react-icons/ai';
 import APIHandler from '../../manage/api/APIHandler';
@@ -12,7 +13,14 @@ const BASE_THUMBNAIL_URL = 'https://image.tmdb.org/t/p/w500';
 const IMAGE_HEIGHT = 400;
 const MAX_DESC_LENGTH = 500;
 
-function Matching() {
+/**
+ * Renders and handles the movie matching UI + functionality.
+ * This component is embeddable, and is thus used for the tutorial and group page too.
+ * @param {MatchingType} type 
+ */
+function Matching(args) {
+    const type = ('type' in args) ? args.type : MatchingType.NORMAL;
+
     const [state, setState] = useState({
         loaded: false,
         thumbnailSrc: '',
@@ -72,7 +80,7 @@ function Matching() {
 
                 <nav class='movieThumbnailDesktop'>
 
-                    <div className='movieThumbnailRow'>
+                    <div className={`movieThumbnailRow ${(type == MatchingType.GROUP ? 'movieThumbnailRowGroup' : '')}`}>
                         {state.loaded ? "" : <Loading />}
                         <MovieThumbnail
                             src={state.thumbnailSrc}
@@ -108,7 +116,7 @@ function Matching() {
                 </nav>
             </div>
             <div className="movieInfo">
-                <table className="movieTable">
+                <table className={`movieTable ${type == MatchingType.GROUP ? 'movieTableGroup' : ''}`}>
                     <tr>
                         <td className="movieRow">
                             <div>
