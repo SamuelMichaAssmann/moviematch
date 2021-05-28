@@ -8,17 +8,19 @@ import { likeButton, neutralButton, dislikeButton } from './Data';
 import { AiFillStar } from 'react-icons/ai';
 import APIHandler from '../../manage/api/APIHandler';
 
+const BASE_THUMBNAIL_URL = 'https://image.tmdb.org/t/p/w500';
 
 function Matching({
     kind,
     dataPath,
     endpoint,
-    BASE_THUMBNAIL_URL,
-    IMAGE_HEIGHT,
-    MAX_DESC_LENGTH,
-    emptyImage
+    thumbnailHeight,
+    maxDescLength,
+    emptyImage,
+    rowExtraClasses='',
+    tableExtraClasses=''
 }) {
-    
+
     const [state, setState] = useState({
         loaded: false,
         thumbnailSrc: '',
@@ -58,8 +60,8 @@ function Matching({
                     ? emptyImage
                     : BASE_THUMBNAIL_URL + data.thumbnailSrc,
                 title: data.titel,
-                desc: (data.desc.length > MAX_DESC_LENGTH)
-                    ? data.desc.substring(0, MAX_DESC_LENGTH - 3) + '...'
+                desc: (data.desc.length > maxDescLength)
+                    ? data.desc.substring(0, maxDescLength - 3) + '...'
                     : data.desc,
                 runtime: data.runtime,
                 rating: data.rating,
@@ -85,11 +87,11 @@ function Matching({
 
                 <nav className='movieThumbnailDesktop'>
 
-                    <div className='movieThumbnailRow'>
+                    <div className={`movieThumbnailRow ${rowExtraClasses}`}>
                         {state.loaded ? "" : <Loading />}
                         <MovieThumbnail
                             src={state.thumbnailSrc}
-                            height={IMAGE_HEIGHT}
+                            height={thumbnailHeight}
                         />
                         <div>
                             <h2 className='movieTitle'>{state.title}</h2>
@@ -106,7 +108,7 @@ function Matching({
                     <div>
                         <div className='movieThumbnailRow'>
                             {state.loaded ? "" : <Loading />}
-                            <MovieThumbnail src={state.thumbnailSrc} height={IMAGE_HEIGHT} />
+                            <MovieThumbnail src={state.thumbnailSrc} height={thumbnailHeight} />
                             <div align='center'>
                                 <RateButton {...likeButton} onClick={() => getMovie('like')} />
                                 <RateButton {...neutralButton} onClick={() => getMovie('neutral')} />
@@ -121,7 +123,7 @@ function Matching({
                 </nav>
             </div>
             <div className="movieInfo">
-                <table className="movieTable">
+                <table className={`movieTable ${tableExtraClasses}`}>
                     <tr>
                         <td className="movieRow">
                             <div>

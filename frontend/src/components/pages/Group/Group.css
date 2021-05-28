@@ -1,11 +1,35 @@
+.groupTitle {
+    color: white;
+    text-align: center;
+    width: 60%;
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
 .groupViewContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.groupContent {
+    width: 800px;
+    padding: 0px;
+}
+
+.groupStartMatchButtonWrapper {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.groupFilm {
-    width: 60%;
+.groupStartMatchButton {
+    margin-top: 50px;
+    margin-bottom: 700px;
+    font-size: 24px;
+}
+
+.groupMemberList {
+    padding-left: 30px;
 }
 
 .groupMember {
