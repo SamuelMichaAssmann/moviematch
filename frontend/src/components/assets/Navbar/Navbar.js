@@ -9,9 +9,11 @@ import { IconContext } from 'react-icons/lib';
 
 function Navbar() {
 
-  var user = firebase.auth().currentUser;
-  const isLoggedIn = false;
-  if (user != null) {}
+  let isLoggedIn = false;
+  if (localStorage.getItem("uid") != null) {
+    console.log(localStorage.getItem("uid"))
+    isLoggedIn = true;
+  }
 
   const [click, setClick] = useState(false);
   const [button] = useState(true);
@@ -52,65 +54,48 @@ function Navbar() {
                   to='/'
                   className='nav-links'
                   onClick={closeMobileMenu}>
-
                   Home
-                </Link>
+                    </Link>
               </li> : ""}
-              <li className='nav-item'>
+
+              {isLoggedIn ? <li className='nav-item'>
                 <Link
                   to='/match'
                   className='nav-links'
-                  onClick={closeMobileMenu}
-                >
+                  onClick={closeMobileMenu}>
                   Matching
-                </Link>
-                
-              </li>
+                    </Link>
+              </li> : ""}
 
               {isLoggedIn ? <li className='nav-item'>
                 <Link
                   to='/groups'
                   className='nav-links'
-                  onClick={closeMobileMenu}
-                >
+                  onClick={closeMobileMenu}>
                   Groups
-                </Link>
+                    </Link>
               </li> : ""}
 
-              {isLoggedIn || true ? <li className='nav-item'>
+              {isLoggedIn ? <li className='nav-item'>
                 <Link
-                  to='/groups'
+                  to='/settings'
                   className='nav-links'
-                  onClick={closeMobileMenu}
-                >
-                  Groups
-                </Link>
+                  onClick={closeMobileMenu}>
+                  Settings
+                    </Link>
               </li> : ""}
 
               <li className='nav-btn'>
-                {button ? (
-                  <Link
-                    to={isLoggedIn ? '/logout' : '/sign-up'}
-                    className='btn-link'>
-                    <Button
-                      buttonStyle='btn--outline'>
-                      {isLoggedIn ? "LOGOUT" : "SIGN UP"}
-                    </Button>
-                  </Link>
-                ) : (
-                  <Link
-                    to={isLoggedIn ? '/logout' : '/sign-up'}
-                    className='btn-link'>
-                    <Button
-                      buttonStyle='btn--outline'
-                      buttonSize='btn--mobile'
-                      onClick={closeMobileMenu}
-                    >
-                      {isLoggedIn ? "LOGOUT" : "SIGN UP"}
-                    </Button>
-                  </Link>
-                )}
+                <Link
+                  to={isLoggedIn ? '/logout' : '/sign-up'}
+                  className='btn-link'>
+                  <Button
+                    buttonStyle='btn--outline'>
+                    {isLoggedIn ? "LOGOUT" : "SIGN UP"}
+                  </Button>
+                </Link>
               </li>
+              
             </ul>
           </div>
         </nav>

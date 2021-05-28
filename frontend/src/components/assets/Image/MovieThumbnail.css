@@ -1,0 +1,10 @@
+.movieThumbnail {
+    padding: 5px;
+}
+
+
+@media screen and (max-width: 991px) {
+    .movieThumbnail {
+        padding-bottom: 30px;
+    }
+}

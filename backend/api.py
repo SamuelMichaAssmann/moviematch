@@ -96,12 +96,7 @@ def get_current_time():
 @cross_origin()
 def get_movie_data():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
-    return movieInfo(flask.request.args.get('user_id'))
-
-  
-@app.route('/api/film')
-def getFilmList():
-    return {"film": popMovie('username1', '../data/usermatch.json')}
+    return movieInfo(flask.request.args.get('user_id'), flask.request.args.get('path'))
 
 
 if __name__ == "__main__":

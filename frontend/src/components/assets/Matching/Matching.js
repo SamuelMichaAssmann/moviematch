@@ -1,25 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import '../../assets/Section/Section.css';
-import './Matching.css';
-import Loading from '../../assets/Loading/Loading';
-import RateButton from './RateButton';
-import { MatchingType } from './MatchingType';
-import { MovieThumbnail } from './MovieThumbnail';
+import '../Section/Section.css'
+import './Matching.css'
+import Loading from '../Loading/Loading'
+import RateButton from '../Button/RateButton'
+import { MovieThumbnail } from '../Image/MovieThumbnail'
 import { likeButton, neutralButton, dislikeButton } from './Data';
 import { AiFillStar } from 'react-icons/ai';
 import APIHandler from '../../manage/api/APIHandler';
 
 const BASE_THUMBNAIL_URL = 'https://image.tmdb.org/t/p/w500';
-const IMAGE_HEIGHT = 400;
-const MAX_DESC_LENGTH = 500;
 
-/**
- * Renders and handles the movie matching UI + functionality.
- * This component is embeddable, and is thus used for the tutorial and group page too.
- * @param {MatchingType} type 
- */
-function Matching(args) {
-    const type = ('type' in args) ? args.type : MatchingType.NORMAL;
+function Matching({
+    kind,
+    dataPath,
+    endpoint,
+    thumbnailHeight,
+    maxDescLength,
+    emptyImage,
+    rowExtraClasses='',
+    tableExtraClasses=''
+}) {
 
     const [state, setState] = useState({
         loaded: false,
@@ -32,8 +32,6 @@ function Matching(args) {
     });
 
     const [like, setLike] = useState('');
-    const movie_id = '';
-
     useEffect(() => {
         getMovie();
     }, []);
@@ -49,17 +47,21 @@ function Matching(args) {
             runtime: 0,
             rating: 0,
             genres: 'none'
-        })
-
-        APIHandler.getRequest('http://localhost:5000/api/match', { "user_id": "username1" }).then(data => {
+        });
+     
+        APIHandler.getRequest(endpoint, {
+                "user_id": localStorage.getItem("uid"),
+                "usage": kind,
+                "path": dataPath
+            }).then(data => {
             setState({
                 loaded: true,
                 thumbnailSrc: (data.thumbnailSrc == null)
-                    ? 'images/empty-thumbnail.png'
+                    ? emptyImage
                     : BASE_THUMBNAIL_URL + data.thumbnailSrc,
                 title: data.titel,
-                desc: (data.desc.length > MAX_DESC_LENGTH)
-                    ? data.desc.substring(0, MAX_DESC_LENGTH - 3) + '...'
+                desc: (data.desc.length > maxDescLength)
+                    ? data.desc.substring(0, maxDescLength - 3) + '...'
                     : data.desc,
                 runtime: data.runtime,
                 rating: data.rating,
@@ -68,9 +70,14 @@ function Matching(args) {
         }).catch(err => {
             setState({
                 loaded: false,
+                thumbnailSrc: '',
+                title: '',
+                desc: '',
+                runtime: 0,
+                rating: 0,
+                genres: 'none'
             });
             setTimeout(() => getMovie(), 3000);
-
         });
     };
 
@@ -78,13 +85,13 @@ function Matching(args) {
         <>
             <div className='darkBg'>
 
-                <nav class='movieThumbnailDesktop'>
+                <nav className='movieThumbnailDesktop'>
 
-                    <div className={`movieThumbnailRow ${(type == MatchingType.GROUP ? 'movieThumbnailRowGroup' : '')}`}>
+                    <div className={`movieThumbnailRow ${rowExtraClasses}`}>
                         {state.loaded ? "" : <Loading />}
                         <MovieThumbnail
                             src={state.thumbnailSrc}
-                            height={IMAGE_HEIGHT}
+                            height={thumbnailHeight}
                         />
                         <div>
                             <h2 className='movieTitle'>{state.title}</h2>
@@ -97,11 +104,11 @@ function Matching(args) {
                         <RateButton {...dislikeButton} onClick={() => getMovie('dislike')} />
                     </div>
                 </nav>
-                <nav class='movieThumbnailMobile'>
+                <nav className='movieThumbnailMobile'>
                     <div>
                         <div className='movieThumbnailRow'>
                             {state.loaded ? "" : <Loading />}
-                            <MovieThumbnail src={state.thumbnailSrc} height={IMAGE_HEIGHT} />
+                            <MovieThumbnail src={state.thumbnailSrc} height={thumbnailHeight} />
                             <div align='center'>
                                 <RateButton {...likeButton} onClick={() => getMovie('like')} />
                                 <RateButton {...neutralButton} onClick={() => getMovie('neutral')} />
@@ -116,7 +123,7 @@ function Matching(args) {
                 </nav>
             </div>
             <div className="movieInfo">
-                <table className={`movieTable ${type == MatchingType.GROUP ? 'movieTableGroup' : ''}`}>
+                <table className={`movieTable ${tableExtraClasses}`}>
                     <tr>
                         <td className="movieRow">
                             <div>

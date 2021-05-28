@@ -3,10 +3,10 @@ import './Group.css';
 import { MemberStatus } from './MemberStatus';
 import { GroupPhase } from './GroupPhase';
 import { GroupMember } from './GroupMember';
-import Matching from '../Matching/Matching';
-import { MatchingType } from '../Matching/MatchingType';
 import Loading from '../../assets/Loading/Loading';
 import { Button } from '../../assets/Button/Button';
+import Matching from '../../assets/Matching/Matching';
+import { matchingObj } from './Data'
 
 export default class Group extends React.Component {
 
@@ -100,7 +100,7 @@ export default class Group extends React.Component {
                 );
 
             case GroupPhase.MATCHING:
-                return <Matching type={MatchingType.GROUP} />;
+                return <Matching {...matchingObj} />;
         }
     }
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import './Matching.css';
+import './MovieThumbnail.css';
 
 export const MovieThumbnail = ({
   src,
