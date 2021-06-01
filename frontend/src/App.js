@@ -13,7 +13,7 @@ import Navbar from './components/assets/Navbar/Navbar';
 import Footer from './components/assets/Footer/Footer';
 import Logout from './components/assets/SignIn/Logout';
 import Error404 from './components/assets/Error/Error404';
-import Section from './components/assets/policy/policy';
+import Policy from './components/assets/policy/policy';
 import ScrollToTop from './components/manage/ScrollToTop';
 
 function App() {
@@ -30,7 +30,7 @@ function App() {
         <Navbar />
         <Switch>
           <Route path='/' exact component={Home} />
-          <Route path='/set' exact component={Section} />
+          <Route path='/set' exact component={Policy} />
           <Route path='/groups' component={Groups} />
           <Route path='/group' component={Group} />
           <Route path='/logout' component={Logout} />

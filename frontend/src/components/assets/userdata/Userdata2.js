@@ -28,7 +28,7 @@ function Userdata2() {
   };
 
   const { gilad, jason, antoine } = state;
-  const error = [gilad, jason, antoine].filter((v) => v).length !== 2;
+  const error = [gilad, jason, antoine].filter((v) => v).length !== 3;
 
   return (
     <div className={classes.root}>
@@ -36,19 +36,21 @@ function Userdata2() {
         <FormGroup>
           <FormControlLabel
             control={<Checkbox checked={gilad} onChange={handleChange} name="gilad" />}
-            label="Gilad Gray"
+            label={Data.erklarung}
           />
           <FormControlLabel
             control={<Checkbox checked={jason} onChange={handleChange} name="jason" />}
-            label="Jason Killian"
+            label={Data.find_head}
           />
           
           <FormControlLabel
             control={<Checkbox checked={antoine} onChange={handleChange} name="antoine" />}
             label={Data.ad_head}
           />
+          {Data.ad_sub}
         </FormGroup>
       </FormControl>
+      {error ? "true":"false"}
     </div>
   );
 }
