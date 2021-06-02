@@ -65,6 +65,6 @@ def userMovie(user, path):
         runtime = movie["runtime"]
         rating = movie["vote_average"]
         genres = getGenre(movie["genres"])
-        return {"titel": title, "desc": desc, "runtime": runtime, "rating": rating, "genres": genres, "thumbnailSrc": thumbnailSrc}
+        return {"titel": title, "movie_id" :movie_id, "desc": desc, "runtime": runtime, "rating": rating, "genres": genres, "thumbnailSrc": thumbnailSrc}
     except KeyError:
         return 'Error no movie', 404

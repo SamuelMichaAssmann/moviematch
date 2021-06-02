@@ -13,7 +13,8 @@ const BASE_THUMBNAIL_URL = 'https://image.tmdb.org/t/p/w500';
 function Matching({
     kind,
     dataPath,
-    endpoint,
+    getEndpoint,
+    setEntpoint,
     thumbnailHeight,
     maxDescLength,
     emptyImage,
@@ -31,6 +32,7 @@ function Matching({
 
     const [state, setState] = useState({
         loaded: false,
+        movieId:'',
         thumbnailSrc: '',
         title: '',
         desc: '',
@@ -46,6 +48,9 @@ function Matching({
 
     const getMovie = (info) => {
         setLike(info);
+        //push to watchlist movieid an backend
+
+        //setEntpoint
         setState({
             loaded: false,
             thumbnailSrc: '',
@@ -56,7 +61,7 @@ function Matching({
             genres: 'none'
         });
 
-        APIHandler.getRequest(endpoint, {
+        APIHandler.getRequest(getEndpoint, {
                 "user_id": localStorage.getItem("uid"),
                 "group_id": localStorage.getItem("gid"),
                 "path": dataPath
