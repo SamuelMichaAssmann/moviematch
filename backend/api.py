@@ -91,15 +91,15 @@ def get_current_time():
 
 @app.route('/api/usermatch', methods=['GET', 'OPTIONS'])
 @cross_origin()
-def get_movie_data():
+def get_movie_data_user():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
-    return userMovie(flask.request.args.get('id'), flask.request.args.get('path'), flask.request.args.get('usage'))
+    return userMovie(flask.request.args.get('user_id'), flask.request.args.get('path'))
 
 @app.route('/api/groupmatch', methods=['GET', 'OPTIONS'])
 @cross_origin()
-def get_movie_data():
+def get_movie_data_group():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
-    return groupMovie(flask.request.args.get('id'), flask.request.args.get('path'), flask.request.args.get('usage'))
+    return groupMovie(flask.request.args.get('user_id'), flask.request.args.get('path'), flask.request.args.get('group_id'))
 
 
 @app.route('/api/newGroup', methods=['GET', 'OPTIONS'])

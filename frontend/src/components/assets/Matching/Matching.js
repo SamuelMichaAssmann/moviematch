@@ -55,14 +55,10 @@ function Matching({
             rating: 0,
             genres: 'none'
         });
-     
-        if (kind === 'user'){
-            id = localStorage.getItem("uid")
-        }
 
         APIHandler.getRequest(endpoint, {
-                "id": id,
-                "usage": kind,
+                "user_id": localStorage.getItem("uid"),
+                "group_id": localStorage.getItem("gid"),
                 "path": dataPath
             }).then(data => {
             setState({
