@@ -6,6 +6,15 @@
     margin-bottom: 30px;
 }
 
+.groupText {
+    color: white;
+    text-align: center;
+    width: 60%;
+    margin-top: 50px;
+    margin-bottom: 700px;
+    font-size: 24px;
+}
+
 .groupViewContainer {
     display: flex;
     justify-content: center;
@@ -56,4 +65,34 @@
 
 .offline {
     background-color: rgb(102, 95, 95);
+}
+
+@media screen and (max-width: 991px) {
+    .groupViewContainer {
+        flex-direction: column;
+    }
+
+    .groupContent {
+        width: 100%;
+    }
+
+    .groupStartMatchButton, .groupText {
+        margin-bottom: 50px;
+    }
+
+    .groupMemberList {
+        padding-left: 0;
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .groupMembers {
+        display: flex;
+        flex-direction: column;
+        align-items: left;
+        margin-bottom: 30px;
+    }
 }

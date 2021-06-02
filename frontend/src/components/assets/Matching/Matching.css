@@ -104,6 +104,7 @@
     .movieThumbnailDesktop {
         display: block;
     }
+
     .movieThumbnailMobile {
         display: none;
     }
@@ -113,32 +114,39 @@
     .movieThumbnailDesktop {
         display: none;
     }
+
     .movieThumbnailMobile {
         display: block;
     }
+
     .movieThumbnailRow {
         max-width: 100%;
         flex-basis: 100%;
         flex-direction: column;
     }
+
     .movieThumbnail {
         padding-bottom: 30px;
     }
+
     .movieTitle, .movieDescription, .movieInfoHeader, .movieInfoText {
         margin-left: 20px;
         margin-right: 20px;
         text-align: center;
     }
+
     .movieInfoRow {
         flex-direction: column;
     }
+
     .rateButton {
         margin-left: 10px;
         margin-right: 10px;
         margin-bottom: 50px;
     }
+
     .movieRow {
         display: block;
         text-align: center;
-      }
+    }
 }
