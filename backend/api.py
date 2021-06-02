@@ -46,13 +46,14 @@ def _build_cors_preflight_response():
     response.headers.add('Access-Control-Allow-Methods', '*')
     return response
 
+
 @app.route('/api/signup', methods=['POST', 'OPTIONS'])
 @cross_origin()
 def signup():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
     return fb_a.signup(flask.request)
 
-# Api route to get a new token for a valud user
+
 @app.route('/api/signin', methods=['POST', 'OPTIONS'])
 @cross_origin()
 def signIn():
@@ -93,22 +94,19 @@ def get_movie_data():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
     return movieInfo(flask.request.args.get('user_id'), flask.request.args.get('path'))
 
+
 @app.route('/api/newGroup', methods=['GET', 'OPTIONS'])
 @cross_origin()
 def initializeNewGroup():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
     return db.initializeNewGroup(flask.request)
 
+
 @app.route('/api/getGroupInfo', methods=['GET', 'OPTIONS'])
 @cross_origin()
 def getGroupInfo():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
     return db.getGroupInfo(flask.request.args.get('group_id'))
-
-@app.route('/api/film')
-def getFilmList():
-    return {"film": popMovie('username1', '../data/usermatch.json')}
-
 
 
 if __name__ == "__main__":
