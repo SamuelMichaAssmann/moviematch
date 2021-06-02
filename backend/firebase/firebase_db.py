@@ -273,14 +273,55 @@ def getGroupInfo(groupid):
         }, 400
 
 def initializeNewGroup(name, members, owner):
-    req_name = request.json('name')
+    name = request.json('group_name')
+    members = request.json('members')
+    owner = request.json('owner_id')
     if (checkGroupExist(name)):
         print("Does not Exist")
         try:
+            watchlist = set()
+            antiwatch = set()
+            for m in members:
+                
+                try: 
+                    print("get watchlist from " + m)
+                    watchlist = watchlist.union(set(getWatchlist(m)))
+                    antiwatch = antiwatch.union(set(getAntiwatch(m)))
+                except Exception as e:
+                    print(str(e))
+
+            if ("initial item" in watchlist):
+                print("removed i.i from wl")
+                watchlist.remove("initial item")
+                print("success")
+                
+            if ("initial item" in antiwatch):
+                print("removed i.i from al")
+                antiwatch.remove("initial item")
+                print("success")
+
+            temp_inter = watchlist.intersection(antiwatch)
+            watchlist.difference_update(temp_inter)
+            antiwatch.difference_update(temp_inter)
+
+            if (antiwatch == set()):
+                antiwatch = ""
+            else:
+                antiwatch = list(antiwatch)
+            if (watchlist == set()):
+                watchlist = ""
+            else:
+                watchlist = list(watchlist)
+                
+
+
             data = {
                 "name" : name,
                 "members" : members,
-                "owner" : owner
+                "owner" : owner,
+                "watchlist" : watchlist,
+                "antiwatch" : antiwatch,
+                "matched" : ""
             }
 
             print("creating group")
@@ -309,6 +350,9 @@ def initializeNewGroup(name, members, owner):
         return {
             'message' : "Group already exists - pls choose another name"
         }
+
+        # watchlist und antiwatch der gruppe initialize
+        # wenn watch und anti - aus beiden löschen
 
 def checkGroupExist(name):
     try:

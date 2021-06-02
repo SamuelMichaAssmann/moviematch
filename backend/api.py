@@ -114,6 +114,11 @@ def getGroupInfo():
 def getFilmList():
     return {"film": popMovie('username1', '../data/usermatch.json')}
 
+#updateWatchlist - user
+#updateAntiwatchlist - user
+#updateAntilist - group
+#updateWatchlist - group
+
 
 
 if __name__ == "__main__":

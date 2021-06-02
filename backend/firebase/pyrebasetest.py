@@ -136,7 +136,7 @@ def updateWatchlist(userid, newwatchlist):
         data = {
             "watchlist" : list(oldWL.union(newwatchlist))
             }
-
+ 
     try:
         print("\nupdating wl")
         db.child("users").child(userid).update(data)
@@ -288,31 +288,6 @@ def getGroupInfo(groupid):
             'errorMsg' : str(e)
         }, 400
 
-def initializeNewGroup(name, members, owner):
-    if (checkGroupExist(name)):
-        try:
-            data = {
-                "name" : name,
-                "members" : members,
-                "owner" : owner
-            }
-            db.child("groups").child(name).set(data)
-            print("Group created")
-
-            for m in members:
-                try:
-                    updateGroups({'user_id' : m, 'GroupList' : [name]})
-                except Exception as e:
-                    return {
-                        'message' : "Error while inserting Group for each member",
-                        'error' : str(e)
-                    }, 400
-        except Exception as e:
-            print("Error while creating Group. \n" + "Error : " + str(e))
-            return{
-                'message' : "Error while creating Group",
-                'error' : str(e)
-            }, 400
 
 def checkGroupExist(name):
     try:
@@ -332,10 +307,52 @@ def initializeNewGroup(name, members, owner):
     if (checkGroupExist(name)):
         print("Does not Exist")
         try:
+            watchlist = set()
+            antiwatch = set()
+            for m in members:
+                
+                try: 
+                    print("get watchlist from " + m)
+                    watchlist = watchlist.union(set(getWatchlist(m)))
+                    antiwatch = antiwatch.union(set(getAntiwatch(m)))
+                except Exception as e:
+                    print(str(e))
+
+            if ("initial item" in watchlist):
+                print("removed i.i from wl")
+                watchlist.remove("initial item")
+                print("success")
+                
+            if ("initial item" in antiwatch):
+                print("removed i.i from al")
+                antiwatch.remove("initial item")
+                print("success")
+
+            pprint.pprint(watchlist)
+            pprint.pprint(antiwatch)
+
+            temp_inter = watchlist.intersection(antiwatch)
+            watchlist.difference_update(temp_inter)
+            antiwatch.difference_update(temp_inter)
+
+            if (antiwatch == set()):
+                antiwatch = ""
+            else:
+                antiwatch = list(antiwatch)
+            if (watchlist == set()):
+                watchlist = ""
+            else:
+                watchlist = list(watchlist)
+                
+
+
             data = {
                 "name" : name,
                 "members" : members,
-                "owner" : owner
+                "owner" : owner,
+                "watchlist" : watchlist,
+                "antiwatch" : antiwatch,
+                "matched" : ""
             }
 
             print("creating group")
@@ -365,10 +382,14 @@ def initializeNewGroup(name, members, owner):
             'message' : "Group already exists - pls choose another name"
         }
 
+        # watchlist und antiwatch der gruppe initialize
+        # wenn watch und anti - aus beiden löschen
+
 
 owner = "sJZQk8FH9CU9RBADdXavlssYeP72"
 
-newWl = ["DsxQGGlBiaZ80Fv1WTEemVA6k2j2","sJZQk8FH9CU9RBADdXavlssYeP72"]
+members = ["DsxQGGlBiaZ80Fv1WTEemVA6k2j2","sJZQk8FH9CU9RBADdXavlssYeP72"]
+
 
 
 data = {
@@ -380,13 +401,16 @@ data = {
 
 request = {'user_id' : "sJZQk8FH9CU9RBADdXavlssYeP72", 'GroupList' : ["test2"]}
 
-#initializeNewGroup("test2", newWl, owner )
+initializeNewGroup("test2", members, owner )
 #updateGroups("sJZQk8FH9CU9RBADdXavlssYeP72", ["test2"])
 
 
-list = getWatchlist("sJZQk8FH9CU9RBADdXavlssYeP72")
-pprint.pprint(list)
+#list = getWatchlist("sJZQk8FH9CU9RBADdXavlssYeP72")
+#pprint.pprint(list)
 
+
+#updateWatchlist("sJZQk8FH9CU9RBADdXavlssYeP72", ["Joker", "Batman"])
+#pprint.pprint(getWatchlist("sJZQk8FH9CU9RBADdXavlssYeP72"))
 #getWatchlist("1234")
 #pushNewUser("1234", "test@test.com")
 #updateWatchlist("1234", newWl)
