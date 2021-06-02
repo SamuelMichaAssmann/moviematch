@@ -92,7 +92,7 @@ def get_current_time():
 @cross_origin()
 def get_movie_data():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
-    return movieInfo(flask.request.args.get('user_id'), flask.request.args.get('path'))
+    return movieInfo(flask.request.args.get('id'), flask.request.args.get('path'), flask.request.args.get('usage'))
 
 
 @app.route('/api/newGroup', methods=['GET', 'OPTIONS'])

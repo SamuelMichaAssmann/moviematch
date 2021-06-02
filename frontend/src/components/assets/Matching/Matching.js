@@ -44,7 +44,6 @@ function Matching({
         getMovie();
     }, []);
 
-
     const getMovie = (info) => {
         setLike(info);
         setState({
@@ -57,8 +56,12 @@ function Matching({
             genres: 'none'
         });
      
+        if (kind === 'user'){
+            id = localStorage.getItem("uid")
+        }
+
         APIHandler.getRequest(endpoint, {
-                "user_id": localStorage.getItem("uid"),
+                "id": id,
                 "usage": kind,
                 "path": dataPath
             }).then(data => {
