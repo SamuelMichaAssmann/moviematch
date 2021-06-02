@@ -1,11 +1,28 @@
-from os import name
+from logging import exception
+from os import kill
 import pyrebase
 import json
+import pprint
 from flask import Flask, request
 
+fbconfig = {
+    "apiKey": "AIzaSyBRgRRFUlg9XJ6ZrdWxYaoOB5VvQXDaBko",
+    "authDomain": "moviematch-c1175.firebaseapp.com",
+    "databaseURL": "https://moviematch-c1175-default-rtdb.europe-west1.firebasedatabase.app",
+    "projectId": "moviematch-c1175",
+    "storageBucket": "moviematch-c1175.appspot.com",
+    "messagingSenderId": "199143205697",
+    "appId": "1:199143205697:web:2dbe6c53b964b156ef4fc0",
+    "measurementId": "G-8BC59JDXPZ"
+  }
 
-pb = pyrebase.initialize_app(json.load(open('firebase/fbconfig.json')))
+pb = pyrebase.initialize_app(fbconfig)
+auth = pb.auth()
 db = pb.database()
+
+
+
+
 
 '''
 create new User /initial user push
@@ -230,11 +247,10 @@ In order to get the existing groups, 'getGroupList' is executed
 @returns message
 '''
 def updateGroups(userid, newGroupList):
-
     oldGL = set(getGroupList(userid))
     if oldGL == newGroupList:
-        print("No new movies watched")
-        return {'message' : 'Identical sets - no new movies watched'}
+        print("No new groups entered")
+        return {'message' : 'Identical sets - no new groups entered'}
 
 
     if "initial item" in oldGL:
@@ -273,7 +289,46 @@ def getGroupInfo(groupid):
         }, 400
 
 def initializeNewGroup(name, members, owner):
-    req_name = request.json('name')
+    if (checkGroupExist(name)):
+        try:
+            data = {
+                "name" : name,
+                "members" : members,
+                "owner" : owner
+            }
+            db.child("groups").child(name).set(data)
+            print("Group created")
+
+            for m in members:
+                try:
+                    updateGroups({'user_id' : m, 'GroupList' : [name]})
+                except Exception as e:
+                    return {
+                        'message' : "Error while inserting Group for each member",
+                        'error' : str(e)
+                    }, 400
+        except Exception as e:
+            print("Error while creating Group. \n" + "Error : " + str(e))
+            return{
+                'message' : "Error while creating Group",
+                'error' : str(e)
+            }, 400
+
+def checkGroupExist(name):
+    try:
+        data = db.child("groups").child(name).get()
+        if (data.val() == None):
+            return True
+        else: return False
+    except:
+        return False
+'''
+name
+members
+owner
+'''
+
+def initializeNewGroup(name, members, owner):
     if (checkGroupExist(name)):
         print("Does not Exist")
         try:
@@ -310,17 +365,33 @@ def initializeNewGroup(name, members, owner):
             'message' : "Group already exists - pls choose another name"
         }
 
-def checkGroupExist(name):
-    try:
-        data = db.child("groups").child(name).get()
-        if (data.val() == None):
-            return True
-        else: return False
-    except:
-        return False
 
-'''
-name
-members
-owner
-'''
+owner = "sJZQk8FH9CU9RBADdXavlssYeP72"
+
+newWl = ["DsxQGGlBiaZ80Fv1WTEemVA6k2j2","sJZQk8FH9CU9RBADdXavlssYeP72"]
+
+
+data = {
+    "name" : "Test for the boys",
+    "members" : ["member1", "member2"],
+    "owner" : "member1"
+}
+#db.child("groups").child("123").set(data)
+
+request = {'user_id' : "sJZQk8FH9CU9RBADdXavlssYeP72", 'GroupList' : ["test2"]}
+
+#initializeNewGroup("test2", newWl, owner )
+#updateGroups("sJZQk8FH9CU9RBADdXavlssYeP72", ["test2"])
+
+
+list = getWatchlist("sJZQk8FH9CU9RBADdXavlssYeP72")
+pprint.pprint(list)
+
+#getWatchlist("1234")
+#pushNewUser("1234", "test@test.com")
+#updateWatchlist("1234", newWl)
+
+
+
+
+
