@@ -52,7 +52,7 @@ def popMovie(user, path):
     return movie
 
 
-def groupMovie(user, group, path):
+def userMovie(user, path):
     movie_id = popMovie(user, path)
     if (movie_id == None):
         return 'Loading...', 200
@@ -65,6 +65,6 @@ def groupMovie(user, group, path):
         runtime = movie["runtime"]
         rating = movie["vote_average"]
         genres = getGenre(movie["genres"])
-        return {"titel": title, "desc": desc, "runtime": runtime, "rating": rating, "genres": genres, "thumbnailSrc": thumbnailSrc}
+        return {"titel": title, "movie_id" :movie_id, "desc": desc, "runtime": runtime, "rating": rating, "genres": genres, "thumbnailSrc": thumbnailSrc}
     except KeyError:
         return 'Error no movie', 404

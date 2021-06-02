@@ -1,7 +1,8 @@
 export const matchingObj = {
     kind: 'tutorial',
     dataPath: '../data/usermatch.json',
-    endpoint: 'http://localhost:5000/api/match',
+    getEndpoint: 'http://localhost:5000/api/usermatch',
+    setEntpoint:'',
     thumbnailHeight: 400,
     maxDescLength: 500,
     emptyImage: 'images/empty-thumbnail.png'
