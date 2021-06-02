@@ -27,3 +27,4 @@ webpack.config.js
 venv
 __pycache__
 .vscode
+
