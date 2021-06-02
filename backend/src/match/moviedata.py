@@ -24,8 +24,8 @@ def getGenre(genre_list):
     return ", ".join(genre)
 
 
-def movieInfo(user):
-    movie_id = popMovie(user, 1)
+def movieInfo(user, path):
+    movie_id = popMovie(user, path)
     if (movie_id == None):
         return 'Loading...', 200
     try:

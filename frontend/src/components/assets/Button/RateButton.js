@@ -1,5 +1,5 @@
 import React from 'react';
-import './Matching.css';
+import './RateButton.css';
 
 export default class RateButton extends React.Component {
 

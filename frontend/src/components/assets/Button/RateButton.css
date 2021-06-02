@@ -1,0 +1,15 @@
+.rateButton {
+    margin-top: 15px;
+    margin-left: 30px;
+    margin-right: 30px;
+    margin-bottom: 25px;
+    height: 70px;
+}
+
+@media screen and (max-width: 991px) {
+    .rateButton {
+        margin-left: 10px;
+        margin-right: 10px;
+        margin-bottom: 50px;
+    }
+}

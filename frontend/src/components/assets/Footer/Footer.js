@@ -39,7 +39,6 @@ function Footer() {
             <Link to='/'>How it works</Link>
             <Link to='/'>Testimonials</Link>
             <Link to='/'>Careers</Link>
-            <Link to='/'>Investors</Link>
             <Link to='/'>Terms of Service</Link>
           </div>
           <div className='footer-link-items'>
@@ -60,10 +59,10 @@ function Footer() {
           </div>
           <div className='footer-link-items'>
             <h2>Social Media</h2>
-            <Link to='/'>Instagram</Link>
-            <Link to='/'>Facebook</Link>
-            <Link to='/'>Youtube</Link>
-            <Link to='/'>Twitter</Link>
+            <a href="https://www.instagram.com/matchyourmovie/">Instagram</a>
+            <a href="https://www.facebook.com/people/Match-Movie/100068724393362/">Facebook</a>
+            <a href="https://www.youtube.com/channel/UCVB_N3hFg8liomWd5gbFsTw">Youtube</a>
+            <a href="">Twitter</a>
           </div>
         </div>
       </div>
@@ -77,46 +76,10 @@ function Footer() {
           </div>
           <small className='website-rights'>MovieMatch © 2021</small>
           <div className='social-icons'>
-            <Link
-              className='social-icon-link'
-              to='/'
-              target='_blank'
-              aria-label='Facebook'
-            >
-              <FaFacebook />
-            </Link>
-            <Link
-              className='social-icon-link'
-              to='/'
-              target='_blank'
-              aria-label='Instagram'
-            >
-              <FaInstagram />
-            </Link>
-            <Link
-              className='social-icon-link'
-              to='/'
-              target='_blank'
-              aria-label='Youtube'
-            >
-              <FaYoutube />
-            </Link>
-            <Link
-              className='social-icon-link'
-              to='/'
-              target='_blank'
-              aria-label='Twitter'
-            >
-              <FaTwitter />
-            </Link>
-            <Link
-              className='social-icon-link'
-              to='/'
-              target='_blank'
-              aria-label='LinkedIn'
-            >
-              <FaLinkedin />
-            </Link>
+            <a className='social-icon-link' href="https://www.facebook.com/people/Match-Movie/100068724393362/"><FaFacebook /></a>
+            <a className='social-icon-link' href="https://www.instagram.com/matchyourmovie/"><FaInstagram /></a>
+            <a className='social-icon-link' href="https://www.youtube.com/channel/UCVB_N3hFg8liomWd5gbFsTw"><FaYoutube /></a>
+            <a className='social-icon-link' href=""><FaTwitter /></a>
           </div>
         </div>
       </section>
