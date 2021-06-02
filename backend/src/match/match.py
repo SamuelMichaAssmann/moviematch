@@ -52,7 +52,7 @@ def popMovie(user, path):
     return movie
 
 
-def movieInfo(user, path):
+def userMovie(user, path):
     movie_id = popMovie(user, path)
     if (movie_id == None):
         return 'Loading...', 200

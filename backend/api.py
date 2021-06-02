@@ -7,7 +7,8 @@ import pyrebase
 import json
 #from firebase_admin import credentials, auth   - fbAdmin not working -> delete for now
 from backend.firebase import *
-from backend.src.match.match import movieInfo
+from backend.src.match.match import userMovie
+from backend.src.match.groups import groupMovie
 import backend.firebase.firebase_auth as fb_a 
 import backend.firebase.firebase_db as db
 
@@ -88,11 +89,17 @@ def get_current_time():
     return {'time': time.time()}
 
 
-@app.route('/api/match', methods=['GET', 'OPTIONS'])
+@app.route('/api/usermatch', methods=['GET', 'OPTIONS'])
 @cross_origin()
 def get_movie_data():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
-    return movieInfo(flask.request.args.get('id'), flask.request.args.get('path'), flask.request.args.get('usage'))
+    return userMovie(flask.request.args.get('id'), flask.request.args.get('path'), flask.request.args.get('usage'))
+
+@app.route('/api/groupmatch', methods=['GET', 'OPTIONS'])
+@cross_origin()
+def get_movie_data():
+    if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
+    return groupMovie(flask.request.args.get('id'), flask.request.args.get('path'), flask.request.args.get('usage'))
 
 
 @app.route('/api/newGroup', methods=['GET', 'OPTIONS'])
