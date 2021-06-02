@@ -5,6 +5,7 @@ export const matchingObj = {
     thumbnailHeight: 400,
     maxDescLength: 500,
     emptyImage: 'images/empty-thumbnail.png',
+    showNeutral: false,
     rowExtraClasses: 'movieThumbnailRowGroup',
     tableExtraClasses: 'movieTableGroup'
   };

@@ -8,6 +8,8 @@ import { Button } from '../../assets/Button/Button';
 import Matching from '../../assets/Matching/Matching';
 import { matchingObj } from './Data'
 
+const MAX_MEMBER_NAME_LENGTH = 20;
+
 export default class Group extends React.Component {
 
     constructor(props) {
@@ -23,6 +25,7 @@ export default class Group extends React.Component {
 
         this.getGroupInfo = this.getGroupInfo.bind(this);
         this.getMemberDivs = this.getMemberDivs.bind(this);
+        this.sendVote = this.sendVote.bind(this);
 
         setTimeout(this.getGroupInfo, 1000);
     }
@@ -47,10 +50,23 @@ export default class Group extends React.Component {
                     name: 'Djemie',
                     status: MemberStatus.ONLINE,
                     owner: true
+                },
+                {
+                    name: this.trimString('Someone with a very long name', MAX_MEMBER_NAME_LENGTH),
+                    status: MemberStatus.ONLINE,
+                    owner: false
                 }
             ],
             loaded: true
         });
+    }
+
+    trimString(str, maxLength) {
+        if (str.length <= maxLength) {
+            return str;
+        }
+
+        return str.substring(0, maxLength - 3) + '...';
     }
 
     getMemberDivs() {
@@ -77,7 +93,9 @@ export default class Group extends React.Component {
                     <div className='groupContent'>{this.getGroupPhaseContent()}</div>
                     <div className='groupMemberList'>
                         <h2 className='groupTitle'>Members</h2>
-                        {this.getMemberDivs()}
+                        <div className='groupMembers'>
+                            {this.getMemberDivs()}
+                        </div>
                     </div>
                 </div>
             </>
@@ -100,8 +118,26 @@ export default class Group extends React.Component {
                 );
 
             case GroupPhase.MATCHING:
-                return <Matching {...matchingObj} />;
+                return (
+                    <Matching
+                        {...matchingObj}
+                        onLike={() => this.sendVote('like')}
+                        onDislike={() => this.sendVote('dislike')}
+                    />
+                );
+
+            case GroupPhase.WAITING_FOR_VOTES:
+                return (
+                    <div className='groupStartMatchButtonWrapper'>
+                        <p className='groupText'>Waiting for others...</p>
+                    </div>
+                );
         }
+    }
+
+    sendVote(type) {
+        console.log(type);
+        this.setState({ phase: GroupPhase.WAITING_FOR_VOTES })
     }
 
     render() {

@@ -17,9 +17,17 @@ function Matching({
     thumbnailHeight,
     maxDescLength,
     emptyImage,
+    showNeutral=true,
+    onLike=null,
+    onDislike=null,
+    onNeutral=null,
     rowExtraClasses='',
     tableExtraClasses=''
 }) {
+
+    if (onLike == null) onLike = () => getMovie('like');
+    if (onDislike == null) onDislike = () => getMovie('dislike');
+    if (onNeutral == null) onNeutral = () => getMovie('neutral');
 
     const [state, setState] = useState({
         loaded: false,
@@ -99,9 +107,9 @@ function Matching({
                         </div>
                     </div>
                     <div align='center'>
-                        <RateButton {...likeButton} onClick={() => getMovie('like')} />
-                        <RateButton {...neutralButton} onClick={() => getMovie('neutral')} />
-                        <RateButton {...dislikeButton} onClick={() => getMovie('dislike')} />
+                        <RateButton {...likeButton} onClick={onLike} />
+                        {showNeutral ? <RateButton {...neutralButton} onClick={onNeutral} /> : null}
+                        <RateButton {...dislikeButton} onClick={onDislike} />
                     </div>
                 </nav>
                 <nav className='movieThumbnailMobile'>
@@ -110,9 +118,9 @@ function Matching({
                             {state.loaded ? "" : <Loading />}
                             <MovieThumbnail src={state.thumbnailSrc} height={thumbnailHeight} />
                             <div align='center'>
-                                <RateButton {...likeButton} onClick={() => getMovie('like')} />
-                                <RateButton {...neutralButton} onClick={() => getMovie('neutral')} />
-                                <RateButton {...dislikeButton} onClick={() => getMovie('dislike')} />
+                                <RateButton {...likeButton} onClick={onLike} />
+                                {showNeutral ? <RateButton {...neutralButton} onClick={onNeutral} /> : null}
+                                <RateButton {...dislikeButton} onClick={onDislike} />
                             </div>
                             <div>
                                 <h2 className='movieTitle'>{state.title}</h2>
