@@ -1,0 +1,51 @@
+.checkbox {
+    padding: 20px;
+    margin: 60px;
+}
+
+.checkbox_head {
+    margin: 24px;
+    font-size: 30px;
+    line-height: 1.1;
+    font-weight: 300;
+    color: #ffffff;
+}
+
+.checkbox_sub {
+    margin-left: 45px;
+    font-size: 18px;
+    line-height: 24px;
+}
+
+.checkerror {
+    margin-bottom: -17px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #f00946;;
+}
+
+@media screen and (max-width: 768px) {
+    .checkbox {
+        padding: 20px;
+        margin: 5px;
+    }
+
+    .checkbox_head {
+        margin: 5px;
+        font-size: 20px;
+        font-weight: 300;
+        color: #ffffff;
+    }
+    
+    .checkbox_sub {
+        font-size: 12px;
+        line-height: 24px;
+    }
+    
+    .checkerror {
+        margin-bottom: -17px;
+        font-size: 13px;
+        font-weight: 500;
+        color: #f00946;
+    }
+  }

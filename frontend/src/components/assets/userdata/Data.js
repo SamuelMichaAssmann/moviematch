@@ -1,5 +1,6 @@
 const Data = {
-    erklarung: 'By registering, you agree to the Terms and Conditions, Privacy Policy and Cookie Policy.',
+    exp_head: 'Legal information',
+    exp_sub: 'By registering, you agree to the Terms and Conditions, Privacy Policy and Cookie Policy.',
     find_head: 'Network with people you know',
     find_sub: 'Allow others to find your MovieMatch account using your username or email address.',
     ad_head: 'Personalized proposals',

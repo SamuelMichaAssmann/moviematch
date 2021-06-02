@@ -1,5 +1,4 @@
 # Imports
-from click.parser import split_arg_string
 import flask
 from flask_cors import CORS, cross_origin
 import time
@@ -7,14 +6,10 @@ import time
 import pyrebase
 import json
 #from firebase_admin import credentials, auth   - fbAdmin not working -> delete for now
-from backend.src.ai.algo import matchfilm
-from backend.src.datamanager.datamatch import popMovie
 from backend.firebase import *
-from backend.src.match.moviedata import movieInfo
-from flask import Flask, request
+from backend.src.match.match import movieInfo
 import backend.firebase.firebase_auth as fb_a 
 import backend.firebase.firebase_db as db
-import sys
 
 # App configuration
 app = flask.Flask('__main__')
@@ -97,6 +92,23 @@ def get_current_time():
 def get_movie_data():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
     return movieInfo(flask.request.args.get('user_id'), flask.request.args.get('path'))
+
+@app.route('/api/newGroup', methods=['GET', 'OPTIONS'])
+@cross_origin()
+def initializeNewGroup():
+    if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
+    return db.initializeNewGroup(flask.request)
+
+@app.route('/api/getGroupInfo', methods=['GET', 'OPTIONS'])
+@cross_origin()
+def getGroupInfo():
+    if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
+    return db.getGroupInfo(flask.request.args.get('group_id'))
+
+@app.route('/api/film')
+def getFilmList():
+    return {"film": popMovie('username1', '../data/usermatch.json')}
+
 
 
 if __name__ == "__main__":
