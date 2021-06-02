@@ -23,9 +23,10 @@ def getData(id, kind):
 
 
 # data -> {getData()}, kind -> {'name', 'email', 'groups', 'watchlist', 'antiwatch', 'age'}{'name', 'watchlist', 'antiwatch', 'matched', 'members'}
-def getList(data, kind):
+def getList(id, kind, list):
+    data = getData(id, kind)
     try:
-        return data[kind]
+        return data[list]
     except (KeyError, TypeError):
         return []
 
@@ -76,10 +77,3 @@ def setGroup(id, name, watchlist, antiwatch, matched, members):
             json.dump(data, file)
     except (FileNotFoundError, KeyError, TypeError):
         return None
-
-
-# print(setList('users', '12345', 'watchlist', [1696,418078,284303]))
-# setUser("12434321", "Moritz", "mo@mo.com", [], [], [], "50")
-# setGroup("45677", "SamuelsFilmabend", [], [], [], [])
-setList("users","56789", "watchlist", [12314, 121231234, 23423])
-

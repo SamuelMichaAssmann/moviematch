@@ -11,6 +11,8 @@ create new User /initial user push
 @param userid, email
 @returns message
 '''
+
+
 def pushNewUser(userid, email):
     data = {
         "name": "",
@@ -34,25 +36,25 @@ def pushNewUser(userid, email):
         print("\n" + str(e))
         return {'message': "Error while writing user to db\n" + str(e)}, 400
 
-def setUser(userid,name,email,groups,watchlist,antiwatch,age):
+
+def setUser(userid, name, email, groups, watchlist, antiwatch, age):
     data = {
-        "name" : name,
-        "email" : email,
-        "groups" : groups,
-        "watchlist" : watchlist,
-        "antiwatch" : antiwatch,
-        "age" : age
+        "name": name,
+        "email": email,
+        "groups": groups,
+        "watchlist": watchlist,
+        "antiwatch": antiwatch,
+        "age": age
     }
 
     try:
         print("setting user")
         db.child("users").child(userid).update(data)
         print("\nSuccessfully set user")
-        return {'message' : "User set"}, 200
+        return {'message': "User set"}, 200
     except Exception as e:
         print("\n" + str(e))
-        return {'message' : "Error while setting user\n" + str(e)}, 400
-
+        return {'message': "Error while setting user\n" + str(e)}, 400
 
 
 '''
@@ -61,6 +63,8 @@ updating name to user with localid = userid
 @throws Exception as e
 @returns message
 '''
+
+
 def updateName(userid, name):
     data = {
         "name": name
@@ -75,12 +79,15 @@ def updateName(userid, name):
         print("\n" + str(e))
         return {'message': "Error while updating username\n" + str(e)}, 400
 
+
 '''
 updating age to user with localid = userid
 @param userid, age
 @throws Exception as e
 @returns message
 '''
+
+
 def updateAge(userid, age):
     data = {
         "age": age
@@ -94,7 +101,8 @@ def updateAge(userid, age):
     except Exception as e:
         print("Error:\n " + str(e))
         return {'message': "Error while updating User-Age\n" + str(e)}, 400
-        
+
+
 '''
 updateWL with union of existing wl and newwatchlist, which may contain new movies to user with localid = userid
 In order to get the existing movies, 'getWatchlist' is executed
@@ -102,18 +110,20 @@ In order to get the existing movies, 'getWatchlist' is executed
 @throws Exception as e
 @returns message
 '''
+
+
 def updateWatchlist(userid, newwatchlist):
     oldWL = set(getWatchlist(userid))
 
     if "initial item" in oldWL:
         data = {
-            "watchlist" : list(newwatchlist)
+            "watchlist": list(newwatchlist)
         }
     else:
 
         data = {
-            "watchlist" : list(oldWL.union(newwatchlist))
-            }
+            "watchlist": list(oldWL.union(newwatchlist))
+        }
 
     try:
         print("\nupdating wl")
@@ -130,10 +140,11 @@ Used to get existing Watchlist of user with localid = userid
 @param userid
 @returns list(wl)
 '''
-#returns watchlist as a set
+# returns watchlist as a list
+
+
 def getWatchlist(userid):
 
-    
     try:
         tempwl = db.child("users").child(userid).child("watchlist").get()
         flag = True
@@ -142,13 +153,12 @@ def getWatchlist(userid):
 
     wl = set()
     print(tempwl)
-    
+
     if flag == False:
         for x in tempwl.each():
             wl.add(x.val())
     else:
         wl.add("initial item")
-        
 
     return list(wl)
 
@@ -160,18 +170,20 @@ In order to get the existing movies, 'getAntiwatch' is executed
 @throws Exception as e
 @returns message
 '''
+
+
 def updateAntiwatch(userid, newAntiwatch):
     oldWL = set(getAntiwatch(userid))
 
     if "initial item" in oldWL:
         data = {
-            "antiwatch" : list(newAntiwatch)
+            "antiwatch": list(newAntiwatch)
         }
     else:
 
         data = {
-            "antiwatch" : list(oldWL.union(newAntiwatch))
-            }
+            "antiwatch": list(oldWL.union(newAntiwatch))
+        }
 
     try:
         print("\nupdating aw")
@@ -183,15 +195,15 @@ def updateAntiwatch(userid, newAntiwatch):
         return {'message': "Error while updating aw\n" + str(e)}, 400
 
 
-
 '''
 Used to get existing Antiwatch of user with localid = userid
 @param userid
 @returns list(aw)
 '''
+
+
 def getAntiwatch(userid):
 
-    
     try:
         tempaw = db.child("users").child(userid).child("antiwatch").get()
         flag = True
@@ -200,13 +212,12 @@ def getAntiwatch(userid):
 
     aw = set()
     print(tempaw)
-    
+
     if flag == False:
         for x in tempaw.each():
             aw.add(x.val())
     else:
         aw.add("initial item")
-        
 
     return list(aw)
 
@@ -218,18 +229,20 @@ In order to get the existing groups, 'getGroupList' is executed
 @throws Exception as e
 @returns message
 '''
+
+
 def updateGroups(userid, newGroupList):
     oldGL = set(getGroupList(userid))
 
     if "initial item" in oldGL:
         data = {
-            "groups" : list(newGroupList)
+            "groups": list(newGroupList)
         }
     else:
 
         data = {
-            "groups" : list(oldGL.union(newGroupList))
-            }
+            "groups": list(oldGL.union(newGroupList))
+        }
 
     try:
         print("\nupdating gl")
@@ -241,15 +254,15 @@ def updateGroups(userid, newGroupList):
         return {'message': "Error while updating gl\n" + str(e)}, 400
 
 
-
 '''
 Used to get existing groups of user with localid = userid
 @param userid
 @returns list(gl)
 '''
+
+
 def getGroupList(userid):
 
-    
     try:
         tempgl = db.child("users").child(userid).child("groups").get()
         flag = True
@@ -258,12 +271,11 @@ def getGroupList(userid):
 
     gl = set()
     print(tempgl)
-    
+
     if flag == False:
         for x in tempgl.each():
             gl.add(x.val())
     else:
         gl.add("initial item")
-        
 
     return list(gl)
