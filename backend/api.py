@@ -1,16 +1,19 @@
 # Imports
+from backend.datamanage.user.usermatch import usermatch
 import flask
 from flask_cors import CORS, cross_origin
 import time
-#import firebase_admin  # import firebase_dependencies
+# import firebase_admin  # import firebase_dependencies
 import pyrebase
 import json
-#from firebase_admin import credentials, auth   - fbAdmin not working -> delete for now
+# from firebase_admin import credentials, auth   - fbAdmin not working -> delete for now
 from backend.firebase import *
-from backend.src.match.match import userMovie
-from backend.src.match.groups import groupMovie
+from backend.datamanage.user.usermatch import usermatch
+# from backend.src.match.groups import groupMovie
 import backend.firebase.firebase_auth as fb_a 
 import backend.firebase.firebase_db as db
+
+# from backend.src.datamanager.localdata import getMovie
 
 # App configuration
 app = flask.Flask('__main__')
@@ -93,7 +96,7 @@ def get_current_time():
 @cross_origin()
 def get_movie_data_user():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
-    return userMovie(flask.request.args.get('user_id'), flask.request.args.get('path'))
+    return usermatch(flask.request.args.get('user_id'), flask.request.args.get('path'))
 
 
 @app.route('/api/groupmatch', methods=['GET', 'OPTIONS'])
@@ -101,6 +104,21 @@ def get_movie_data_user():
 def get_movie_data_group():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
     return groupMovie(flask.request.args.get('user_id'), flask.request.args.get('path'), flask.request.args.get('group_id'))
+
+
+@app.route('/api/setGroupWatchlist', methods=['GET', 'OPTIONS'])
+@cross_origin()
+def set_group_watchlist():
+    if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
+    return {"result": groupMovie("12345", "sJZQk8FH9CU9RBADdXavlssYeP72", "../data/groupmatch.json")}
+    #return groupMovie(flask.request.args.get('user_id'), flask.request.args.get('path'), flask.request.args.get('group_id'), flask.request.args.get('movie_id'))
+
+
+@app.route('/api/setGroupAntiwatch', methods=['GET', 'OPTIONS'])
+@cross_origin()
+def set_group_antiwatch():
+    if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
+    return groupMovie(flask.request.args.get('user_id'), flask.request.args.get('path'), flask.request.args.get('group_id'), flask.request.args.get('movie_id'))
 
 
 @app.route('/api/newGroup', methods=['GET', 'OPTIONS'])

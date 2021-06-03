@@ -1,9 +1,8 @@
+from backend.datamanage.apidata import *
+
 import numpy as np
 from sklearn.cluster import MeanShift
 from sklearn.datasets import make_blobs
-from backend.src.datamanager.apidata import getGenreList
-from backend.src.datamanager.apidata import getWatchInfo
-from backend.src.datamanager.apidata import defaultList
 
 
 def genreToPoints(watchlist, antilist):
@@ -16,7 +15,7 @@ def genreToPoints(watchlist, antilist):
         point = []
         for g in genre:
             if g in movie_genre:
-                point.append(movie.get("vote_average"))
+                point.appnd(movie.get("vote_average"))
             else:
                 point.append(-1)
         points.append(point)
@@ -40,16 +39,10 @@ def cluster(watchlist, antilist):
     ms = MeanShift()
     ms.fit(X)
     cluster_centers = ms.cluster_centers_
-    new = []
+    movies = []
     genre = getGenreList()
     for cluster in cluster_centers:
         arr = cluster.tolist()
         for g in genre:
-            new.append((g, arr[genre.index(g)]))
-    return list(new)
-
-
-def getElement(clusters):
-    wert = max(clusters, key=lambda item:item[1])
-    clusters.remove(wert)
-    return wert
+            movies.append((g, arr[genre.index(g)]))
+    return list(movies)
