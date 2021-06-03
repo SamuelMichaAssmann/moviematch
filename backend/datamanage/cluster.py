@@ -15,7 +15,7 @@ def genreToPoints(watchlist, antilist):
         point = []
         for g in genre:
             if g in movie_genre:
-                point.appnd(movie.get("vote_average"))
+                point.append(movie.get("vote_average"))
             else:
                 point.append(-1)
         points.append(point)

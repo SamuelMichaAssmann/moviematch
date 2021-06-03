@@ -1,19 +1,14 @@
-# Imports
-from backend.datamanage.user.usermatch import usermatch
 import flask
-from flask_cors import CORS, cross_origin
 import time
-# import firebase_admin  # import firebase_dependencies
 import pyrebase
 import json
-# from firebase_admin import credentials, auth   - fbAdmin not working -> delete for now
+from flask_cors import CORS, cross_origin
 from backend.firebase import *
 from backend.datamanage.user.usermatch import usermatch
-# from backend.src.match.groups import groupMovie
+from backend.datamanage.group.groupmatch import groupmatch
+from backend.datamanage.group.groupdata import setMovie
 import backend.firebase.firebase_auth as fb_a 
 import backend.firebase.firebase_db as db
-
-# from backend.src.datamanager.localdata import getMovie
 
 # App configuration
 app = flask.Flask('__main__')
@@ -94,31 +89,44 @@ def get_current_time():
 
 @app.route('/api/usermatch', methods=['GET', 'OPTIONS'])
 @cross_origin()
-def get_movie_data_user():
+def usermatch():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
     return usermatch(flask.request.args.get('user_id'), flask.request.args.get('path'))
 
 
 @app.route('/api/groupmatch', methods=['GET', 'OPTIONS'])
 @cross_origin()
-def get_movie_data_group():
+def groupmatch():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
-    return groupMovie(flask.request.args.get('user_id'), flask.request.args.get('path'), flask.request.args.get('group_id'))
+    return groupmatch(flask.request.args.get('group_id'), flask.request.args.get('user_id'), flask.request.args.get('path'))
 
 
-@app.route('/api/setGroupWatchlist', methods=['GET', 'OPTIONS'])
+@app.route('/api/userback', methods=['GET', 'OPTIONS'])
 @cross_origin()
-def set_group_watchlist():
+def userback():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
-    return {"result": groupMovie("12345", "sJZQk8FH9CU9RBADdXavlssYeP72", "../data/groupmatch.json")}
+    return "Data stored!", 201
+
+@app.route('/api/groupback', methods=['GET', 'OPTIONS'])
+@cross_origin()
+def groupback():
+    if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
+    setMovie(flask.request.args.get('group_id'), flask.request.args.get('user_id'), flask.request.args.get('movie_id'), flask.request.args.get('path'))
+    return "Data stored!", 201
+
+# @app.route('/api/setGroupWatchlist', methods=['GET', 'OPTIONS'])
+# @cross_origin()
+# def set_group_watchlist():
+#     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
+#     return {"result": groupMovie("12345", "sJZQk8FH9CU9RBADdXavlssYeP72", "../data/groupmatch.json")}
     #return groupMovie(flask.request.args.get('user_id'), flask.request.args.get('path'), flask.request.args.get('group_id'), flask.request.args.get('movie_id'))
 
 
-@app.route('/api/setGroupAntiwatch', methods=['GET', 'OPTIONS'])
-@cross_origin()
-def set_group_antiwatch():
-    if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
-    return groupMovie(flask.request.args.get('user_id'), flask.request.args.get('path'), flask.request.args.get('group_id'), flask.request.args.get('movie_id'))
+# @app.route('/api/setGroupAntiwatch', methods=['GET', 'OPTIONS'])
+# @cross_origin()
+# def set_group_antiwatch():
+#     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
+#     return groupMovie(flask.request.args.get('user_id'), flask.request.args.get('path'), flask.request.args.get('group_id'), flask.request.args.get('movie_id'))
 
 
 @app.route('/api/newGroup', methods=['GET', 'OPTIONS'])
@@ -133,6 +141,11 @@ def initializeNewGroup():
 def getGroupInfo():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
     return db.getGroupInfo(flask.request.args.get('group_id'))
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return e, 404
 
 
 #updateWatchlist - user
