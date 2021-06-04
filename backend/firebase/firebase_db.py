@@ -113,7 +113,10 @@ In order to get the existing movies, 'getWatchlist' is executed
 '''
 
 
-def updateWatchlist(userid, newwatchlist):
+def updateWatchlist(request):
+    userid = request.json('user_id')
+    newwatchlist = request.json('watchlist')
+    
     oldWL = set(getWatchlist(userid))
 
     if oldWL == newwatchlist:
