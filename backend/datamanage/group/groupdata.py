@@ -50,9 +50,9 @@ def setMovie(group, user, movie, path):
 
 def getMovie(group, user, path):
     data = getAllData(path)
-    try:  
-        # check if no data
+    try:
         if data.get(group) == None:
+            data[group] = {}
             return None
         for k,v in data.get(group).items():
             if user not in v:
@@ -60,6 +60,26 @@ def getMovie(group, user, path):
     except Exception as e:
         print(e)
     return None
+
+
+def check(group, path):
+    data = getAllData(path)
+    length = 3 # Firebase length of userlist
+    movie = False
+    try:  
+        if data.get(group) == None:
+            return False
+        for k,v in data.get(group).items():
+            if len(v) == length:
+                movie = k
+                data.get(group).pop(movie)
+                # Firebase add match
+                break
+        with open(path, 'w') as file:
+            json.dump(data, file)
+    except Exception as e:
+        print(e)
+    return movie
 
 
 def getLen(group, path):

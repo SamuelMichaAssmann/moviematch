@@ -7,6 +7,7 @@ from backend.firebase import *
 from backend.datamanage.user.usermatch import usermatch
 from backend.datamanage.group.groupmatch import groupmatch
 from backend.datamanage.group.groupdata import setMovie
+from backend.datamanage.group.groupdata import check
 import backend.firebase.firebase_auth as fb_a 
 import backend.firebase.firebase_db as db
 
@@ -107,12 +108,21 @@ def userback():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
     return "Data stored!", 201
 
+
 @app.route('/api/groupback', methods=['GET', 'OPTIONS'])
 @cross_origin()
 def groupback():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
     setMovie(flask.request.args.get('group_id'), flask.request.args.get('user_id'), flask.request.args.get('movie_id'), flask.request.args.get('path'))
     return "Data stored!", 201
+
+
+@app.route('/api/groupcheck', methods=['GET', 'OPTIONS'])
+@cross_origin()
+def apigroupcheck():
+    if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
+    return {"result": check(flask.request.args.get('group_id'), flask.request.args.get('path'))}
+
 
 # @app.route('/api/setGroupWatchlist', methods=['GET', 'OPTIONS'])
 # @cross_origin()
