@@ -3,6 +3,7 @@ import APIHandler from '../../manage/api/APIHandler'
 import { GroupList } from './GroupList'
 import { Button } from '../../assets/Button/Button';
 import { Textfield } from '../../assets/Textfield/Textfield';
+import Loading from '../../assets/Loading/Loading';
 
 export default class Groups extends React.Component {
 
@@ -11,50 +12,27 @@ export default class Groups extends React.Component {
     this.state = {
       clickedCreateGroup: false,
       createGroupName: '',
-      groups: []
+      groups: [],
+      loadedGroupList: false
     };
 
     this.getGroups = this.getGroups.bind(this);
     this.getCreateGroupFields = this.getCreateGroupFields.bind(this);
+    this.createGroup = this.createGroup.bind(this);
+    this.getGroupListElements = this.getGroupListElements.bind(this);
     this.handleChange = this.handleChange.bind(this);
 
-    setTimeout(this.getGroups, 1000);
+    this.getGroups();
   }
 
   async getGroups() {
+    const response = await APIHandler.getRequest('http://127.0.0.1:5000/api/groupList', {
+      user_id: localStorage.getItem('uid')
+    });
+
     this.setState({
-      groups: [
-        {
-          id: 1,
-          name: 'Weekly movie night with the boys',
-          members: ['Samuel', 'Moritz', 'Djemie'],
-          owner: 10
-        },
-        {
-          id: 42,
-          name: 'Test group',
-          members: ['Test A', 'Test B', 'Test C', 'Test D', 'Test E'],
-          owner: 10
-        },
-        {
-          id: 48393,
-          name: 'Lonely group',
-          members: ['Lonely person'],
-          owner: 10
-        },
-        {
-          id: 999,
-          name: 'Abanboned group',
-          members: [],
-          owner: 10
-        },
-        {
-          id: 83409,
-          name: 'A group with a very long name, which should hopefully be cut off by our function, but we\'ll have to wait and see.',
-          members: ['A person with a very long name who is part of the group with the very long name', 'John', 'Another person with a very long name who is part of the group with the very long name'],
-          owner: 10
-        }
-      ]
+      groups: response['groups'],
+      loadedGroupList: true
     });
   }
 
@@ -76,7 +54,7 @@ export default class Groups extends React.Component {
           <Button
             buttonStyle='btn--outline'
             extraStyles={{marginRight: '20px'}}
-            onClick={() => { console.log('To be implemented!'); }}
+            onClick={this.createGroup}
           >
             Create
           </Button>
@@ -91,6 +69,28 @@ export default class Groups extends React.Component {
         </div>
       </>
     )
+  }
+
+  async createGroup() {
+    const response = await APIHandler.postRequest('http://127.0.0.1:5000/api/newGroup', {
+      group_name: this.state.createGroupName,
+      members: [ localStorage.getItem('uid') ],
+      owner_id: localStorage.getItem('uid')
+    });
+
+    window.location.reload();
+  }
+
+  getGroupListElements() {
+    if (!this.state.loadedGroupList) {
+      return <Loading />;
+    }
+
+    if (this.state.groups.length == 0) {
+      return <p className='noGroupsText'>You are not yet in any groups!</p>
+    }
+
+    return <GroupList groups={this.state.groups} />;
   }
 
   handleChange(event) { //updates state for input
@@ -126,7 +126,7 @@ export default class Groups extends React.Component {
           <br></br>
           <br></br>
 
-          <GroupList groups={this.state.groups} />
+          {this.getGroupListElements()}
         </div>
       </>
     );

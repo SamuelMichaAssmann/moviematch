@@ -220,6 +220,38 @@ def getAntiwatch(userid):
 
 
 
+'''
+Returns a list of all groups that a given user is in. Each group contains the following properties:
+{ id: string, name: string, members: list, owner: string }
+@param userid
+@returns the list of groups
+'''
+def get_user_group_info(userid):
+    try:
+        groups = [
+            {
+                'id': '0',
+                'name': group.val()['name'],
+                'members': [
+                    user.val()['name']
+                        for user in db.child('users').get().each()
+                        for member in group.val()['members']
+                        if user.key() == member
+                ],
+                'owner': group.val()['owner'] 
+            }
+                for group in db.child('groups').get().each()
+                if userid in group.val()['members']
+        ]
+
+        return { 'groups': groups }, 200
+    except Exception as e:
+        print('Could not get group list\n' + 'Error : ' + str(e))
+        return {
+            'message' : 'Could not get group list',
+            'errorMsg' : str(e)
+        }, 400
+
 
 '''
 Used to get existing groups of user with localid = userid
@@ -250,7 +282,7 @@ def updateGroups(userid, newGroupList):
 
     oldGL = set(getGroupList(userid))
     if oldGL == newGroupList:
-        print("No new movies watched")
+        print("No new movies watched") # What does this have to do with movies?
         return {'message' : 'Identical sets - no new movies watched'}
 
 
@@ -284,15 +316,15 @@ def getGroupInfo(groupid):
         return gi
     except Exception as e:
         print("Group does not exist\n" + "Error : " + str(e))
-        return{
+        return {
             'message' : "GroupId does not exist",
             'errorMsg' : str(e)
         }, 400
 
 def initializeNewGroup(name, members, owner):
-    name = request.json('group_name')
-    members = request.json('members')
-    owner = request.json('owner_id')
+    # name = request.json('group_name')
+    # members = request.json('members')
+    # owner = request.json('owner_id')
     if (checkGroupExist(name)):
         print("Does not Exist")
         try:
@@ -356,9 +388,11 @@ def initializeNewGroup(name, members, owner):
                         'error' : str(e)
                     }, 400
             print("\n\nsuccessfully updated all members")
+
+            return { 'success': True }, 200
         except Exception as e:
             print("Error while creating Group. \n" + "Error : " + str(e))
-            return{
+            return {
                 'message' : "Error while creating Group",
                 'error' : str(e)
             }, 400
@@ -366,7 +400,7 @@ def initializeNewGroup(name, members, owner):
         print("Group does exist already")
         return {
             'message' : "Group already exists - pls choose another name"
-        }
+        }, 400
 
         # watchlist und antiwatch der gruppe initialize
         # wenn watch und anti - aus beiden löschen
