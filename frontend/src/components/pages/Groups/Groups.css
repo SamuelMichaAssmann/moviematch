@@ -34,6 +34,14 @@
     padding-bottom: 10px;
 }
 
+.noGroupsText {
+    color: white;
+    text-align: center;
+    font-size: 18px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
 .groupListEntry {
     margin: auto;
     padding: 20px;

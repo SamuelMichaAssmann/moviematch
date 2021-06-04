@@ -1,1 +1,26 @@
-{"gerwe": [6457, 1234, 123], "67843": [949, 257], "DsxQGGlBiaZ80Fv1WTEemVA6k2j2": [{"762":["userid", "user1"]}, 36819, 849]}
+{
+    "null": {
+        "36819": [
+            "userid",
+            "user1"
+        ],
+        "2493": []
+    },
+    "67843": {
+        "762": [
+            "userid",
+            "user1"
+        ],
+        "1234": []
+    },
+    "DsxQGGlBiaZ80Fv1WTEemVA6k2j2": {
+        "762": [
+            "userid",
+            "user1"
+        ],
+        "11234": [
+            "userid",
+            "user1"
+        ]
+    }
+}
