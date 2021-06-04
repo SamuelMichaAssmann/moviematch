@@ -89,14 +89,14 @@ def get_current_time():
 
 @app.route('/api/usermatch', methods=['GET', 'OPTIONS'])
 @cross_origin()
-def usermatch():
+def apiusermatch():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
     return usermatch(flask.request.args.get('user_id'), flask.request.args.get('path'))
 
 
 @app.route('/api/groupmatch', methods=['GET', 'OPTIONS'])
 @cross_origin()
-def groupmatch():
+def apigroupmatch():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
     return groupmatch(flask.request.args.get('group_id'), flask.request.args.get('user_id'), flask.request.args.get('path'))
 

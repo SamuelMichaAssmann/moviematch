@@ -51,6 +51,7 @@ def setMovie(group, user, movie, path):
 def getMovie(group, user, path):
     data = getAllData(path)
     try:  
+        # check if no data
         if data.get(group) == None:
             return None
         for k,v in data.get(group).items():
