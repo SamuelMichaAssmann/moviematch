@@ -156,7 +156,8 @@ def getWatchlist(userid):
         for x in tempwl.each():
             wl.add(x.val())
     except:
-         wl.add("initial item")
+        pass
+         # wl.add("initial item")
     return list(wl)
 
 
@@ -213,7 +214,8 @@ def getAntiwatch(userid):
         for x in tempaw.each():
             aw.add(x.val())
     except:
-         aw.add("initial item")
+        pass
+        # aw.add("initial item")
     return list(aw)
 
 

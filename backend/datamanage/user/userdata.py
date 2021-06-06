@@ -50,4 +50,6 @@ def getMovie(user, path):
 
 
 def getLen(user, path):
+    if getData(user, path) == None:
+        return 0
     return len(getData(user, path))

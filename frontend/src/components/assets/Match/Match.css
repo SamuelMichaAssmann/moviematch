@@ -1,0 +1,242 @@
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 0vh;
+    background-color: transparent;
+    overflow: hidden;
+    z-index: 9999;
+}
+
+.modal.open {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+}
+
+.modal.open>.content-wrapper {
+    transform: scale(1);
+}
+
+.modal .content-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 90%;
+    height: 70%;
+    margin: 0;
+    padding: 40px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+    transform: scale(0);
+    transition: transform 0.25s;
+    transition-delay: 0.15s;
+}
+
+.modal .content-wrapper .close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background-color: transparent;
+    font-size: 24px;
+    transition: 0.25s linear;
+}
+
+.modal .content-wrapper .close:before, .modal .content-wrapper .close:after {
+    position: absolute;
+    content: "";
+    width: 20px;
+    height: 2px;
+    background-color: #1c2237;
+}
+
+.modal .content-wrapper .close:before {
+    transform: rotate(-45deg);
+}
+
+.modal .content-wrapper .close:after {
+    transform: rotate(45deg);
+}
+
+.modal .content-wrapper .close:hover {
+    transform: rotate(90deg);
+}
+
+.modal .content-wrapper .close:hover:before, .modal .content-wrapper .close:hover:after {
+    background-color: tomato;
+}
+
+.modal .content-wrapper .modal-header {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin: 0;
+    padding: 0 0 20px;
+}
+
+.modal .content-wrapper .modal-header h2 {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.modal .content-wrapper .content {
+    position: relative;
+    display: flex;
+}
+
+.modal .content-wrapper .content p {
+    font-size: 14px;
+    line-height: 1.75;
+}
+
+.modal .content-wrapper .modal-footer {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+    margin: 0;
+    padding: 30px 0 0;
+}
+
+
+.scrollview {
+    scroll-behavior: smooth;
+    overflow-y: scroll;
+}
+
+.scrollview::-webkit-scrollbar {
+    width: 7px;
+}
+
+.scrollview::-webkit-scrollbar-thumb {
+    background-color: #1c2237;
+    border-radius: 240px;
+}
+
+.movieThumbnailRow {
+    padding-top: 50px;
+    padding-bottom: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #1c2237;
+}
+
+.movieTitle {
+    max-width: 440px;
+    margin-left: 20px;
+    margin-bottom: 15px;
+    font-size: 28px;
+    line-height: 24px;
+    text-align: left;
+    color: #1c2237;
+}
+
+.movieDescription {
+    max-width: 440px;
+    margin-left: 20px;
+    margin-bottom: 0px;
+    font-size: 18px;
+    line-height: 24px;
+    text-align: left;
+    color: #1c2237;
+}
+
+.movieInfoRow {
+    padding-top: 50px;
+    padding-bottom: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.movieInfoHeader {
+    font-size: 28px;
+    text-align: center;
+    padding-bottom: 10px;
+    color: #1c2237;
+}
+
+.movieInfoText {
+    font-size: 24px;
+    text-align: center;
+    color: #1c2237;
+}
+
+.matchEmpty {
+    display: block;
+    width: 100%;
+}
+
+.movieTable {
+    border-collapse: collapse;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.movieTableGroup {
+    border-radius: 10px;
+}
+
+.movieRow {
+    text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.movieInfo {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+@media screen and (min-width: 992px) {
+    .movieThumbnailDesktop {
+        display: block;
+    }
+    .movieThumbnailMobile {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 991px) {
+    .movieThumbnailRow {
+        max-width: 100%;
+        flex-basis: 100%;
+        flex-direction: column;
+    }
+    .movieThumbnail {
+        padding-bottom: 30px;
+    }
+    .movieTitle, .movieDescription, .movieInfoHeader, .movieInfoText {
+        margin-left: 20px;
+        margin-right: 20px;
+        text-align: center;
+    }
+    .movieInfoRow {
+        flex-direction: column;
+    }
+    .movieRow {
+        display: block;
+        text-align: center;
+    }
+}
