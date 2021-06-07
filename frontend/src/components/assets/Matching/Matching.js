@@ -47,6 +47,7 @@ function Matching({
             "group_id": localStorage.getItem("gid"),
             "movie_id": state.movieId,
             "kind": kind,
+            "path": dataPath
         });
 
         setState({

@@ -12,7 +12,7 @@ def getAllData(path):
 
 def setData(group, movies, path):
     data = getAllData(path)
-    try:  
+    try:
         if data.get(group) == None:
             data[group] = {}
         for movie in movies:
@@ -25,7 +25,7 @@ def setData(group, movies, path):
 
 def getData(group, path):
     data = getAllData(path)
-    try:  
+    try:
         if data.get(group) == None:
             data[group] = {}
         return data.get(group)
@@ -35,12 +35,13 @@ def getData(group, path):
 
 def setMovie(group, user, movie, path):
     data = getAllData(path)
-    print(f"group: {group}, user: {user}, movie: {movie}")
     try:
         if data.get(group) == None:
             data[group] = {}
+            print(data.get(group))
         if data.get(group).get(movie) == None:
-            data.get(group)[movie] =[]
+            data.get(group)[movie] = []
+            print(data.get(group).get(movie))
         if user not in data.get(group).get(movie):
             data.get(group).get(movie).append(user)
         with open(path, 'w') as file:
@@ -55,7 +56,7 @@ def getMovie(group, user, path):
         if data.get(group) == None:
             data[group] = {}
             return None
-        for k,v in data.get(group).items():
+        for k, v in data.get(group).items():
             if user not in v:
                 return k
     except Exception as e:
@@ -65,12 +66,12 @@ def getMovie(group, user, path):
 
 def check(group, path):
     data = getAllData(path)
-    length = 3 # Firebase length of userlist
+    length = 3  # Firebase length of userlist
     movie = False
-    try:  
+    try:
         if data.get(group) == None:
             return False
-        for k,v in data.get(group).items():
+        for k, v in data.get(group).items():
             if len(v) == length:
                 movie = k
                 data.get(group).pop(movie)
@@ -83,5 +84,15 @@ def check(group, path):
     return movie
 
 
-def getLen(group, path):
-    return len(getData(group, path))
+def getLen(group, path, user):
+    data = getData(group, path)
+    length = 0
+    try:
+        if data == None:
+            return length
+        for k, v in data.items():
+            if user not in v:
+                length += 1
+    except Exception as e:
+        print(e)
+    return length

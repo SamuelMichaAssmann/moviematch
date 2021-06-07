@@ -32,6 +32,7 @@ def genreToPoints(watchlist, antilist):
 
 
 def cluster(watchlist, antilist):
+    print("Clustering startet!")
     if watchlist == [] and antilist == []:
         watchlist = defaultList()
     centers = genreToPoints(watchlist, antilist)
