@@ -1,6 +1,6 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import Section from '../../assets/Section/Section';
-import { homeObjOne, homeObjThree } from './Data'
+import { homeObjOne, homeObjThree } from './Data';
 
 function Home() {
   const [currentTime, setCurrentTime] = useState(0);
@@ -14,7 +14,6 @@ function Home() {
   return (
     <>
       <Section {...homeObjOne} />
-      {currentTime}
       <Section {...homeObjThree} />
     </>
   );

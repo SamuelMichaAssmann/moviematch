@@ -1,8 +1,8 @@
 export const matchingObj = {
-  lightbg: false,
+    lightbg: true,
     dataPath: '../data/groupmatch.json',
     getEndpoint: 'http://localhost:5000/api/groupmatch',
-    setEntpoint:'http://localhost:5000/api/groupback',
+    setEntpoint:'http://localhost:5000/api/',
     thumbnailHeight: 400,
     maxDescLength: 500,
     emptyImage: 'images/empty-thumbnail.png',
