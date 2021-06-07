@@ -25,10 +25,6 @@ def pushNewUser(userid, email):
     }
 
     try:
-        print("writing user/ creating user in db")
-        db.child("users").set(userid)
-        print("Successfully created user in db")
-
         print("writing user/ writing user data to db")
         db.child("users").child(userid).set(data)
         print("successfully wrote user-data to db")
@@ -287,8 +283,8 @@ def updateGroups(userid, newGroupList):
 
     oldGL = set(getGroupList(userid))
     if oldGL == newGroupList:
-        print("No new movies watched") # What does this have to do with movies?
-        return {'message' : 'Identical sets - no new movies watched'}
+        print("No new groups") 
+        return {'message' : 'Identical sets - no new groups entered'}
 
 
     if "initial item" in oldGL:
