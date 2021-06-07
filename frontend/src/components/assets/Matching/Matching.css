@@ -1,13 +1,3 @@
-.center input {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.lightBg {
-    background-color: white;
-}
-
 .movieThumbnailRow {
     padding-top: 50px;
     padding-bottom: 25px;
@@ -24,7 +14,7 @@
     padding: 5px;
 }
 
-.movieTitle {
+.darkmovieTitle {
     max-width: 440px;
     margin-left: 20px;
     margin-bottom: 15px;
@@ -34,7 +24,17 @@
     color: #f7f8fa;
 }
 
-.movieDescription {
+.lightmovieTitle {
+    max-width: 440px;
+    margin-left: 20px;
+    margin-bottom: 15px;
+    font-size: 28px;
+    line-height: 24px;
+    text-align: left;
+    color: #1c2237;
+}
+
+.darkmovieDescription {
     max-width: 440px;
     margin-left: 20px;
     margin-bottom: 0px;
@@ -42,6 +42,16 @@
     line-height: 24px;
     text-align: left;
     color: #f7f8fa;
+}
+
+.lightmovieDescription {
+    max-width: 440px;
+    margin-left: 20px;
+    margin-bottom: 0px;
+    font-size: 18px;
+    line-height: 24px;
+    text-align: left;
+    color: #1c2237;
 }
 
 .rateButton {
@@ -60,13 +70,6 @@
     justify-content: center;
 }
 
-.movieInfoHeader {
-    font-size: 28px;
-    text-align: center;
-    padding-bottom: 10px;
-    color: #1c2237;
-}
-
 .movieInfoText {
     font-size: 24px;
     text-align: center;
@@ -78,30 +81,8 @@
     width: 100%;
 }
 
-.movieTable {
-    border-collapse: collapse;
-    width: 100%;
-    table-layout: fixed;
-    background-color: white;
-}
-
 .movieTableGroup {
     border-radius: 10px;
-}
-
-.movieRow {
-    text-align: center;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
-
-.movieInfo {
-    margin-left: 20px;
-    margin-right: 20px;
-    margin-top: 50px;
-    margin-bottom: 50px;
 }
 
 @media screen and (min-width: 992px) {
@@ -133,7 +114,7 @@
         padding-bottom: 30px;
     }
 
-    .movieTitle, .movieDescription, .movieInfoHeader, .movieInfoText {
+    .movieTitle, .movieDescription {
         margin-left: 20px;
         margin-right: 20px;
         text-align: center;
@@ -147,10 +128,5 @@
         margin-left: 10px;
         margin-right: 10px;
         margin-bottom: 50px;
-    }
-
-    .movieRow {
-        display: block;
-        text-align: center;
     }
 }

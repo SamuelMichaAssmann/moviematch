@@ -29,6 +29,7 @@ function Match() {
         <article class="content-wrapper">
           <button class="close"></button>
           <div className="scrollview">
+            <h2 className='matchheading'>You got a match!</h2>
             <Matching {...matchingObj} />
           </div>
         </article>

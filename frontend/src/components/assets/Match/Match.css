@@ -114,7 +114,6 @@
     padding: 30px 0 0;
 }
 
-
 .scrollview {
     scroll-behavior: smooth;
     overflow-y: scroll;
@@ -129,114 +128,8 @@
     border-radius: 240px;
 }
 
-.movieThumbnailRow {
-    padding-top: 50px;
-    padding-bottom: 25px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #1c2237;
-}
-
-.movieTitle {
-    max-width: 440px;
-    margin-left: 20px;
-    margin-bottom: 15px;
-    font-size: 28px;
-    line-height: 24px;
-    text-align: left;
-    color: #1c2237;
-}
-
-.movieDescription {
-    max-width: 440px;
-    margin-left: 20px;
-    margin-bottom: 0px;
-    font-size: 18px;
-    line-height: 24px;
-    text-align: left;
-    color: #1c2237;
-}
-
-.movieInfoRow {
-    padding-top: 50px;
-    padding-bottom: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.movieInfoHeader {
-    font-size: 28px;
+.matchheading {
+    font-size: 40px;
+    line-height: 2;
     text-align: center;
-    padding-bottom: 10px;
-    color: #1c2237;
-}
-
-.movieInfoText {
-    font-size: 24px;
-    text-align: center;
-    color: #1c2237;
-}
-
-.matchEmpty {
-    display: block;
-    width: 100%;
-}
-
-.movieTable {
-    border-collapse: collapse;
-    width: 100%;
-    table-layout: fixed;
-}
-
-.movieTableGroup {
-    border-radius: 10px;
-}
-
-.movieRow {
-    text-align: center;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
-
-.movieInfo {
-    margin-left: 20px;
-    margin-right: 20px;
-    margin-top: 50px;
-    margin-bottom: 50px;
-}
-
-@media screen and (min-width: 992px) {
-    .movieThumbnailDesktop {
-        display: block;
-    }
-    .movieThumbnailMobile {
-        display: none;
-    }
-}
-
-@media screen and (max-width: 991px) {
-    .movieThumbnailRow {
-        max-width: 100%;
-        flex-basis: 100%;
-        flex-direction: column;
-    }
-    .movieThumbnail {
-        padding-bottom: 30px;
-    }
-    .movieTitle, .movieDescription, .movieInfoHeader, .movieInfoText {
-        margin-left: 20px;
-        margin-right: 20px;
-        text-align: center;
-    }
-    .movieInfoRow {
-        flex-direction: column;
-    }
-    .movieRow {
-        display: block;
-        text-align: center;
-    }
 }

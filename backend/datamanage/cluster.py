@@ -34,7 +34,6 @@ def genreToPoints(watchlist, antilist):
 def cluster(watchlist, antilist):
     if watchlist == [] and antilist == []:
         watchlist = defaultList()
-    print(watchlist)
     centers = genreToPoints(watchlist, antilist)
     X, _ = make_blobs(n_samples = 100, centers = centers, cluster_std = 0.05)
     ms = MeanShift()
