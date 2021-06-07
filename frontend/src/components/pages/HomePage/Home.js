@@ -1,7 +1,6 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import Section from '../../assets/Section/Section';
 import { homeObjOne, homeObjThree } from './Data';
-import Match from "./../../assets/Match/Match";
 
 function Home() {
   const [currentTime, setCurrentTime] = useState(0);
@@ -15,8 +14,6 @@ function Home() {
   return (
     <>
       <Section {...homeObjOne} />
-      {currentTime}
-      {Match}
       <Section {...homeObjThree} />
     </>
   );

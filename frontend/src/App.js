@@ -19,7 +19,6 @@ import ScrollToTop from './components/manage/ScrollToTop';
 function App() {
   let isLoggedIn = false;
   if (localStorage.getItem("uid") != null) {
-    console.log(localStorage.getItem("uid"))
     isLoggedIn = true;
   }
 

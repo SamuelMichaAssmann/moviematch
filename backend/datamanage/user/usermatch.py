@@ -8,6 +8,7 @@ import threading
 def movies(user, path):
     watchlist = getWatchlist(user)
     antiwatch = getAntiwatch(user)
+    
     clusters = cluster(watchlist, antiwatch)
     movies = getMovies(clusters)
     setData(user, movies, path)
