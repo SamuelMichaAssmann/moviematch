@@ -35,6 +35,7 @@ def getData(group, path):
 
 def setMovie(group, user, movie, path):
     data = getAllData(path)
+    print(f"group: {group}, user: {user}, movie: {movie}")
     try:
         if data.get(group) == None:
             data[group] = {}

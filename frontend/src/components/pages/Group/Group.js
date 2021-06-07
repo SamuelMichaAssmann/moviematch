@@ -124,8 +124,6 @@ export default class Group extends React.Component {
                     <div>
                         <Matching
                             {...matchingObj}
-                            onLike={() => this.sendVote('like')}
-                            onDislike={() => this.sendVote('dislike')}
                         />
                         <Match />
                     </div>
