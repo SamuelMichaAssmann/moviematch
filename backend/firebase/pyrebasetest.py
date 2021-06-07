@@ -41,7 +41,7 @@ def pushNewUser(userid, email):
 
     try:
         print("writing user/ creating user in db")
-        db.child("users").set(userid)
+        #db.child("users").set(userid)
         print("Successfully created user in db")
 
         print("writing user/ writing user data to db")
@@ -399,9 +399,9 @@ data = {
 }
 #db.child("groups").child("123").set(data)
 
-request = {'user_id' : "sJZQk8FH9CU9RBADdXavlssYeP72", 'GroupList' : ["test2"]}
+#request = {'user_id' : "sJZQk8FH9CU9RBADdXavlssYeP72", 'GroupList' : ["test2"]}
 
-initializeNewGroup("test2", members, owner )
+#initializeNewGroup("test2", members, owner )
 #updateGroups("sJZQk8FH9CU9RBADdXavlssYeP72", ["test2"])
 
 
@@ -415,7 +415,5 @@ initializeNewGroup("test2", members, owner )
 #pushNewUser("1234", "test@test.com")
 #updateWatchlist("1234", newWl)
 
-
-
-
+updateGroups("testUser2", ["Joker" ])
 
