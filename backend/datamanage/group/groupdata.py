@@ -54,7 +54,6 @@ def getMovie(group, user, path):
     data = getAllData(path)
     try:
         if data.get(group) == None:
-            data[group] = {}
             return None
         for k, v in data.get(group).items():
             if user not in v:
