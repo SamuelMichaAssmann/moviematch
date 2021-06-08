@@ -30,10 +30,12 @@ export default class Groups extends React.Component {
       user_id: localStorage.getItem('uid')
     });
 
-    this.setState({
-      groups: response['groups'],
-      loadedGroupList: true
-    });
+    if (!('errorMsg' in response)) {
+      this.setState({
+        groups: response['groups'],
+        loadedGroupList: true
+      });
+    }
   }
 
   getCreateGroupFields() {
@@ -53,7 +55,7 @@ export default class Groups extends React.Component {
         <div className='createGroupInnerButtonContainer'>
           <Button
             buttonStyle='btn--outline'
-            extraStyles={{marginRight: '20px'}}
+            extraStyles={{ marginRight: '20px' }}
             onClick={this.createGroup}
           >
             Create
@@ -74,7 +76,7 @@ export default class Groups extends React.Component {
   async createGroup() {
     const response = await APIHandler.postRequest('http://127.0.0.1:5000/api/newGroup', {
       group_name: this.state.createGroupName,
-      members: [ localStorage.getItem('uid') ],
+      members: [localStorage.getItem('uid')],
       owner_id: localStorage.getItem('uid')
     });
 
