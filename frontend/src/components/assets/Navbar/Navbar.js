@@ -11,7 +11,6 @@ function Navbar() {
 
   let isLoggedIn = false;
   if (localStorage.getItem("uid") != null) {
-    console.log(localStorage.getItem("uid"))
     isLoggedIn = true;
   }
 

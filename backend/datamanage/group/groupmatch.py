@@ -14,8 +14,8 @@ def movies(group, path):
 
 
 def groupmatch(group, user, path):
-    print(getLen(group, path))
-    if getLen(group, path) == (20 or 0):
+    print(f"Length: {getLen(group, path, user)}")
+    if (getLen(group, path, user) == 3) or (getLen(group, path, user) == 0):
         threading.Thread(target=movies, args=(group, path,)).start()
     movie_id = getMovie(group, user, path)
     if movie_id != None:

@@ -92,14 +92,19 @@ def get_current_time():
 @cross_origin()
 def apiusermatch():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
-    return usermatch(flask.request.args.get('user_id'), flask.request.args.get('path'))
+    user_id = flask.request.args.get('user_id')
+    path = flask.request.args.get('path')
+    return usermatch(user_id, path)
 
 
 @app.route('/api/groupmatch', methods=['GET', 'OPTIONS'])
 @cross_origin()
 def apigroupmatch():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
-    return groupmatch(flask.request.args.get('group_id'), flask.request.args.get('user_id'), flask.request.args.get('path'))
+    group_id = flask.request.args.get('group_id')
+    user_id = flask.request.args.get('user_id')
+    path = flask.request.args.get('path')
+    return groupmatch(group_id, user_id, path)
 
 
 @app.route('/api/userback', methods=['GET', 'OPTIONS'])
@@ -114,7 +119,11 @@ def userback():
 @cross_origin()
 def groupback():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
-    setMovie(flask.request.args.get('group_id'), flask.request.args.get('user_id'), flask.request.args.get('movie_id'), flask.request.args.get('path'))
+    group_id = flask.request.args.get('group_id')
+    user_id = flask.request.args.get('user_id')
+    movie_id = flask.request.args.get('movie_id')
+    path = flask.request.args.get('path')
+    setMovie(group_id, user_id, movie_id, path)
     return "Data stored!", 201
 
 
@@ -122,7 +131,9 @@ def groupback():
 @cross_origin()
 def apigroupcheck():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
-    return {"result": check(flask.request.args.get('group_id'), flask.request.args.get('path'))}
+    group_id = flask.request.args.get('group_id')
+    path = flask.request.args.get('path')
+    return {"result": check(group_id, path)}
 
 
 # @app.route('/api/setGroupWatchlist', methods=['GET', 'OPTIONS'])

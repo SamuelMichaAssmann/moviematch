@@ -108,6 +108,7 @@
 
 .load {
   margin-top: 140px;
+  margin-bottom: 30px;
 }
 
 .e-loadholder {
@@ -258,4 +259,11 @@
 
 .loading {
   margin: auto;
+}
+
+@media screen and (max-width: 991px) {
+  .load {
+    margin-top: 140px;
+    margin-bottom: 55px;
+  }
 }

@@ -6,7 +6,8 @@ import { GroupMember } from './GroupMember';
 import Loading from '../../assets/Loading/Loading';
 import { Button } from '../../assets/Button/Button';
 import Matching from '../../assets/Matching/Matching';
-import { matchingObj } from './Data'
+import Match from './../../assets/Match/Match';
+import { matchingObj } from './Data';
 
 const MAX_MEMBER_NAME_LENGTH = 20;
 
@@ -118,12 +119,14 @@ export default class Group extends React.Component {
                 );
 
             case GroupPhase.MATCHING:
+
                 return (
-                    <Matching
-                        {...matchingObj}
-                        onLike={() => this.sendVote('like')}
-                        onDislike={() => this.sendVote('dislike')}
-                    />
+                    <div>
+                        <Matching
+                            {...matchingObj}
+                        />
+                        <Match />
+                    </div>
                 );
 
             case GroupPhase.WAITING_FOR_VOTES:
