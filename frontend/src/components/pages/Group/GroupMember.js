@@ -1,10 +1,8 @@
 import React from 'react';
-import { MemberStatus } from './MemberStatus';
 import { RiVipCrownFill } from 'react-icons/ri';
 
 export const GroupMember = ({
     name,
-    status,
     owner
 }) => {
 
@@ -14,7 +12,6 @@ export const GroupMember = ({
 
     return (
         <div className='groupMember darkBg'>
-            <span className={`groupMemberStatus ${(status == MemberStatus.ONLINE) ? 'online' : 'offline'}`}></span>
             {nameParagraph}
         </div>
     )
