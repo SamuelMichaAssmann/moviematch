@@ -8,6 +8,7 @@ import { Button } from '../../assets/Button/Button';
 import Matching from '../../assets/Matching/Matching';
 import Match from './../../assets/Match/Match';
 import { matchingObj } from './Data';
+import APIHandler from '../../manage/api/APIHandler';
 
 const MAX_MEMBER_NAME_LENGTH = 20;
 
@@ -32,32 +33,39 @@ export default class Group extends React.Component {
     }
 
     async getGroupInfo() {
-        // TODO request info from API
-        // and for security reasons, make sure it can only be requested if we are actually in the group
+        const response = await APIHandler.getRequest('http://127.0.0.1:5000/api/getGroupInfo', {
+            group_id: this.groupId
+        });
+
+        if ('errorMsg' in response) {
+            return;
+        }
+
         this.setState({
-            name: 'Movie night with the boys',
-            members: [
-                {
-                    name: 'Samuel',
-                    status: MemberStatus.ONLINE,
-                    owner: false
-                },
-                {
-                    name: 'Moritz',
-                    status: MemberStatus.OFFLINE,
-                    owner: false
-                },
-                {
-                    name: 'Djemie',
-                    status: MemberStatus.ONLINE,
-                    owner: true
-                },
-                {
-                    name: this.trimString('Someone with a very long name', MAX_MEMBER_NAME_LENGTH),
-                    status: MemberStatus.ONLINE,
-                    owner: false
-                }
-            ],
+            name: response.name,
+            members: response.members,
+            // members: [
+            //     {
+            //         name: 'Samuel',
+            //         status: MemberStatus.ONLINE,
+            //         owner: false
+            //     },
+            //     {
+            //         name: 'Moritz',
+            //         status: MemberStatus.OFFLINE,
+            //         owner: false
+            //     },
+            //     {
+            //         name: 'Djemie',
+            //         status: MemberStatus.ONLINE,
+            //         owner: true
+            //     },
+            //     {
+            //         name: this.trimString('Someone with a very long name', MAX_MEMBER_NAME_LENGTH),
+            //         status: MemberStatus.ONLINE,
+            //         owner: false
+            //     }
+            // ],
             loaded: true
         });
     }
