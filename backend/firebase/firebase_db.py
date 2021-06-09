@@ -2,6 +2,7 @@ from os import name
 import pyrebase
 import json
 from flask import Flask, request
+import uuid
 
 
 pb = pyrebase.initialize_app(json.load(open('firebase/fbconfig.json')))
@@ -170,12 +171,15 @@ In order to get the existing movies, 'getAntiwatch' is executed
 '''
 
 
-def updateAntiwatch(userid, newAntiwatch):
+def updateAntiwatch(request):
+    userid = request.json('userid')
+    newAntiwatch = request.json('newAntiwatch')
+
     oldWL = set(getAntiwatch(userid))
 
     if oldWL == newAntiwatch:
-        print("No new movies watched")
-        return {'message' : 'Identical sets - no new movies watched'}
+        print("No new movies added to Antiwatch")
+        return {'message' : 'Identical sets - no new movies added to Antiwatch'}
 
     if "initial item" in oldWL:
         data = {
@@ -322,11 +326,14 @@ def getGroupInfo(groupid):
             'errorMsg' : str(e)
         }, 400
 
-def initializeNewGroup(name, members, owner):
-    # name = request.json('group_name')
-    # members = request.json('members')
-    # owner = request.json('owner_id')
-    if (checkGroupExist(name)):
+def initializeNewGroup(request):
+    name = request.json('group_name')
+    members = request.json('members')
+    owner = request.json('owner_id')
+
+    groupid = owner + '_' + str(uuid.uuid4())
+
+    if (checkGroupExist(groupid)):
         print("Does not Exist")
         try:
             watchlist = set()
@@ -375,13 +382,13 @@ def initializeNewGroup(name, members, owner):
             }
 
             print("creating group")
-            db.child("groups").child(name).set(data)
+            db.child("groups").child(groupid).set(data)
             print("Group created")
 
             for m in members:
                 try:
                     print("update group for member: " + m)
-                    updateGroups(m,[name])
+                    updateGroups(m,[groupid])
                     print("updated for " + m)
                 except Exception as e:
                     return {
@@ -420,3 +427,183 @@ name
 members
 owner
 '''
+
+def fetchAWandGL_Groups(groupid):
+    members = db.child("groups").child(groupid).child("members").get().val()
+    
+    watchlist = set()
+    antiwatch = set()
+
+    for m in members:
+        try:
+            print("get watchlist from " + m)
+            watchlist = watchlist.union(set(getWatchlist(m)))
+            antiwatch = antiwatch.union(set(getAntiwatch(m)))
+        except Exception as e:
+            print(str(e))
+
+    if ("initial item" in watchlist):
+                print("removed i.i from wl")
+                watchlist.remove("initial item")
+                print("success")
+                
+    if ("initial item" in antiwatch):
+                print("removed i.i from al")
+                antiwatch.remove("initial item")
+                print("success")
+
+    temp_inter = watchlist.intersection(antiwatch)
+    watchlist.difference_update(temp_inter)
+    antiwatch.difference_update(temp_inter)
+
+    if (antiwatch == set()):
+        antiwatch = ""
+    else:
+        antiwatch = list(antiwatch)
+    if (watchlist == set()):
+        watchlist = ""
+    else:
+        watchlist = list(watchlist)
+        
+    data = {
+        
+        "watchlist" : watchlist,
+        "antiwatch" : antiwatch,
+        
+    }
+
+    return data
+
+
+
+
+
+
+
+
+
+
+def updateGroupAnti(request):
+    groupid = request.json('groupid')
+    newGroupAnti = request.json('newGroupAnti')
+
+    oldAW = set(fetchAWandGL_Groups(groupid)['antiwatch'])
+    if oldAW == newGroupAnti:
+        print("No new Antiwatch added") 
+        return {'message' : 'Identical sets - no new aw added'}
+
+
+    if "initial item" in oldAW:
+        data = {
+            "antiwatch": list(newGroupAnti)
+        }
+    else:
+
+        data = {
+            "antiwatch": list(oldAW.union(newGroupAnti))
+        }
+
+    try:
+        print("\nupdating g_aw")
+        db.child("groups").child(groupid).update(data)
+        print("\nSuccessfully updated g_aw")
+        return {'message': "g_aw successfully updated"}, 200
+    except Exception as e:
+        print("Error:\n " + str(e))
+        return {'message': "Error while updating g_aw\n" + str(e)}, 400
+
+
+def updateGroupWl(request):
+    groupid = request.json('groupid')
+    newGroupWl = request.json('newGroupAnti')
+
+    oldWL = set(fetchAWandGL_Groups(groupid)['watchlist'])
+    if oldWL == newGroupWl:
+        print("No new watchlist added") 
+        return {'message' : 'Identical sets - no new wl added'}
+
+
+    if "initial item" in oldWL:
+        data = {
+            "watchlist": list(newGroupWl)
+        }
+    else:
+
+        data = {
+            "watchlist": list(oldWL.union(newGroupWl))
+        }
+
+    try:
+        print("\nupdating g_wl")
+        db.child("groups").child(groupid).update(data)
+        print("\nSuccessfully updated g_wl")
+        return {'message': "g_wl successfully updated"}, 200
+    except Exception as e:
+        print("Error:\n " + str(e))
+        return {'message': "Error while updating g_wl \n" + str(e)}, 400
+
+
+def getMatched(groupid):
+    ml = set()
+    
+    try:
+        tempgl = db.child("groups").child(groupid).child("matching").get()       
+        for x in tempgl.each():
+            ml.add(x.val())
+    except:
+         ml.add("initial item")
+    return list(ml)
+
+def updateMatch(request):
+    groupid = request.json('groupid')
+    newMatchList = request.json('newGroupAnti')
+
+    oldML = set(getMatched(groupid))
+    if oldML == newMatchList:
+        print("No new matches added") 
+        return {'message' : 'Identical sets - no new matches added'}
+
+
+    if "initial item" in oldML:
+        data = {
+            "matched": list(newMatchList)
+        }
+    else:
+
+        data = {
+            "matched": list(oldML.union(newMatchList))
+        }
+
+    try:
+        print("\nupdating g_ml")
+        db.child("groups").child(groupid).update(data)
+        print("\nSuccessfully updated g_ml")
+        return {'message': "g_ml successfully updated"}, 200
+    except Exception as e:
+        print("Error:\n " + str(e))
+        return {'message': "Error while updating g_ml \n" + str(e)}, 400
+
+
+def exitGroup(userid, groupid):
+    members = db.child("groups").child(groupid).child("members").get().val()
+    members.remove(userid)
+
+    data = {
+        "members" : members
+    }
+
+    db.child("groups").child(groupid).update(data)
+    deleteGroup(userid, groupid)
+
+def deleteGroup(userid, groupid):
+
+    groups = db.child("users").child(userid).child("groups").get().val()
+    if(groups.remove(groupid) == None ):
+        data = {
+            "groups" : groups
+        }
+    else: 
+        data = {
+            "groups" : groups.remove(groupid)
+        }
+    db.child("users").child(userid).update(data)
