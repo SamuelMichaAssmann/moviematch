@@ -7,6 +7,7 @@ import { MovieThumbnail } from '../Image/MovieThumbnail';
 import { likeButton, neutralButton, dislikeButton } from './Data';
 import APIHandler from '../../manage/api/APIHandler';
 import MovieInfo from './MovieInfo/MovieInfo';
+import Match from '../Match/Match';
 
 const BASE_THUMBNAIL_URL = 'https://image.tmdb.org/t/p/w500';
 
@@ -15,6 +16,7 @@ function Matching({
     dataPath,
     getEndpoint,
     setEntpoint,
+    checkEntpoint,
     thumbnailHeight,
     maxDescLength,
     emptyImage,
@@ -49,7 +51,7 @@ function Matching({
             "kind": kind,
             "path": dataPath
         });
-
+        
         setState({
             loaded: false,
             runtime: 0,
