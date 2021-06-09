@@ -10,7 +10,7 @@ import { IconContext } from 'react-icons/lib';
 function Navbar() {
 
   let isLoggedIn = false;
-  if (sessionStorage.getItem("uid") != null) {
+  if (localStorage.getItem("uid") != null) {
     isLoggedIn = true;
   }
 
