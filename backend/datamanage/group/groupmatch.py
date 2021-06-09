@@ -6,6 +6,7 @@ import threading
 
 
 def movies(group, path):
+    # upate group watchlist
     watchlist = [395991, 141, 131, 503, 11128] # getWatchlist(user)
     antiwatch = [16258, 44113, 1696, 418078] # getAntiwatch(user)
     clusters = cluster(watchlist, antiwatch)
