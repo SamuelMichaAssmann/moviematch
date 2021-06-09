@@ -315,9 +315,20 @@ def getGroupInfo(groupid):
     gi = {}
 
     try:
-        tempgi = db.child("groups").child(groupid).get()
+        tempgi = db.child('groups').child(groupid).get()
         for x in tempgi.each():
             gi[x.key()] = x.val()
+
+        gi['members'] = [
+            {
+                'name': user.val()['name'],
+                'owner': (user.key() == gi['owner'])
+            }
+                for user in db.child('users').get().each()
+                for member in gi['members']
+                if user.key() == member
+        ]
+
         print(gi)
         return gi
     except Exception as e:
