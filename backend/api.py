@@ -184,7 +184,7 @@ def page_not_found(e):
 #updateWatchlist - user
 @app.route('/api/updateWatchlist', methods=['GET', 'OPTIONS'])
 @cross_origin()
-def getGroupInfo():
+def updateWatchlist():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
     return db.updateWatchlist(flask.request)
 
@@ -192,7 +192,7 @@ def getGroupInfo():
 #updateAntiwatchlist - user
 @app.route('/api/updateAntiwatch', methods=['GET', 'OPTIONS'])
 @cross_origin()
-def getGroupInfo():
+def updateAntiwatch():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
     return db.updateAntiwatch(flask.request)
 
@@ -200,23 +200,23 @@ def getGroupInfo():
 #updateAntilist - group
 @app.route('/api/updateGroupAnti', methods=['GET', 'OPTIONS'])
 @cross_origin()
-def getGroupInfo():
+def updateGroupAnti():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
     return db.updateGroupAnti(flask.request)
 
 #updateWatchlist - group
 @app.route('/api/updateGroupWl', methods=['GET', 'OPTIONS'])
 @cross_origin()
-def getGroupInfo():
+def updateGroupWl():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
     return db.updateGroupWl(flask.request)
 
 #update matching for groupid
-@app.route('/api/updateGroupWl', methods=['GET', 'OPTIONS'])
+@app.route('/api/updateMatch', methods=['GET', 'OPTIONS'])
 @cross_origin()
-def getGroupInfo():
+def updateMatch():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
-    return db.updateGroupWl(flask.request)
+    return db.updateMatch(flask.request)
 
 
 if __name__ == "__main__":
