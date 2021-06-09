@@ -157,8 +157,7 @@ def getWatchlist(userid):
         for x in tempwl.each():
             wl.add(x.val())
     except:
-        pass
-         # wl.add("initial item")
+        wl.add("initial item")
     return list(wl)
 
 
@@ -218,8 +217,7 @@ def getAntiwatch(userid):
         for x in tempaw.each():
             aw.add(x.val())
     except:
-        pass
-        # aw.add("initial item")
+        aw.add("initial item")
     return list(aw)
 
 
@@ -608,3 +606,7 @@ def deleteGroup(userid, groupid):
             "groups" : groups.remove(groupid)
         }
     db.child("users").child(userid).update(data)
+
+
+
+def updateLists()
