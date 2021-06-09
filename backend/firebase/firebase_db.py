@@ -582,3 +582,28 @@ def updateMatch(request):
     except Exception as e:
         print("Error:\n " + str(e))
         return {'message': "Error while updating g_ml \n" + str(e)}, 400
+
+
+def exitGroup(userid, groupid):
+    members = db.child("groups").child(groupid).child("members").get().val()
+    members.remove(userid)
+
+    data = {
+        "members" : members
+    }
+
+    db.child("groups").child(groupid).update(data)
+    deleteGroup(userid, groupid)
+
+def deleteGroup(userid, groupid):
+
+    groups = db.child("users").child(userid).child("groups").get().val()
+    if(groups.remove(groupid) == None ):
+        data = {
+            "groups" : groups
+        }
+    else: 
+        data = {
+            "groups" : groups.remove(groupid)
+        }
+    db.child("users").child(userid).update(data)
