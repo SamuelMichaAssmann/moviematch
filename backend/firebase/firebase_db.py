@@ -3,6 +3,7 @@ import pyrebase
 import json
 from flask import Flask, request
 import uuid
+import shortuuid
 
 
 pb = pyrebase.initialize_app(json.load(open('firebase/fbconfig.json')))
@@ -331,7 +332,7 @@ def initializeNewGroup(request):
     members = request.json['members']
     owner = request.json['owner_id']
 
-    groupid = owner + '_' + str(uuid.uuid4())
+    groupid = shortuuid.ShortUUID().random(length=10)
 
     if (checkGroupExist(groupid)):
         print("Does not Exist")
