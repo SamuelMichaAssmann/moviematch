@@ -7,7 +7,7 @@ import Data from './Data';
 
 const TEXT_FIELD_WIDTH = '300px';
 
-function Userdata2() {
+function Userdata() {
   const [state, setState] = React.useState({
     explain: true,
     find: true,
@@ -91,5 +91,5 @@ function Userdata2() {
   );
 }
 
-export default Userdata2;
+export default Userdata;
 
