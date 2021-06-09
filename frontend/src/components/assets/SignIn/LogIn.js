@@ -52,8 +52,8 @@ export class Login extends React.Component {
         this.setState({loading : true})
         let response = await APIHandler.postRequest('http://127.0.0.1:5000/api/signin', data);
         var uid = response["id"]
-        localStorage.setItem('uid', uid)
-        localStorage.setItem('loginState' , 'true')
+        sessionStorage.setItem('uid', uid)
+        sessionStorage.setItem('loginState' , 'true')
         this.setState({loading : false})
         window.location.href = "/home"
 

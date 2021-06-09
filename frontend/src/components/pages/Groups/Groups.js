@@ -27,7 +27,7 @@ export default class Groups extends React.Component {
 
   async getGroups() {
     const response = await APIHandler.getRequest('http://127.0.0.1:5000/api/groupList', {
-      user_id: localStorage.getItem('uid')
+      user_id: sessionStorage.getItem('uid')
     });
 
     if (!('errorMsg' in response)) {
@@ -76,8 +76,8 @@ export default class Groups extends React.Component {
   async createGroup() {
     const response = await APIHandler.postRequest('http://127.0.0.1:5000/api/newGroup', {
       group_name: this.state.createGroupName,
-      members: [localStorage.getItem('uid')],
-      owner_id: localStorage.getItem('uid')
+      members: [sessionStorage.getItem('uid')],
+      owner_id: sessionStorage.getItem('uid')
     });
 
     window.location.reload();

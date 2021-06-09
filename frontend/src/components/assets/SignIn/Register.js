@@ -68,9 +68,9 @@ export class Register extends React.Component {
     console.log(response);
     //may need to have a look - states are updated now matter if success or not
 
-    localStorage.setItem('loginState' , 'true')
-    localStorage.setItem('uid' , response['uid'])
-    localStorage.setItem('email', response['email'])
+    sessionStorage.setItem('loginState' , 'true')
+    sessionStorage.setItem('uid' , response['uid'])
+    sessionStorage.setItem('email', response['email'])
     this.setState({ loading : false });
     window.location.href = '/tutorial'; //relink to verification - TODO
     
