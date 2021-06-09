@@ -1,5 +1,5 @@
 import React from 'react';
-import "./Tutorial.css"
+import './Tutorial.css'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Stepper from '@material-ui/core/Stepper';
@@ -12,7 +12,7 @@ import StepConnector from '@material-ui/core/StepConnector';
 import { Button } from '../../assets/Button/Button';
 import Button2 from '@material-ui/core/Button';
 import Matching from '../../assets/Matching/Matching';
-import { matchingObj } from './Data'
+import { matchingObj } from './Data';
 import Userdata from '../../assets/Userdata/Userdata';
 
 const ColorlibConnector = withStyles({

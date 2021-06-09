@@ -162,11 +162,7 @@ def get_group_list():
 @cross_origin()
 def initializeNewGroup():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
-    return db.initializeNewGroup(
-        flask.request.json['group_name'],
-        flask.request.json['members'],
-        flask.request.json['owner_id']
-    )
+    return db.initializeNewGroup(flask.request)
 
 
 @app.route('/api/getGroupInfo', methods=['GET', 'OPTIONS'])

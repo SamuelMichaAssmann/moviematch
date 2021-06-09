@@ -327,9 +327,9 @@ def getGroupInfo(groupid):
         }, 400
 
 def initializeNewGroup(request):
-    name = request.json('group_name')
-    members = request.json('members')
-    owner = request.json('owner_id')
+    name = request.json['group_name']
+    members = request.json['members']
+    owner = request.json['owner_id']
 
     groupid = owner + '_' + str(uuid.uuid4())
 
