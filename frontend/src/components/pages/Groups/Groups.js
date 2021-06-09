@@ -1,6 +1,6 @@
 import React from 'react';
-import APIHandler from '../../manage/api/APIHandler'
-import { GroupList } from './GroupList'
+import APIHandler from '../../manage/api/APIHandler';
+import { GroupList } from './GroupList';
 import { Button } from '../../assets/Button/Button';
 import { Textfield } from '../../assets/Textfield/Textfield';
 import Loading from '../../assets/Loading/Loading';

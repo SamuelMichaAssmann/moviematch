@@ -236,7 +236,7 @@ def get_user_group_info(userid):
     try:
         groups = [
             {
-                'id': '0',
+                'id': group.key(),
                 'name': group.val()['name'],
                 'members': [
                     user.val()['name']
