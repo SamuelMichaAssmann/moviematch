@@ -174,7 +174,7 @@ In order to get the existing movies, 'getAntiwatch' is executed
 def updateAntiwatch(request):
     userid = request.json('userid')
     newAntiwatch = request.json('newAntiwatch')
-    
+
     oldWL = set(getAntiwatch(userid))
 
     if oldWL == newAntiwatch:
@@ -333,7 +333,7 @@ def initializeNewGroup(request):
 
     groupid = owner + '_' + str(uuid.uuid4())
 
-    if (checkGroupExist(name)):
+    if (checkGroupExist(groupid)):
         print("Does not Exist")
         try:
             watchlist = set()
