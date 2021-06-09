@@ -33,7 +33,7 @@ def getData(group, path):
         print(e)
 
 
-def setMovie(group, user, movie, path):
+def setMovie(group, user, movie, path, kind):
     data = getAllData(path)
     try:
         if data.get(group) == None:
@@ -44,6 +44,8 @@ def setMovie(group, user, movie, path):
             print(data.get(group).get(movie))
         if user not in data.get(group).get(movie):
             data.get(group).get(movie).append(user)
+        
+        
         with open(path, 'w') as file:
             json.dump(data, file)
     except Exception as e:
