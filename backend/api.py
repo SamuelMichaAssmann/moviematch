@@ -109,7 +109,7 @@ def apigroupmatch():
 
 @app.route('/api/userback', methods=['GET', 'OPTIONS'])
 @cross_origin()
-def userback():
+def userback(): #uid, gid, movieid, kind (like, dislike, neutral), path . watch und antilist vom user
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
     # firebase add movie to watchlist
     return "Data stored!", 201
