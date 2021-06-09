@@ -4,6 +4,7 @@ import pyrebase
 import json
 import pprint
 from flask import Flask, request
+import uuid
 
 fbconfig = {
     "apiKey": "AIzaSyBRgRRFUlg9XJ6ZrdWxYaoOB5VvQXDaBko",
@@ -304,7 +305,13 @@ owner
 '''
 
 def initializeNewGroup(name, members, owner):
-    if (checkGroupExist(name)):
+    # name = request.json('group_name')
+    # members = request.json('members')
+    # owner = request.json('owner_id')
+
+    groupid = owner + '_' + str(uuid.uuid4())
+
+    if (checkGroupExist(groupid)):
         print("Does not Exist")
         try:
             watchlist = set()
@@ -327,9 +334,6 @@ def initializeNewGroup(name, members, owner):
                 print("removed i.i from al")
                 antiwatch.remove("initial item")
                 print("success")
-
-            pprint.pprint(watchlist)
-            pprint.pprint(antiwatch)
 
             temp_inter = watchlist.intersection(antiwatch)
             watchlist.difference_update(temp_inter)
@@ -356,13 +360,13 @@ def initializeNewGroup(name, members, owner):
             }
 
             print("creating group")
-            db.child("groups").child(name).set(data)
+            db.child("groups").child(groupid).set(data)
             print("Group created")
 
             for m in members:
                 try:
                     print("update group for member: " + m)
-                    updateGroups(m,[name])
+                    updateGroups(m,[groupid])
                     print("updated for " + m)
                 except Exception as e:
                     return {
@@ -370,50 +374,35 @@ def initializeNewGroup(name, members, owner):
                         'error' : str(e)
                     }, 400
             print("\n\nsuccessfully updated all members")
+
+            return { 'success': True }, 200
         except Exception as e:
             print("Error while creating Group. \n" + "Error : " + str(e))
-            return{
+            return {
                 'message' : "Error while creating Group",
                 'error' : str(e)
             }, 400
     else:
         print("Group does exist already")
         return {
-            'message' : "Group already exists - pls choose another name"
-        }
+            'message' : "Group already exists - uncommon"
+        }, 400
 
         # watchlist und antiwatch der gruppe initialize
         # wenn watch und anti - aus beiden löschen
 
 
-owner = "sJZQk8FH9CU9RBADdXavlssYeP72"
+owner = "thisisatestuser1"
 
-members = ["DsxQGGlBiaZ80Fv1WTEemVA6k2j2","sJZQk8FH9CU9RBADdXavlssYeP72"]
-
-
-
-data = {
-    "name" : "Test for the boys",
-    "members" : ["member1", "member2"],
-    "owner" : "member1"
-}
-#db.child("groups").child("123").set(data)
-
-#request = {'user_id' : "sJZQk8FH9CU9RBADdXavlssYeP72", 'GroupList' : ["test2"]}
-
-#initializeNewGroup("test2", members, owner )
-#updateGroups("sJZQk8FH9CU9RBADdXavlssYeP72", ["test2"])
+members = ["sametset2","test3", "thisisatestuser1"]
 
 
-#list = getWatchlist("sJZQk8FH9CU9RBADdXavlssYeP72")
-#pprint.pprint(list)
+
+#pushNewUser("thisisatestuser1", "test@test1.com")
+#pushNewUser("sametset2", "test2@test.com")
+#pushNewUser("test3", "test3@test.com")
+
+initializeNewGroup("testGroupForToday", members, owner)
 
 
-#updateWatchlist("sJZQk8FH9CU9RBADdXavlssYeP72", ["Joker", "Batman"])
-#pprint.pprint(getWatchlist("sJZQk8FH9CU9RBADdXavlssYeP72"))
-#getWatchlist("1234")
-#pushNewUser("1234", "test@test.com")
-#updateWatchlist("1234", newWl)
-
-updateGroups("testUser2", ["Joker" ])
 

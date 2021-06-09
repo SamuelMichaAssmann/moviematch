@@ -182,9 +182,41 @@ def page_not_found(e):
 
 
 #updateWatchlist - user
+@app.route('/api/updateWatchlist', methods=['GET', 'OPTIONS'])
+@cross_origin()
+def getGroupInfo():
+    if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
+    return db.updateWatchlist(flask.request)
+
+
 #updateAntiwatchlist - user
+@app.route('/api/updateAntiwatch', methods=['GET', 'OPTIONS'])
+@cross_origin()
+def getGroupInfo():
+    if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
+    return db.updateAntiwatch(flask.request)
+
+
 #updateAntilist - group
+@app.route('/api/updateGroupAnti', methods=['GET', 'OPTIONS'])
+@cross_origin()
+def getGroupInfo():
+    if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
+    return db.updateGroupAnti(flask.request)
+
 #updateWatchlist - group
+@app.route('/api/updateGroupWl', methods=['GET', 'OPTIONS'])
+@cross_origin()
+def getGroupInfo():
+    if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
+    return db.updateGroupWl(flask.request)
+
+#update matching for groupid
+@app.route('/api/updateGroupWl', methods=['GET', 'OPTIONS'])
+@cross_origin()
+def getGroupInfo():
+    if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
+    return db.updateGroupWl(flask.request)
 
 
 if __name__ == "__main__":
