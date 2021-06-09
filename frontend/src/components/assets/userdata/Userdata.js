@@ -16,7 +16,6 @@ function Userdata2() {
 
   const [user, setUser] = React.useState({
     username: '',
-    email: '',
     age: '',
   });
 
@@ -44,24 +43,14 @@ function Userdata2() {
       <div className='container settings'>
         <div>
           <h1 className='heading' style={{ 'text-align': 'center' }}>
-            Personal data
-              </h1>
-          <p className='home__sek-subtitle' style={{ color: 'white', 'text-align': 'center' }}>
-            Please enter your personal data.
-              </p>
+          Please enter your personal data
+          </h1>
         </div>
-
         <div>
           <Textfield
             label='Username'
             name='username'
             value={user.username}
-            onChange={validate}
-            width={TEXT_FIELD_WIDTH} />
-          <Textfield
-            label='Email'
-            name='email'
-            value={user.email}
             onChange={validate}
             width={TEXT_FIELD_WIDTH} />
           <Textfield
