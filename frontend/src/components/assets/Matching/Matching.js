@@ -44,7 +44,7 @@ function Matching({
     const getMovie = (kind) => {
         APIHandler.getRequest(setEntpoint, {
             "user_id": localStorage.getItem("uid"),
-            "group_id": localStorage.getItem("gid"),
+            "group_id": new URLSearchParams(window.location.search).get('id'),
             "movie_id": state.movieId,
             "kind": kind,
             "path": dataPath
@@ -59,7 +59,7 @@ function Matching({
 
         APIHandler.getRequest(getEndpoint, {
             "user_id": localStorage.getItem("uid"),
-            "group_id": localStorage.getItem("gid"),
+            "group_id": new URLSearchParams(window.location.search).get('id'),
             "path": dataPath
         }).then(data => {
             setState({
