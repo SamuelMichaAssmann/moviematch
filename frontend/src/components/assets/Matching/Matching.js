@@ -7,6 +7,7 @@ import { MovieThumbnail } from '../Image/MovieThumbnail';
 import { likeButton, neutralButton, dislikeButton } from './Data';
 import APIHandler from '../../manage/api/APIHandler';
 import MovieInfo from './MovieInfo/MovieInfo';
+import Match from '../Match/Match';
 
 const BASE_THUMBNAIL_URL = 'https://image.tmdb.org/t/p/w500';
 
@@ -15,6 +16,7 @@ function Matching({
     dataPath,
     getEndpoint,
     setEntpoint,
+    checkEntpoint,
     thumbnailHeight,
     maxDescLength,
     emptyImage,
@@ -44,12 +46,12 @@ function Matching({
     const getMovie = (kind) => {
         APIHandler.getRequest(setEntpoint, {
             "user_id": localStorage.getItem("uid"),
-            "group_id": localStorage.getItem("gid"),
+            "group_id": new URLSearchParams(window.location.search).get('id'),
             "movie_id": state.movieId,
             "kind": kind,
             "path": dataPath
         });
-
+        
         setState({
             loaded: false,
             runtime: 0,
@@ -59,7 +61,7 @@ function Matching({
 
         APIHandler.getRequest(getEndpoint, {
             "user_id": localStorage.getItem("uid"),
-            "group_id": localStorage.getItem("gid"),
+            "group_id": new URLSearchParams(window.location.search).get('id'),
             "path": dataPath
         }).then(data => {
             setState({

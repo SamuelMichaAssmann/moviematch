@@ -123,7 +123,8 @@ def groupback():
     user_id = flask.request.args.get('user_id')
     movie_id = flask.request.args.get('movie_id')
     path = flask.request.args.get('path')
-    setMovie(group_id, user_id, movie_id, path)
+    kind = flask.request.args.get('kind')
+    setMovie(group_id, user_id, movie_id, path, kind)
     return "Data stored!", 201
 
 
