@@ -88,7 +88,7 @@ export default class GroupListEntry extends React.Component {
     }
 
     isOwner() {
-        return (this.state.owner == sessionStorage.getItem('uid'));
+        return (this.state.owner == localStorage.getItem('uid'));
     }
 
     getIsOwnerDiv() {
