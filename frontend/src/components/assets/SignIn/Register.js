@@ -129,7 +129,7 @@ export class Register extends React.Component {
                 <Textfield
                   needed="true"
                   type="email"
-                  label='Enter your email-adress'
+                  label='Enter your email'
                   name='email'
                   value={this.state.email}
                   onChange={this.handleChange} />

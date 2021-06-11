@@ -215,6 +215,34 @@ def updateMatch():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
     return db.updateMatch(flask.request)
 
+# Change a user's name.
+@app.route('/api/changeUsername', methods=['POST', 'OPTIONS'])
+@cross_origin()
+def change_username():
+    if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
+    return db.updateName(flask.request)
+
+# Change a user's age.
+@app.route('/api/changeAge', methods=['POST', 'OPTIONS'])
+@cross_origin()
+def change_age():
+    if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
+    return db.updateAge(flask.request)
+
+# Leave a group.
+@app.route('/api/leaveGroup', methods=['POST', 'OPTIONS'])
+@cross_origin()
+def leave_group():
+    if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
+    return db.leave_group(flask.request)
+
+# Delete a group.
+@app.route('/api/deleteGroup', methods=['POST', 'OPTIONS'])
+@cross_origin()
+def delete_group():
+    if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
+    return db.delete_group(flask.request)
+
 
 if __name__ == "__main__":
     app.run(port=5000, debug=True)

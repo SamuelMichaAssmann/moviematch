@@ -13,7 +13,8 @@ import { Button } from '../../assets/Button/Button';
 import Button2 from '@material-ui/core/Button';
 import Matching from '../../assets/Matching/Matching';
 import { matchingObj } from './Data';
-import Userdata from '../../assets/Userdata/Userdata';
+import Userdata, { error, userError, userName, userAge } from '../../assets/Userdata/Userdata';
+import APIHandler from '../../manage/api/APIHandler';
 
 const ColorlibConnector = withStyles({
     alternativeLabel: {
@@ -114,6 +115,15 @@ export default function CustomizedSteppers() {
     const steps = getSteps();
 
     const handleNext = () => {
+        if (activeStep == 0) {
+            // Don't proceed if the user hasn't filled in everything correctly.
+            if (error || userError) {
+                return;
+            }
+
+            changeUsernameAndAge();
+        }
+
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
     };
 
@@ -124,6 +134,18 @@ export default function CustomizedSteppers() {
     const handleReset = () => {
         setActiveStep(0);
     };
+
+    function changeUsernameAndAge() {
+        APIHandler.postRequest('http://127.0.0.1:5000/api/changeUsername', {
+            user_id: localStorage.getItem('uid'),
+            username: userName
+        });
+
+        APIHandler.postRequest('http://127.0.0.1:5000/api/changeAge', {
+            user_id: localStorage.getItem('uid'),
+            age: userAge
+        });
+    }
 
     return (
         <div className="stepper">
