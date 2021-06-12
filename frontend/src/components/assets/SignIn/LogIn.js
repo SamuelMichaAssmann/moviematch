@@ -106,14 +106,14 @@ export class Login extends React.Component {
                     <div className="form">
                         <div className="form-group">
                             <Textfield
-                                label='Enter the username'
+                                label='Enter your email'
                                 name='email'
                                 value={this.state.email}
                                 onChange={this.handleChange} />
                         </div>
                         <div className="form-group">
                             <Textfield
-                                label='Enter the password'
+                                label='Enter your password'
                                 name='password'
                                 type='password'
                                 value={this.state.password}
