@@ -20,7 +20,6 @@ def pushNewUser(userid, email):
     data = {
         "name": "",
         "email": email,
-        "groups": "",
         "watchlist": "",
         "antiwatch": "",
         "age": ""
@@ -36,11 +35,10 @@ def pushNewUser(userid, email):
         return {'message': "Error while writing user to db\n" + str(e)}, 400
 
 
-def setUser(userid, name, email, groups, watchlist, antiwatch, age):
+def setUser(userid, name, email, watchlist, antiwatch, age):
     data = {
         "name": name,
         "email": email,
-        "groups": groups,
         "watchlist": watchlist,
         "antiwatch": antiwatch,
         "age": age
@@ -64,10 +62,14 @@ updating name to user with localid = userid
 '''
 
 
-def updateName(userid, name):
+def updateName(request):
+    userid = request.json['user_id']
+    name = request.json['username']
+
     data = {
         "name": name
     }
+
     try:
         print("\nchanging username")
         db.child("users").child(userid).update(data)
@@ -87,7 +89,10 @@ updating age to user with localid = userid
 '''
 
 
-def updateAge(userid, age):
+def updateAge(request):
+    userid = request.json['user_id']
+    age = request.json['age']
+
     data = {
         "age": age
     }
@@ -262,7 +267,7 @@ Used to get existing groups of user with localid = userid
 @param userid
 @returns list(gl)
 '''
-def getGroupList(userid):
+'''def getGroupList(userid):
     gl = set()
     
     try:
@@ -271,7 +276,7 @@ def getGroupList(userid):
             gl.add(x.val())
     except:
          gl.add("initial item")
-    return list(gl)
+    return list(gl)'''
 
 '''
 updateGroups with union of existing groups and newGroupList, which may contain new groups to user with localid = userid
@@ -282,7 +287,7 @@ In order to get the existing groups, 'getGroupList' is executed
 '''
 
 
-def updateGroups(userid, newGroupList):
+'''def updateGroups(userid, newGroupList):
 
     oldGL = set(getGroupList(userid))
     if oldGL == newGroupList:
@@ -307,7 +312,7 @@ def updateGroups(userid, newGroupList):
         return {'message': "gl successfully updated"}, 200
     except Exception as e:
         print("Error:\n " + str(e))
-        return {'message': "Error while updating gl\n" + str(e)}, 400
+        return {'message': "Error while updating gl\n" + str(e)}, 400'''
 
 def getGroupInfo(groupid):
     gi = {}
@@ -396,7 +401,7 @@ def initializeNewGroup(request):
             for m in members:
                 try:
                     print("update group for member: " + m)
-                    updateGroups(m,[groupid])
+                    # updateGroups(m,[groupid])
                     print("updated for " + m)
                 except Exception as e:
                     return {
@@ -562,7 +567,10 @@ def updateMatch(request):
         return {'message': "Error while updating g_ml \n" + str(e)}, 400
 
 
-def exitGroup(userid, groupid):
+def leave_group(request):
+    userid = request.json['user_id']
+    groupid = request.json['group_id']
+
     members = db.child("groups").child(groupid).child("members").get().val()
     members.remove(userid)
 
@@ -571,21 +579,22 @@ def exitGroup(userid, groupid):
     }
 
     db.child("groups").child(groupid).update(data)
-    deleteGroup(userid, groupid)
+    # deleteGroup(userid, groupid)
 
-def deleteGroup(userid, groupid):
+def delete_group(request):
+    userid = request.json['user_id']
+    groupid = request.json['group_id']
 
-    groups = db.child("users").child(userid).child("groups").get().val()
-    if(groups.remove(groupid) == None ):
-        data = {
-            "groups" : groups
-        }
-    else: 
-        data = {
-            "groups" : groups.remove(groupid)
-        }
-    db.child("users").child(userid).update(data)
+    owner = db.child('groups').child(groupid).child('owner').get().val()
+    if userid != owner:
+        return { 'message': 'User does not own group' }, 400
 
+    groups = db.child('groups').get().val()
+    del groups[groupid]
 
+    data = {
+        'groups': groups
+    }
 
-#def updateLists()
+    db.update(data)
+    return { 'message': 'Group successfully deleted' }, 200

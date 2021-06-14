@@ -6,12 +6,16 @@ import Data from './Data';
 
 
 const TEXT_FIELD_WIDTH = '300px';
+export var error = false;
+export var userError = false;
+export var userName = '';
+export var userAge = '';
 
 function Userdata() {
   const [state, setState] = React.useState({
-    explain: true,
-    find: true,
-    advert: true,
+    explain: false,
+    find: false,
+    advert: false
   });
 
   const [user, setUser] = React.useState({
@@ -25,8 +29,14 @@ function Userdata() {
 
   const validate = (event) => {
     const target = event.target;
-    const value = target.value;
     const name = target.name;
+    const value = (name == 'age') ? target.value.replace(/\D/,'') : target.value; // Only numbers for age.
+
+    if (name == 'username') {
+      userName = value;
+    } else if (name == 'age') {
+      userAge = value;
+    }
 
     setUser({
       [name]: value
@@ -35,7 +45,8 @@ function Userdata() {
 
 
   const { explain, find, advert } = state;
-  const error = [explain, find, advert].filter((v) => v).length !== 3;
+  error = [explain, find, advert].filter((v) => v).length !== 3;
+  userError = (userName.length == 0 || userAge.length == 0);
 
   return (
 
@@ -43,7 +54,7 @@ function Userdata() {
       <div className='container settings'>
         <div>
           <h1 className='heading' style={{ 'text-align': 'center' }}>
-          Please enter your personal data
+            Please enter your personal data
           </h1>
         </div>
         <div>
@@ -59,6 +70,7 @@ function Userdata() {
             value={user.age}
             onChange={validate}
             width={TEXT_FIELD_WIDTH} />
+          {userError ? <div className="checkerror">*Username and age cannot be empty</div> : ""}
         </div>
         <div className="checkbox">
           <div className="checkbox_head">
@@ -92,4 +104,3 @@ function Userdata() {
 }
 
 export default Userdata;
-

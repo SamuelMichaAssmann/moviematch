@@ -1,6 +1,7 @@
 import React from 'react';
 import './Groups.css'
 import { Button } from '../../assets/Button/Button';
+import APIHandler from '../../manage/api/APIHandler';
 
 const MAX_NAME_LENGTH = 100;
 const MAX_MEMBER_LENGTH = 40;
@@ -97,14 +98,24 @@ export default class GroupListEntry extends React.Component {
             : null;
     }
 
-    deleteGroup() {
+    async deleteGroup() {
         this.setState({ canClickGroup: false, open: true });
-        console.log('Group deleted'); // TODO
+        await APIHandler.postRequest('http://127.0.0.1:5000/api/deleteGroup', {
+            user_id: localStorage.getItem('uid'),
+            group_id: this.state.id
+        });
+
+        window.location.reload();
     }
 
-    leaveGroup() {
-        this.setState({ canClickGroup: false });
-        console.log('Group left'); // TODO
+    async leaveGroup() {
+        this.setState({ canClickGroup: false, open: true });
+        await APIHandler.postRequest('http://127.0.0.1:5000/api/leaveGroup', {
+            user_id: localStorage.getItem('uid'),
+            group_id: this.state.id
+        });
+
+        window.location.reload();
     }
 
     joinGroup() {
