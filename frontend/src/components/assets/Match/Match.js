@@ -1,11 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import './Match.css';
 import confetti from "canvas-confetti";
 import { matchingObj } from './Data';
 import Matching from '../../assets/Matching/Matching';
+import APIHandler from '../../manage/api/APIHandler';
 
 function Match() {
   useEffect(() => {
+    APIHandler.getRequest(matchingObj.getEndpoint, {
+      "user_id": localStorage.getItem("uid"),
+      "group_id": new URLSearchParams(window.location.search).get('id'),
+      "path": matchingObj.dataPath
+    }).then(data => {
+      if (data.movie_id != "false") {
+        match();
+      };
+    });
+  }, []);
+  
+  const match = () => {
     confetti({
       particleCount: 300,
       spread: 360,
@@ -17,11 +30,11 @@ function Match() {
     const close = modal.querySelector(".close");
 
     close.addEventListener("click", () => modal.classList.remove("open"));
+
     modal.addEventListener("click", () => modal.classList.remove("open"));
     contentWrapper.addEventListener("click", (e) => e.stopPropagation());
-
     modal.classList.toggle("open");
-  }, []);
+  }
 
   return (
     <>

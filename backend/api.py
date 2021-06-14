@@ -1,13 +1,12 @@
+from backend.datamanage.user.usermatch import usermatch
 import flask
 import time
 import pyrebase
 import json
 from flask_cors import CORS, cross_origin
 from backend.firebase import *
-from backend.datamanage.user.usermatch import usermatch
-from backend.datamanage.group.groupmatch import groupmatch
-from backend.datamanage.group.groupdata import setMovie
-from backend.datamanage.group.groupdata import check
+from backend.datamanage.group.groupmatch import *
+from backend.datamanage.group.groupdata import *
 import backend.firebase.firebase_auth as fb_a 
 import backend.firebase.firebase_db as db
 
@@ -134,22 +133,16 @@ def apigroupcheck():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
     group_id = flask.request.args.get('group_id')
     path = flask.request.args.get('path')
-    return {"result": check(group_id, path)}
+    return matchCheck(group_id, path)
 
 
-# @app.route('/api/setGroupWatchlist', methods=['GET', 'OPTIONS'])
-# @cross_origin()
-# def set_group_watchlist():
-#     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
-#     return {"result": groupMovie("12345", "sJZQk8FH9CU9RBADdXavlssYeP72", "../data/groupmatch.json")}
-    #return groupMovie(flask.request.args.get('user_id'), flask.request.args.get('path'), flask.request.args.get('group_id'), flask.request.args.get('movie_id'))
-
-
-# @app.route('/api/setGroupAntiwatch', methods=['GET', 'OPTIONS'])
-# @cross_origin()
-# def set_group_antiwatch():
-#     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
-#     return groupMovie(flask.request.args.get('user_id'), flask.request.args.get('path'), flask.request.args.get('group_id'), flask.request.args.get('movie_id'))
+@app.route('/api/groupcheckback', methods=['GET', 'OPTIONS'])
+@cross_origin()
+def apigroupcheckback():
+    if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
+    group_id = flask.request.args.get('group_id')
+    path = flask.request.args.get('path')
+    return {}
 
 
 @app.route('/api/groupList', methods=['GET', 'OPTIONS'])

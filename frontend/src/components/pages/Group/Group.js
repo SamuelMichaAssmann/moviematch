@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { componentDidMount } from 'react';
 import './Group.css';
 import { GroupMember } from './GroupMember';
 import Loading from '../../assets/Loading/Loading';
@@ -25,6 +25,7 @@ export default class Group extends React.Component {
         this.getMemberDivs = this.getMemberDivs.bind(this);
 
         this.getGroupInfo();
+        
     }
 
     async getGroupInfo() {
@@ -88,12 +89,11 @@ export default class Group extends React.Component {
     }
 
     getGroupPhaseContent() {
+
         return (
             <div>
-                <Matching
-                    {...matchingObj}
-                />
-                <Match />
+                <Matching {...matchingObj} />
+                <Match/>
             </div>
         );
     }

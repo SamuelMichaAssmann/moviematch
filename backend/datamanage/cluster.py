@@ -46,4 +46,5 @@ def cluster(watchlist, antilist):
         arr = cluster.tolist()
         for g in genre:
             movies.append((g, arr[genre.index(g)]))
+    print("Clustering endet!")
     return list(movies)

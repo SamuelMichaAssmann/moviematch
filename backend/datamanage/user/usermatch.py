@@ -1,16 +1,15 @@
 from backend.datamanage.user.userdata import *
 from backend.datamanage.cluster import *
 from backend.firebase.firebase_db import *
-
+from backend.datamanage.apidata import *
 import threading
 
 
 def movies(user, path):
-    watchlist = getWatchlist(user)
-    antiwatch = getAntiwatch(user)
-    
+    watchlist = removeinit(getWatchlist(user))
+    antiwatch = removeinit(getAntiwatch(user))
     clusters = cluster(watchlist, antiwatch)
-    movies = getMovies(clusters)
+    movies = getMovies(clusters, getData(user, path))
     setData(user, movies, path)
 
 

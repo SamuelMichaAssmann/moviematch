@@ -27,10 +27,12 @@ def setData(user, movies, path):
 def getData(user, path):
     data = getAllData(path)
     try:
+        if data.get(user) == None:
+            return []
         return data.get(user)
     except Exception as e:
         print(e)
-        return None
+        return []
 
 
 def getMovie(user, path):

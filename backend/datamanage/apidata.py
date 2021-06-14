@@ -8,6 +8,17 @@ def getGenre(genre_list):
     return ", ".join(genre)
 
 
+def removeinit(matchlist):
+    if matchlist == None:
+        return []
+    if 'initial item' in matchlist:
+        matchlist.remove('initial item')
+        if matchlist == None:
+            return []
+        return matchlist
+    return matchlist
+
+
 def movieInfo(movie_id):
     try:
         result = requests.get(f'https://api.themoviedb.org/3/movie/{movie_id}?api_key=d28d1550787892e34121c2918ec031b1')
@@ -30,7 +41,7 @@ def getElement(clusters):
     return wert
 
 
-def getMovies(clusters):
+def getMovies(clusters, watchlist):
     movie_list = []
     while len(movie_list) <= 20:
         genre = getElement(clusters)[0]
@@ -38,7 +49,8 @@ def getMovies(clusters):
         result = result.json()
         result = result["results"]
         for r in result:
-            movie_list.append(r["id"])
+            if r["id"] not in watchlist:
+                movie_list.append(r["id"])
     return movie_list
 
 

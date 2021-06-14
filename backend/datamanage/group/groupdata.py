@@ -32,25 +32,36 @@ def getData(group, path):
     except Exception as e:
         print(e)
 
+def getDataList(group, path):
+    data = getAllData(path)
+    try:
+        if data.get(group) == None:
+            return []
+        return data.get(group).keys()
+    except Exception as e:
+        print(e)
+
 
 def setMovie(group, user, movie, path, kind):
     data = getAllData(path)
     try:
-        if data.get(group) == None:
-            data[group] = {}
-            print(data.get(group))
-        if data.get(group).get(movie) == None:
-            data.get(group)[movie] = []
-            print(data.get(group).get(movie))
-        if user not in data.get(group).get(movie):
-            data.get(group).get(movie).append(user)
-        
-        
-        with open(path, 'w') as file:
-            json.dump(data, file)
-    except Exception as e:
-        print(e)
+        if kind == 'like':
+            if movie != 'undefined':
+                if data.get(group) == None:
+                    data[group] = {}
+                    print(data.get(group))
+                if data.get(group).get(movie) == None:
+                    data.get(group)[movie] = []
+                    print(data.get(group).get(movie))
+                if user not in data.get(group).get(movie):
+                    data.get(group).get(movie).append(user)
+        else:
+            del data.get(group)[movie]
 
+        with open(path, 'w') as file:
+                    json.dump(data, file)
+    except Exception as e:
+                print(e)
 
 def getMovie(group, user, path):
     data = getAllData(path)
@@ -68,10 +79,10 @@ def getMovie(group, user, path):
 def check(group, path):
     data = getAllData(path)
     length = 3  # Firebase length of userlist
-    movie = False
+    movie = None
     try:
         if data.get(group) == None:
-            return False
+            return None
         for k, v in data.get(group).items():
             if len(v) == length:
                 movie = k

@@ -450,45 +450,15 @@ def fetchAWandGL_Groups(groupid):
         except Exception as e:
             print(str(e))
 
-    if ("initial item" in watchlist):
-                print("removed i.i from wl")
-                watchlist.remove("initial item")
-                print("success")
-                
-    if ("initial item" in antiwatch):
-                print("removed i.i from al")
-                antiwatch.remove("initial item")
-                print("success")
-
     temp_inter = watchlist.intersection(antiwatch)
     watchlist.difference_update(temp_inter)
     antiwatch.difference_update(temp_inter)
 
-    if (antiwatch == set()):
-        antiwatch = ""
-    else:
-        antiwatch = list(antiwatch)
-    if (watchlist == set()):
-        watchlist = ""
-    else:
-        watchlist = list(watchlist)
-        
     data = {
-        
-        "watchlist" : watchlist,
-        "antiwatch" : antiwatch,
-        
+        "watchlist" : list(watchlist),
+        "antiwatch" : list(antiwatch)
     }
-
     return data
-
-
-
-
-
-
-
-
 
 
 def updateGroupAnti(request):

@@ -1,16 +1,16 @@
 from backend.datamanage.group.groupdata import *
 from backend.datamanage.cluster import *
+from backend.datamanage.apidata import *
 import backend.firebase.firebase_db as db
-
 import threading
 
 
 def movies(group, path):
     data = db.fetchAWandGL_Groups(group)
-    watchlist = data['watchlist'] # getWatchlist(user)
-    antiwatch = data['antiwatch'] # getAntiwatch(user)
+    watchlist = removeinit(data.get('watchlist'))
+    antiwatch = removeinit(data.get('antiwatch'))
     clusters = cluster(watchlist, antiwatch)
-    movies = getMovies(clusters)
+    movies = getMovies(clusters, getDataList(group, path))
     setData(group, movies, path)
 
 
@@ -22,6 +22,12 @@ def groupmatch(group, user, path):
     if movie_id != None:
         return movieInfo(movie_id)
     else:
-        return 'No movie found!', 200
+        return "Waiting for movies!", 200
 
-        
+
+def matchCheck(group, path):
+    movie_id = check(group, path)
+    if movie_id != None:
+        movieInfo(movie_id)
+    else:
+        return {"movieId" : "false"}
