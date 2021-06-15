@@ -93,7 +93,7 @@ export default class Group extends React.Component {
         return (
             <div>
                 <Matching {...matchingObj} />
-                <Match/>
+                {/* <Match/> */}
             </div>
         );
     }

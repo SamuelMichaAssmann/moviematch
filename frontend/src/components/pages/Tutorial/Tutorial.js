@@ -6,13 +6,14 @@ import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import SettingsIcon from '@material-ui/icons/Settings';
+import Section from '../../assets/Section/Section';
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import VideoLabelIcon from '@material-ui/icons/VideoLabel';
 import StepConnector from '@material-ui/core/StepConnector';
 import { Button } from '../../assets/Button/Button';
 import Button2 from '@material-ui/core/Button';
 import Matching from '../../assets/Matching/Matching';
-import { matchingObj } from './Data';
+import { matchingObj, home } from './Data';
 import Userdata, { error, userError, userName, userAge } from '../../assets/Userdata/Userdata';
 import APIHandler from '../../manage/api/APIHandler';
 
@@ -99,13 +100,13 @@ function getSteps() {
 function getStepContent(step) {
     switch (step) {
         case 0:
-            return <Userdata/>;
+            return <Userdata />;
         case 1:
             return <Matching {...matchingObj} />;
         case 2:
-            return 'page 3';
+            return <Section {...home} />;
         default:
-            return 'Unknown step';
+            return 'Error';
     }
 }
 
@@ -123,7 +124,9 @@ export default function CustomizedSteppers() {
 
             changeUsernameAndAge();
         }
-
+        if (activeStep == 2){
+            return window.location.href = "/home";
+        }
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
     };
 
@@ -156,7 +159,7 @@ export default function CustomizedSteppers() {
                     </Step>
                 ))}
             </Stepper>
-            
+
             {getStepContent(activeStep)}
 
             {activeStep === steps.length ? (
@@ -173,7 +176,7 @@ export default function CustomizedSteppers() {
                             onClick={handleBack}
                             className={stepper.button}>
                             Back
-                            </Button2>
+                        </Button2>
                         <Button
                             buttonSize='btn--wide'
                             buttonColor='blue'

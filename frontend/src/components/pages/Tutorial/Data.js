@@ -7,3 +7,17 @@ export const matchingObj = {
   maxDescLength: 500,
   emptyImage: 'images/empty-thumbnail.png',
 };
+
+export const home = {
+  lightBg: true,
+  lightText: false,
+  lightTextDesc: false,
+  headline: 'Verify your Email',
+  description:
+    'Please check your email and confirm the link to complete the verification process.',
+  buttonLabel: 'Resend Email',
+  imgStart: 'start',
+  img: 'images/email.svg',
+  alt: 'email',
+  link: '/TMDb'
+};
