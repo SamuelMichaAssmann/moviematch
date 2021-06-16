@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Footer.css';
 import { Button } from '../Button/Button';
 import { Link } from 'react-router-dom';
@@ -11,6 +11,10 @@ import {
 } from 'react-icons/fa';
 
 function Footer() {
+  const [state, setState] = useState();
+  const handleChange = (event) => {
+    console.log(state)
+  };
   return (
     <div className='footer-container'>
       <section className='footer-subscription'>
@@ -27,8 +31,13 @@ function Footer() {
               name='email'
               type='email'
               placeholder='Your Email'
+              onChange={state}
             />
-            <Button buttonStyle='btn--outline'>Subscribe</Button>
+            <Button 
+              buttonStyle='btn--outline'
+              onClick={handleChange}>
+                Subscribe
+            </Button>
           </form>
         </div>
       </section>
