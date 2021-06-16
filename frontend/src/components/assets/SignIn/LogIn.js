@@ -14,7 +14,7 @@ export class Login extends React.Component {
         this.state = { //use this to constantly update input fields
             email: '',
             password: '',
-            loading : false
+            loading: false
 
         }
 
@@ -47,17 +47,17 @@ export class Login extends React.Component {
         const data = {
             email: this.state.email,
             password: this.state.password
-          };
+        };
 
-        this.setState({loading : true})
+        this.setState({ loading: true })
         let response = await APIHandler.postRequest('http://127.0.0.1:5000/api/signin', data);
         var uid = response["id"]
         localStorage.setItem('uid', uid)
-        localStorage.setItem('loginState' , 'true')
-        this.setState({loading : false})
+        localStorage.setItem('loginState', 'true')
+        this.setState({ loading: false })
         window.location.href = "/home"
 
-        
+
 
 
         //console.log("Redirecting");
@@ -97,36 +97,36 @@ export class Login extends React.Component {
     render() {
         return (
             <div className="base-container" ref={this.props.containerRef}>
-                <div className="header">SignIn</div>
-                <div className="content">
-                    <div className="loading">
-                    {this.state.loading ? <Loading/> : "" }
-                    </div>
-                    
-                    <div className="form">
-                        <div className="form-group">
-                            <Textfield
-                                label='Enter your email'
-                                name='email'
-                                value={this.state.email}
-                                onChange={this.handleChange} />
+                {this.state.loading ? <Loading /> :
+                    <div>
+                        <div className="header">SignIn</div>
+                        <div className="content">
+                            <div className="form">
+                                <div className="form-group">
+                                    <Textfield
+                                        label='Enter your email'
+                                        name='email'
+                                        value={this.state.email}
+                                        onChange={this.handleChange} />
+                                </div>
+                                <div className="form-group">
+                                    <Textfield
+                                        label='Enter your password'
+                                        name='password'
+                                        type='password'
+                                        value={this.state.password}
+                                        onChange={this.handleChange} />
+                                </div>
+                                <Button
+                                    buttonSize='btn--wide'
+                                    buttonColor='blue'
+                                    onClick={this.logInFirebase}>
+                                    Login
+                                </Button>
+                            </div>
                         </div>
-                        <div className="form-group">
-                            <Textfield
-                                label='Enter your password'
-                                name='password'
-                                type='password'
-                                value={this.state.password}
-                                onChange={this.handleChange} />
-                        </div>
-                        <Button
-                            buttonSize='btn--wide'
-                            buttonColor='blue'
-                            onClick={this.logInFirebase}>
-                            Login
-                        </Button>
                     </div>
-                </div>
+                }
             </div>
         );
     }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Footer.css';
 import { Button } from '../Button/Button';
 import { Link } from 'react-router-dom';
@@ -11,6 +11,11 @@ import {
 } from 'react-icons/fa';
 
 function Footer() {
+  const [mail, setMail] = useState('');
+  const handleChange = () => {
+    setMail('');
+    console.log(mail)
+  };
   return (
     <div className='footer-container'>
       <section className='footer-subscription'>
@@ -21,15 +26,18 @@ function Footer() {
           You can unsubscribe at any time.
         </p>
         <div className='input-areas'>
-          <form>
             <input
               className='footer-input'
               name='email'
               type='email'
               placeholder='Your Email'
+              onChange={event => setMail(event.target.value)}
             />
-            <Button buttonStyle='btn--outline'>Subscribe</Button>
-          </form>
+            <Button 
+              buttonStyle='btn--outline'
+              onClick={handleChange}>
+                Subscribe
+            </Button>
         </div>
       </section>
       <div className='footer-links'>
