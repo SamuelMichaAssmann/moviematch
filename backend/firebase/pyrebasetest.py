@@ -1,3 +1,4 @@
+
 from logging import exception
 from os import kill
 import pyrebase
@@ -121,7 +122,10 @@ In order to get the existing movies, 'getWatchlist' is executed
 @throws Exception as e
 @returns message
 '''
-def updateWatchlist(userid, newwatchlist):
+def updateWatchlist(request):
+    userid = request.json('user_id')
+    newwatchlist = request.json('watchlist')
+    
     oldWL = set(getWatchlist(userid))
 
     if oldWL == newwatchlist:
@@ -130,14 +134,14 @@ def updateWatchlist(userid, newwatchlist):
 
     if "initial item" in oldWL:
         data = {
-            "watchlist" : list(newwatchlist)
+            "watchlist": list(newwatchlist)
         }
     else:
 
         data = {
-            "watchlist" : list(oldWL.union(newwatchlist))
-            }
- 
+            "watchlist": list(oldWL.union(newwatchlist))
+        }
+
     try:
         print("\nupdating wl")
         db.child("users").child(userid).update(data)
@@ -146,6 +150,7 @@ def updateWatchlist(userid, newwatchlist):
     except Exception as e:
         print("Error:\n " + str(e))
         return {'message': "Error while updating wl\n" + str(e)}, 400
+
 
 
 '''
@@ -392,17 +397,97 @@ def initializeNewGroup(name, members, owner):
         # wenn watch und anti - aus beiden löschen
 
 
-owner = "thisisatestuser1"
 
-members = ["sametset2","test3", "thisisatestuser1"]
+def updateWatchlistTest(userid, newwatchlist):
+    
+    oldWL = set(getWatchlist(userid))
+
+    if oldWL == newwatchlist:
+        print("No new movies watched")
+        return {'message' : 'Identical sets - no new movies watched'}
+
+    if "initial item" in oldWL:
+        data = {
+            "watchlist": list(newwatchlist)
+        }
+    else:
+
+        data = {
+            "watchlist": list(oldWL.union(newwatchlist))
+        }
+
+    try:
+        print("\nupdating wl")
+        db.child("users").child(userid).update(data)
+        print("\nSuccessfully updated wl")
+        return {'message': "wl successfully updated"}, 200
+    except Exception as e:
+        print("Error:\n " + str(e))
+        return {'message': "Error while updating wl\n" + str(e)}, 400
 
 
+def updateAntiwatchTest(userid, newAntiwatch):
+    
+
+    oldWL = set(getAntiwatch(userid))
+
+    if oldWL == newAntiwatch:
+        print("No new movies added to Antiwatch")
+        return {'message' : 'Identical sets - no new movies added to Antiwatch'}
+
+    if "initial item" in oldWL:
+        data = {
+            "antiwatch": list(newAntiwatch)
+        }
+    else:
+
+        data = {
+            "antiwatch": list(oldWL.union(newAntiwatch))
+        }
+
+    try:
+        print("\nupdating aw")
+        db.child("users").child(userid).update(data)
+        print("\nSuccessfully updated aw")
+        return {'message': "aw successfully updated"}, 200
+    except Exception as e:
+        print("Error:\n " + str(e))
+        return {'message': "Error while updating aw\n" + str(e)}, 400
+
+def userback():
+    uid = "zv81EkJ1FPWScbOSuO2nhemuWQh2" #GET /api/userback?user_id=zv81EkJ1FPWScbOSuO2nhemuWQh2&group_id=null&movie_id=793723&kind=like&path=../data/usermatch.json HTTP/1.1" 201 -
+    movie_id = 793723
+    kind = "like"
+
+    if (kind == 'like'):
+        print("kind = like")
+        data = {
+            'userid' : uid,
+            'newwatchlist' : [movie_id]
+        }
+        print("trying to update WL")
+        updateWatchlistTest(uid, [movie_id])
+        return {'message' : "Succesfull wrote movie to db"}, 200
+
+    if (kind == 'dislike'):
+        print("dislike")
+        data = {
+            'userid' : uid,
+            'newAntiwatch' : [movie_id]
+        }
+        print("trying to update AW")
+        updateAntiwatchTest(uid, [movie_id])
+        return {'message' : "Succesfull wrote movie to db"}, 200
 
 #pushNewUser("thisisatestuser1", "test@test1.com")
 #pushNewUser("sametset2", "test2@test.com")
 #pushNewUser("test3", "test3@test.com")
 
-initializeNewGroup("testGroupForToday", members, owner)
+#initializeNewGroup("testGroupForToday", members, owner)
 
+userid = "zv81EkJ1FPWScbOSuO2nhemuWQh2"
+newwatchlist = [384018]
 
+print("trying to update WL")
+userback()
 

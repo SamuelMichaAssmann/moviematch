@@ -145,6 +145,34 @@ def updateWatchlist(request):
         print("Error:\n " + str(e))
         return {'message': "Error while updating wl\n" + str(e)}, 400
 
+#Only for testing purpose - has to be deleted!!
+def updateWatchlistTest(userid, newwatchlist):
+    
+    oldWL = set(getWatchlist(userid))
+
+    if oldWL == newwatchlist:
+        print("No new movies watched")
+        return {'message' : 'Identical sets - no new movies watched'}
+
+    if "initial item" in oldWL:
+        data = {
+            "watchlist": list(newwatchlist)
+        }
+    else:
+
+        data = {
+            "watchlist": list(oldWL.union(newwatchlist))
+        }
+
+    try:
+        print("\nupdating wl")
+        db.child("users").child(userid).update(data)
+        print("\nSuccessfully updated wl")
+        return {'message': "wl successfully updated"}, 200
+    except Exception as e:
+        print("Error:\n " + str(e))
+        return {'message': "Error while updating wl\n" + str(e)}, 400
+
 
 '''
 Used to get existing Watchlist of user with localid = userid
@@ -206,6 +234,34 @@ def updateAntiwatch(request):
         return {'message': "Error while updating aw\n" + str(e)}, 400
 
 
+#Only for testing - has to be deleted as soon as possible!!
+def updateAntiwatchTest(userid, newAntiwatch):
+    
+
+    oldWL = set(getAntiwatch(userid))
+
+    if oldWL == newAntiwatch:
+        print("No new movies added to Antiwatch")
+        return {'message' : 'Identical sets - no new movies added to Antiwatch'}
+
+    if "initial item" in oldWL:
+        data = {
+            "antiwatch": list(newAntiwatch)
+        }
+    else:
+
+        data = {
+            "antiwatch": list(oldWL.union(newAntiwatch))
+        }
+
+    try:
+        print("\nupdating aw")
+        db.child("users").child(userid).update(data)
+        print("\nSuccessfully updated aw")
+        return {'message': "aw successfully updated"}, 200
+    except Exception as e:
+        print("Error:\n " + str(e))
+        return {'message': "Error while updating aw\n" + str(e)}, 400
 '''
 Used to get existing Antiwatch of user with localid = userid
 @param userid
@@ -463,6 +519,8 @@ def fetchAWandGL_Groups(groupid):
         "watchlist" : list(watchlist),
         "antiwatch" : list(antiwatch)
     }
+
+    db.child("groups").child(groupid).update(data)
     return data
 
 
@@ -598,3 +656,39 @@ def delete_group(request):
 
     db.update(data)
     return { 'message': 'Group successfully deleted' }, 200
+
+
+def userback(request):
+    
+    try:
+    
+        uid = request.args.get('user_id') #GET /api/userback?user_id=zv81EkJ1FPWScbOSuO2nhemuWQh2&group_id=null&movie_id=793723&kind=like&path=../data/usermatch.json HTTP/1.1" 201 -
+        temp = request.args.get('movie_id')
+        movie_id = int(temp)
+        kind = request.args.get('kind')
+
+        if (kind == 'like'):
+            print("kind = like")
+            data = {
+                'userid' : uid,
+                'newwatchlist' : [movie_id]
+            }
+            print("trying to update WL")
+            updateWatchlistTest(uid, [movie_id])
+            return {'message' : "Succesfull wrote movie to db"}, 200
+
+        if (kind == 'dislike'):
+            print("dislike")
+            data = {
+                'userid' : uid,
+                'newAntiwatch' : [movie_id]
+            }
+            print("trying to update AW")
+            updateAntiwatchTest(uid, [movie_id])
+            return {'message' : "Succesfull wrote movie to db"}, 200
+
+    except Exception as e:
+        print(str(e))
+
+
+
