@@ -32,6 +32,7 @@ def getData(group, path):
     except Exception as e:
         print(e)
 
+
 def getDataList(group, path):
     data = getAllData(path)
     try:
@@ -46,22 +47,22 @@ def setMovie(group, user, movie, path, kind):
     data = getAllData(path)
     try:
         if kind == 'like':
-            if movie != 'undefined':
-                if data.get(group) == None:
-                    data[group] = {}
-                    print(data.get(group))
-                if data.get(group).get(movie) == None:
-                    data.get(group)[movie] = []
-                    print(data.get(group).get(movie))
-                if user not in data.get(group).get(movie):
-                    data.get(group).get(movie).append(user)
+            if data.get(group) == None:
+                data[group] = {}
+                print(data.get(group))
+            if data.get(group).get(movie) == None:
+                data.get(group)[movie] = []
+                print(data.get(group).get(movie))
+            if user not in data.get(group).get(movie):
+                data.get(group).get(movie).append(user)
         else:
             del data.get(group)[movie]
 
         with open(path, 'w') as file:
-                    json.dump(data, file)
+            json.dump(data, file)
     except Exception as e:
-                print(e)
+        print(e)
+
 
 def getMovie(group, user, path):
     data = getAllData(path)

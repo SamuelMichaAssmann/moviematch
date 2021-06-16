@@ -33,6 +33,7 @@ function App() {
           <Route path='/groups' component={Groups} />
           <Route path='/group' component={Group} />
           <Route path='/logout' component={Logout} />
+          <Route path='/sign-up' component={Logout} />
           <Route path='/tutorial' component={Tutorial} />
           <Route path='/match' component={UserMatch} />
           <Route path='/settings' component={Settings} />

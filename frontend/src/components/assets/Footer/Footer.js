@@ -11,9 +11,10 @@ import {
 } from 'react-icons/fa';
 
 function Footer() {
-  const [state, setState] = useState();
-  const handleChange = (event) => {
-    console.log(state)
+  const [mail, setMail] = useState('');
+  const handleChange = () => {
+    setMail('');
+    console.log(mail)
   };
   return (
     <div className='footer-container'>
@@ -25,20 +26,18 @@ function Footer() {
           You can unsubscribe at any time.
         </p>
         <div className='input-areas'>
-          <form>
             <input
               className='footer-input'
               name='email'
               type='email'
               placeholder='Your Email'
-              onChange={state}
+              onChange={event => setMail(event.target.value)}
             />
             <Button 
               buttonStyle='btn--outline'
               onClick={handleChange}>
                 Subscribe
             </Button>
-          </form>
         </div>
       </section>
       <div className='footer-links'>
