@@ -75,6 +75,9 @@ export default class Group extends React.Component {
                 <h1 className='groupTitle'>
                     {this.state.name}
                 </h1>
+                <h2 className='groupId'>
+                    {`ID: ${this.groupId}`}
+                </h2>
                 <div className='groupViewContainer darkBg'>
                     <div className='groupContent'>{this.getGroupPhaseContent()}</div>
                     <div className='groupMemberList'>

@@ -4,6 +4,7 @@ import json
 from flask import Flask, request
 import uuid
 import shortuuid
+import requests
 
 
 pb = pyrebase.initialize_app(json.load(open('firebase/fbconfig.json')))
@@ -625,19 +626,44 @@ def updateMatch(request):
         return {'message': "Error while updating g_ml \n" + str(e)}, 400
 
 
+def join_group(request):
+    userid, groupid = '', ''
+
+    if 'user_id' in request.json and 'group_id' in request.json:
+        userid = request.json['user_id']
+        groupid = request.json['group_id']
+    else:
+        return { 'message': 'Please provide user_id and group_id parameters' }, 400
+
+    try:
+        members = db.child('groups').child(groupid).child('members').get().val()
+        if userid in members:
+            return { 'message': 'You are already a member of this group' }, 400
+
+        members.append(userid)
+
+        data = {
+            'members' : members
+        }
+
+        db.child('groups').child(groupid).update(data)
+        return {}, 200
+    except requests.exceptions.HTTPError:
+        return { 'message': 'This group does not exist' }, 400
+
+
 def leave_group(request):
     userid = request.json['user_id']
     groupid = request.json['group_id']
 
-    members = db.child("groups").child(groupid).child("members").get().val()
+    members = db.child('groups').child(groupid).child('members').get().val()
     members.remove(userid)
 
     data = {
-        "members" : members
+        'members' : members
     }
 
-    db.child("groups").child(groupid).update(data)
-    # deleteGroup(userid, groupid)
+    db.child('groups').child(groupid).update(data)
 
 def delete_group(request):
     userid = request.json['user_id']
