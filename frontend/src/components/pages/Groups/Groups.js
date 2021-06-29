@@ -12,6 +12,9 @@ export default class Groups extends React.Component {
     this.state = {
       clickedCreateGroup: false,
       createGroupName: '',
+      clickedJoinGroup: false,
+      joinGroupId: '',
+      joinGroupError: '',
       groups: [],
       loadedGroupList: false
     };
@@ -19,6 +22,8 @@ export default class Groups extends React.Component {
     this.getGroups = this.getGroups.bind(this);
     this.getCreateGroupFields = this.getCreateGroupFields.bind(this);
     this.createGroup = this.createGroup.bind(this);
+    this.getJoinGroupFields = this.getJoinGroupFields.bind(this);
+    this.joinGroup = this.joinGroup.bind(this);
     this.getGroupListElements = this.getGroupListElements.bind(this);
     this.handleChange = this.handleChange.bind(this);
 
@@ -73,14 +78,64 @@ export default class Groups extends React.Component {
     )
   }
 
+  getJoinGroupFields() {
+    if (!this.state.clickedJoinGroup) {
+      return null;
+    }
+
+    return (
+      <>
+        <Textfield
+          label='Group ID'
+          name='joinGroupId'
+          value={this.state.joinGroupId}
+          onChange={this.handleChange}
+          extraClasses='createGroupInput' />
+
+        <div className='createGroupInnerButtonContainer'>
+          <Button
+            buttonStyle='btn--outline'
+            extraStyles={{ marginRight: '20px' }}
+            onClick={this.joinGroup}
+          >
+            Join
+          </Button>
+
+          <Button
+            buttonStyle='btn--outline'
+            extraClasses='btn--outline-red'
+            onClick={() => { this.setState({ clickedJoinGroup: false }); }}
+          >
+            Cancel
+          </Button>
+        </div>
+
+        <p className='joinGroupError'>{this.state.joinGroupError}</p>
+      </>
+    )
+  }
+
   async createGroup() {
     const response = await APIHandler.postRequest('http://127.0.0.1:5000/api/newGroup', {
       group_name: this.state.createGroupName,
-      members: [localStorage.getItem('uid')],
+      members: [ localStorage.getItem('uid') ],
       owner_id: localStorage.getItem('uid')
     });
 
     window.location.reload();
+  }
+
+  async joinGroup() {
+    const response = await APIHandler.postRequest('http://127.0.0.1:5000/api/joinGroup', {
+      user_id: localStorage.getItem('uid'),
+      group_id: this.state.joinGroupId
+    });
+
+    if ('message' in response) {
+      this.setState({ joinGroupError: response.message });
+    } else {
+      window.location.reload();
+    }
   }
 
   getGroupListElements() {
@@ -123,6 +178,15 @@ export default class Groups extends React.Component {
               Create group
             </Button>
             {this.getCreateGroupFields()}
+
+            <Button
+              buttonStyle='btn--outline'
+              extraClasses='joinGroupButton'
+              onClick={() => { this.setState({ clickedJoinGroup: !this.state.clickedJoinGroup }); }}
+            >
+              Join group
+            </Button>
+            {this.getJoinGroupFields()}
           </div>
 
           <br></br>

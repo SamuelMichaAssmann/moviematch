@@ -1,9 +1,12 @@
-.groupTitle {
+.groupTitle, .groupId {
     color: white;
     text-align: center;
     width: 60%;
     margin-top: 10px;
-    margin-bottom: 30px;
+}
+
+.groupId {
+    margin-bottom: 40px;
 }
 
 .groupText {

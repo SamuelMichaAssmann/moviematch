@@ -209,6 +209,31 @@ def updateMatch():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
     return db.updateMatch(flask.request)
 
+# Change a user's data.
+# Pass the following arguments: email, password, user_id, username, age
+@app.route('/api/changeUserData', methods=['POST', 'OPTIONS'])
+@cross_origin()
+def change_user_data():
+    if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
+
+    data, status = fb_a.signIn(flask.request)
+    if status < 200 or status >= 300:
+        return { 'message': 'Incorrect password' }, 401
+
+    if 'username' in flask.request.json and flask.request.json['username'] != '':
+        data, status = db.updateName(flask.request)
+        if status < 200 or status >= 300:
+            return { 'message': 'Could not update username' }, 400
+
+    # TODO Update email here
+
+    if 'age' in flask.request.json and flask.request.json['age'] != '':
+        data, status = db.updateAge(flask.request)
+        if status < 200 or status >= 300:
+            return { 'message': 'Could not update age' }, 400
+
+    return {}, 200
+
 # Change a user's name.
 @app.route('/api/changeUsername', methods=['POST', 'OPTIONS'])
 @cross_origin()
@@ -222,6 +247,13 @@ def change_username():
 def change_age():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
     return db.updateAge(flask.request)
+
+# Join a group.
+@app.route('/api/joinGroup', methods=['POST', 'OPTIONS'])
+@cross_origin()
+def join_group():
+    if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
+    return db.join_group(flask.request)
 
 # Leave a group.
 @app.route('/api/leaveGroup', methods=['POST', 'OPTIONS'])
