@@ -6,6 +6,7 @@ import json
 #from firebase_admin import credentials, auth
 from flask import Flask, request
 import backend.firebase.firebase_db  as db
+import requests
 
 
 
@@ -68,7 +69,7 @@ def signup(request):
 
 
 
-def signIn(request):
+def sign_in(request):
     email = request.json['email']
     password = request.json['password']
 
@@ -79,31 +80,49 @@ def signIn(request):
         )
         userid = user['localId']
         jwt = user['idToken']
+        refresh_token = user['refreshToken']
+
         return {
-            'message' : 'Success',
-            'id': userid}, 200
+            'id': userid,
+            'token': jwt,
+            'refreshToken': refresh_token
+        }, 200
     except Exception as e:
         print(str(e))
         return {
-            'message': 'There was an error logging in',
+            'message': 'Incorrect username or password',
             'error' : str(e)
-            }, 400
+        }, 400
 
 def updatePwd(request):
     email = request.json['email']
 
     try:
         auth.send_password_reset_email(email)
-        return {'message' : "Password-reset Email send"}, 200
-    except Exception as e:
-        return {
-            'message' : "There was an error sending the Email",
-            'error' : str(e)
-        }, 400
+        return {}, 200
+    except Exception:
+        return { 'message' : 'Could not send a password reset email' }, 400
 
-#currently unavailable
-def resendV(request):
-    auth.send_email_verification()
+def resend_verification_email(request, allow_refresh=True, new_token='', new_refresh_token=''):
+    try:
+        user_token = request.json['token'] if new_token == '' else new_token
+        auth.send_email_verification(user_token)
+        return { 'newToken': new_token, 'newRefreshToken': new_refresh_token }, 200
+    except requests.exceptions.HTTPError as e:
+        print(e)
+        if 'TOO_MANY_ATTEMPTS_TRY_LATER' in repr(e):
+            return { 'message': 'Please wait before requesting another verification email' }, 425
+        elif 'INVALID_ID_TOKEN' in repr(e) and allow_refresh:
+            # If the ID token has expired, refresh it
+            try:
+                user = auth.refresh(request.json['refreshToken'])
+                return resend_verification_email(
+                    request,
+                    allow_refresh=False,
+                    new_token=user['idToken'],
+                    new_refresh_token=user['refreshToken']
+                )
+            except Exception:
+                return { 'message': 'Could not send a verification email' }, 400
 
-
-
+        return { 'message': 'Could not send a verification email' }, 400

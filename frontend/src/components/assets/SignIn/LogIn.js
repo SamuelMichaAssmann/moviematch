@@ -14,13 +14,15 @@ export class Login extends React.Component {
         this.state = { //use this to constantly update input fields
             email: '',
             password: '',
-            loading: false
-
+            loading: false,
+            successMessage: '',
+            error: ''
         }
 
         this.logInFirebase = this.logInFirebase.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.resetform = this.resetForm.bind(this);
+        this.resetPassword = this.resetPassword.bind(this);
     }
 
     handleChange(event) { //updates state for input
@@ -33,6 +35,7 @@ export class Login extends React.Component {
         });
 
     }
+
     resetForm() { //resets form
         this.setState({
             password: '',
@@ -41,22 +44,47 @@ export class Login extends React.Component {
         })
     }
 
+    async resetPassword() {
+        if (this.state.email == '') {
+            this.setState({ successMessage: '', error: 'Please enter a valid email' });
+            return;
+        }
+
+        this.setState({ successMessage: '', error: '', loading: true });
+
+        const response = await APIHandler.postRequest('http://127.0.0.1:5000/api/resetPwd', {
+          email: this.state.email
+        });
+    
+        if ('message' in response) {
+          this.setState({ loading: false, successMessage: '', error: response.message });
+        } else {
+          this.setState({ loading: false, successMessage: 'A password reset email has been sent to you!', error: '' });
+        }
+      }
+
     async logInFirebase() {
-
-
         const data = {
             email: this.state.email,
             password: this.state.password
         };
 
-        this.setState({ loading: true });
+        this.setState({ successMessage: '', error: '', loading: true });
         let response = await APIHandler.postRequest('http://127.0.0.1:5000/api/signin', data);
-        var uid = response["id"];
+
+        if ('message' in response) {
+            this.setState({ loading: false, successMessage: '', error: response.message });
+            return;
+        }
+        
+        var uid = response['id'];
         localStorage.setItem('uid', uid);
         localStorage.setItem('email', this.state.email);
+        localStorage.setItem('token', response['token']);
+        localStorage.setItem('refreshToken', response['refreshToken']);
         localStorage.setItem('loginState', 'true');
         this.setState({ loading: false });
-        window.location.href = "/home";
+        window.location.href = '/home';
 
 
 
@@ -100,7 +128,7 @@ export class Login extends React.Component {
             <div className="base-container" ref={this.props.containerRef}>
                 {this.state.loading ? <Loading /> :
                     <div>
-                        <div className="header">SignIn</div>
+                        <div className="header">Log in</div>
                         <div className="content">
                             <div className="form">
                                 <div className="form-group">
@@ -121,8 +149,30 @@ export class Login extends React.Component {
                                 <Button
                                     buttonSize='btn--wide'
                                     buttonColor='blue'
-                                    onClick={this.logInFirebase}>
-                                    Login
+                                    extraStyles={{ 'marginBottom': '40px' }}
+                                    onClick={this.logInFirebase}
+                                >
+                                    Log in
+                                </Button>
+
+                                {
+                                    (this.state.successMessage != '')
+                                        ? <p className='settingsSuccess'>{this.state.successMessage}</p>
+                                        : null
+                                }
+
+                                {
+                                    (this.state.error != '')
+                                        ? <p className='settingsError'>{this.state.error}</p>
+                                        : null
+                                }
+
+                                <Button
+                                    buttonSize='btn--wide'
+                                    buttonColor='blue'
+                                    onClick={this.resetPassword}
+                                >
+                                    Reset password
                                 </Button>
                             </div>
                         </div>
