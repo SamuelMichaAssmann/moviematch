@@ -18,12 +18,14 @@ class Settings extends React.Component {
       email: '',
       age: '',
       currentPassword: '',
-      success: false,
+      successMessage: '',
       error: ''
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.submitChanges = this.submitChanges.bind(this);
+    this.resendVerificationEmail = this.resendVerificationEmail.bind(this);
+    this.resetUserData = this.resetUserData.bind(this);
   }
 
   handleChange(event) { //updates state for input
@@ -37,7 +39,7 @@ class Settings extends React.Component {
   }
 
   async submitChanges() {
-    this.setState({ success: false, error: '' });
+    this.setState({ successMessage: '', error: '' });
 
     const response = await APIHandler.postRequest('http://127.0.0.1:5000/api/changeUserData', {
       email: localStorage.getItem('email'),
@@ -50,7 +52,49 @@ class Settings extends React.Component {
     if ('message' in response) {
       this.setState({ error: response.message });
     } else {
-      this.setState({ success: true, error: '' });
+      this.setState({ successMessage: 'Your user settings were changed successfully.', error: '' });
+    }
+  }
+
+  async resendVerificationEmail() {
+    this.setState({ successMessage: '', error: '' });
+
+    const response = await APIHandler.postRequest('http://127.0.0.1:5000/api/resendVerificationEmail', {
+      token: localStorage.getItem('token'),
+      refreshToken: localStorage.getItem('refreshToken')
+    });
+
+    if ('message' in response) {
+      this.setState({ error: response.message });
+    } else {
+      this.setState({ successMessage: 'A verification email has been sent to you!', error: '' });
+
+      // Store new tokens if they had to be refreshed.
+      if ('newToken' in response && response.newToken != '') {
+        localStorage.setItem('token', response.newToken);
+      }
+      if ('newRefreshToken' in response && response.newRefreshToken != '') {
+        localStorage.setItem('refreshToken', response.newRefreshToken);
+      }
+    }
+  }
+
+  async resetUserData() {
+    let answer = window.confirm('Are you sure you want to reset your matching and group data?');
+    if (!answer) {
+      return;
+    }
+    
+    this.setState({ successMessage: '', error: '' });
+
+    const response = await APIHandler.postRequest('http://127.0.0.1:5000/api/resetUserData', {
+      user_id: localStorage.getItem('uid')
+    });
+
+    if ('message' in response) {
+      this.setState({ error: response.message });
+    } else {
+      this.setState({ successMessage: 'Your data has been successfully reset.', error: '' });
     }
   }
 
@@ -60,10 +104,10 @@ class Settings extends React.Component {
         <div className='darkBg'>
           <div className='container settings'>
             <div>
-              <h1 className='heading' style={{ 'text-align': 'center' }}>
+              <h1 className='heading' style={{ 'textAlign': 'center' }}>
                 User settings
               </h1>
-              <p className='home__sek-subtitle' style={{ color: 'white', 'text-align': 'center' }}>
+              <p className='home__sek-subtitle' style={{ color: 'white', 'textAlign': 'center' }}>
                 Here you can change various user profile settings.
               </p>
             </div>
@@ -98,13 +142,13 @@ class Settings extends React.Component {
                 onChange={this.handleChange}
                 width={TEXT_FIELD_WIDTH}
                 type='password'
-                extraStyles={{ 'margin-bottom': '75px' }} />
+                extraStyles={{ 'marginBottom': '75px' }} />
             </div>
 
             <div className='settingsButtonDiv'>
               {
-                this.state.success
-                  ? <p className='settingsSuccess'>Your user settings were changed successfully.</p>
+                (this.state.successMessage != '')
+                  ? <p className='settingsSuccess'>{this.state.successMessage}</p>
                   : null
               }
 
@@ -124,16 +168,8 @@ class Settings extends React.Component {
 
               <Button
                 buttonStyle='btn--outline'
-                extraClasses='settingsButton settingsButtonTop'
-                onClick={() => { console.log('Pressed 2') }}
-              >
-                Reset password
-              </Button>
-
-              <Button
-                buttonStyle='btn--outline'
                 extraClasses='settingsButton settingsButtonBottom'
-                onClick={() => { console.log('Pressed 3') }}
+                onClick={this.resendVerificationEmail}
               >
                 Re-send verification email
               </Button>
@@ -146,7 +182,7 @@ class Settings extends React.Component {
               <Button
                 buttonStyle='btn--outline'
                 extraClasses='btn--outline-red settingsButton settingsButtonTop'
-                onClick={() => { console.log('Pressed 3') }}
+                onClick={this.resetUserData}
               >
                 Reset data
               </Button>

@@ -56,16 +56,16 @@ def signup():
 
 @app.route('/api/signin', methods=['POST', 'OPTIONS'])
 @cross_origin()
-def signIn():
+def sign_in():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
-    return fb_a.signIn(flask.request)
+    return fb_a.sign_in(flask.request)
 
 
-@app.route('/api/resendV', methods=['POST', 'OPTIONS'])
+@app.route('/api/resendVerificationEmail', methods=['POST', 'OPTIONS'])
 @cross_origin()
-def resendV():
+def resend_verification_email():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
-    return fb_a.resendV(flask.request)
+    return fb_a.resend_verification_email(flask.request)
 
 @app.route('/api/resetPwd', methods=['POST', 'OPTIONS'])
 @cross_origin()
@@ -216,7 +216,7 @@ def updateMatch():
 def change_user_data():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
 
-    data, status = fb_a.signIn(flask.request)
+    data, status = fb_a.sign_in(flask.request)
     if status < 200 or status >= 300:
         return { 'message': 'Incorrect password' }, 401
 
@@ -247,6 +247,13 @@ def change_username():
 def change_age():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
     return db.updateAge(flask.request)
+
+# Reset a user's matching and group data.
+@app.route('/api/resetUserData', methods=['POST', 'OPTIONS'])
+@cross_origin()
+def reset_user_data():
+    if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
+    return db.reset_user_data(flask.request)
 
 # Join a group.
 @app.route('/api/joinGroup', methods=['POST', 'OPTIONS'])

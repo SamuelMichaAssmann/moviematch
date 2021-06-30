@@ -278,11 +278,53 @@ def getAntiwatch(userid):
         tempaw = db.child("users").child(userid).child("antiwatch").get()       
         for x in tempaw.each():
             aw.add(x.val())
-    except:
+    except Exception:
         aw.add("initial item")
     return list(aw)
 
 
+'''
+Resets a user's matching and group data
+:param request: Should contain user_id
+:return: empty dictionary + 200 if successful, dictionary with error message + 400 if unsuccessful
+'''
+def reset_user_data(request):
+    userid = request.json['user_id']
+
+    try:
+        data = {
+            'watchlist': [],
+            'antiwatch': []
+        }
+
+        db.child('users').child(userid).update(data)
+
+        for group in db.child('groups').get().each():
+            request.json['group_id'] = group.key()
+
+            # If this user owns the group, delete the group.
+            _, status = delete_group(request)
+            if status == 200:
+                continue
+
+            # Remove the user from the group.
+            members = group.val()['members']
+            if userid not in members: continue
+            members.remove(userid)
+
+            # If there are somehow no more users in this group, delete the group.
+            if len(members) == 0:
+                delete_group(request, force=True)
+                continue
+
+            # Update group info.
+            data = { 'members': members }
+            db.child('groups').child(group.key()).update(data)
+
+        return {}, 200
+    except Exception as e:
+        print(e)
+        return { 'message': 'User data could not be reset' }, 400
 
 
 
@@ -665,12 +707,12 @@ def leave_group(request):
 
     db.child('groups').child(groupid).update(data)
 
-def delete_group(request):
+def delete_group(request, force=False):
     userid = request.json['user_id']
     groupid = request.json['group_id']
 
     owner = db.child('groups').child(groupid).child('owner').get().val()
-    if userid != owner:
+    if userid != owner and not force:
         return { 'message': 'User does not own group' }, 400
 
     groups = db.child('groups').get().val()

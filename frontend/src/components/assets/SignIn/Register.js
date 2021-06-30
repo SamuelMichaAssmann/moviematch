@@ -152,7 +152,7 @@ export class Register extends React.Component {
                     buttonColor='blue'
                     onClick={this.registerFirebase}
                   >
-                    Login
+                    Register
                   </Button>
                 </div>
               </div>
