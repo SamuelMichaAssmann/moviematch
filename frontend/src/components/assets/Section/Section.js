@@ -14,7 +14,8 @@ function Section({
   img,
   alt,
   imgStart,
-  link
+  link,
+  onClick
 }) {
   return (
     <>
@@ -44,11 +45,15 @@ function Section({
                 >
                   {description}
                 </p>
-                <Link to={link}>
-                  <Button buttonSize='btn--wide' buttonColor='blue'>
-                    {buttonLabel}
-                  </Button>
-                </Link>
+                {
+                  buttonLabel
+                    ? <Link to={link}>
+                      <Button buttonSize='btn--wide' buttonColor='blue' onClick={onClick}>
+                        {buttonLabel}
+                      </Button>
+                    </Link>
+                    : null
+                }
               </div>
             </div>
             <div className='col'>

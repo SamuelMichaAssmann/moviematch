@@ -89,7 +89,8 @@ function Navbar() {
                   to={isLoggedIn ? '/logout' : '/sign-up'}
                   className='btn-link'>
                   <Button
-                    buttonStyle='btn--outline'>
+                    buttonStyle='btn--outline'
+                    onClick={closeMobileMenu}>
                     {isLoggedIn ? "LOGOUT" : "SIGN UP"}
                   </Button>
                 </Link>

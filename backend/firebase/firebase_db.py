@@ -776,7 +776,7 @@ def userback(request):
             }
             print("trying to update WL")
             updateWatchlistTest(uid, [movie_id])
-            return {'message' : "Succesfull wrote movie to db"}, 200
+            return {'message' : "Succesfully wrote movie to db"}, 200
 
         if (kind == 'dislike'):
             print("dislike")
@@ -786,10 +786,11 @@ def userback(request):
             }
             print("trying to update AW")
             updateAntiwatchTest(uid, [movie_id])
-            return {'message' : "Succesfull wrote movie to db"}, 200
+            return {'message' : "Succesfully wrote movie to db"}, 200
 
     except Exception as e:
         print(str(e))
+        return { 'message': 'Userback failed' }, 400
 
 
 

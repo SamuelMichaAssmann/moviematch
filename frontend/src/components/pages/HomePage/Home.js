@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Section from '../../assets/Section/Section';
-import { homeObjOne, homeObjThree } from './Data';
+import { homeObjOne, homeObjTwo, homeObjThree } from './Data';
 
 function Home() {
   const [currentTime, setCurrentTime] = useState(0);
@@ -13,7 +13,7 @@ function Home() {
 
   return (
     <>
-      <Section {...homeObjOne} />
+      { localStorage.getItem('loginState') ? <Section {...homeObjTwo} /> : <Section {...homeObjOne} /> }
       <Section {...homeObjThree} />
     </>
   );
