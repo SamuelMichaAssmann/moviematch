@@ -19,7 +19,7 @@ export default class APIHandler {
     }
 
     /**
-     * Performs a POST request and returns the results as an object
+     * Performs a POST request and returns the results as an object.
      * @param {String} url 
      * @param {Object} args 
      * @returns The result as an object.
@@ -37,6 +37,34 @@ export default class APIHandler {
             });
 
             return response.json();
+        } catch (e) {
+            return e;
+        }
+    }
+
+    /**
+     * Requests a new verification email for the current user.
+     * Also handles refreshing tokens if necessary.
+     * @returns The response object of the request.
+     */
+    static async resendVerificationEmail() {
+        try {
+            const response = this.postRequest('http://127.0.0.1:5000/api/resendVerificationEmail', {
+                token: localStorage.getItem('token'),
+                refreshToken: localStorage.getItem('refreshToken')
+            });
+
+            if (!('message' in response)) {
+                // Store new tokens if they had to be refreshed.
+                if ('newToken' in response && response.newToken != '') {
+                    localStorage.setItem('token', response.newToken);
+                }
+                if ('newRefreshToken' in response && response.newRefreshToken != '') {
+                    localStorage.setItem('refreshToken', response.newRefreshToken);
+                }
+            }
+
+            return response;
         } catch (e) {
             return e;
         }

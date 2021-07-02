@@ -96,23 +96,11 @@ function getSteps() {
     return ['Userdata', 'Select some movies', 'Verify your email'];
 }
 
-// Content
-function getStepContent(step) {
-    switch (step) {
-        case 0:
-            return <Userdata />;
-        case 1:
-            return <Matching {...matchingObj} />;
-        case 2:
-            return <Section {...home} />;
-        default:
-            return 'Error';
-    }
-}
-
 export default function CustomizedSteppers() {
     const stepper = useStyles();
     const [activeStep, setActiveStep] = React.useState(0);
+    const [emailError, setEmailError] = React.useState('');
+    const [emailSuccessMessage, setEmailSuccessMessage] = React.useState('');
     const steps = getSteps();
 
     const handleNext = () => {
@@ -124,7 +112,7 @@ export default function CustomizedSteppers() {
 
             changeUsernameAndAge();
         }
-        if (activeStep == 2){
+        if (activeStep == 2) {
             return window.location.href = "/home";
         }
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -138,6 +126,38 @@ export default function CustomizedSteppers() {
         setActiveStep(0);
     };
 
+    function getStepContent(step) {
+        switch (step) {
+            case 0:
+                return <Userdata />;
+            case 1:
+                return <Matching {...matchingObj} />;
+            case 2:
+                return (
+                    <>
+                        <Section
+                            {...home}
+                            onClick={resendVerificationEmail}
+                        />
+
+                        {
+                            (emailSuccessMessage != '')
+                                ? <p className='settingsSuccess'>{emailSuccessMessage}</p>
+                                : null
+                        }
+
+                        {
+                            (emailError != '')
+                                ? <p className='settingsError'>{emailError}</p>
+                                : null
+                        }
+                    </>
+                );
+            default:
+                return 'Error';
+        }
+    }
+
     function changeUsernameAndAge() {
         APIHandler.postRequest('http://127.0.0.1:5000/api/changeUsername', {
             user_id: localStorage.getItem('uid'),
@@ -148,6 +168,20 @@ export default function CustomizedSteppers() {
             user_id: localStorage.getItem('uid'),
             age: userAge
         });
+    }
+
+    async function resendVerificationEmail() {
+        setEmailError('');
+        setEmailSuccessMessage('');
+        
+        const response = await APIHandler.resendVerificationEmail();
+    
+        if ('message' in response) {
+            setEmailError(response.message);
+        } else {
+            setEmailError('');
+            setEmailSuccessMessage('A verification email has been sent to you!');
+        }
     }
 
     return (

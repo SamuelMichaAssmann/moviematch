@@ -17,7 +17,8 @@ export class Register extends React.Component {
       password: '',
       passwordConfirmation: '',
       confirmation: false,
-      loading: false
+      loading: false,
+      error: ''
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -54,8 +55,14 @@ export class Register extends React.Component {
 
   async registerFirebase() { //register new user with firebase.auth()
 
-    if (this.state.password === this.state.passwordConfirmation) {
-      this.setState({ confirmation: true })
+    if (this.state.password.length < 6) {
+      this.setState({ error: 'Your password must be at least 6 characters long.' });
+      return;
+    }
+
+    if (this.state.password !== this.state.passwordConfirmation) {
+      this.setState({ error: 'Your passwords don\'t match!' });
+      return;
     }
 
     const data = {
@@ -63,16 +70,21 @@ export class Register extends React.Component {
       password: this.state.password
     };
 
-    this.setState({ loading: true });
+    this.setState({ loading: true, error: '' });
     let response = await APIHandler.postRequest('http://127.0.0.1:5000/api/signup', data);
-    console.log(response);
-    //may need to have a look - states are updated now matter if success or not
 
-    localStorage.setItem('loginState', 'true')
-    localStorage.setItem('uid', response['uid'])
-    localStorage.setItem('email', response['email'])
+    if ('message' in response) {
+      this.setState({ loading: false, error: response.message });
+      return;
+    }
+
+    localStorage.setItem('loginState', 'true');
+    localStorage.setItem('uid', response['uid']);
+    localStorage.setItem('email', response['email']);
+    localStorage.setItem('token', response['token']);
+    localStorage.setItem('refreshToken', response['refreshToken']);
     this.setState({ loading: false });
-    window.location.href = '/tutorial'; //relink to verification - TODO
+    window.location.href = '/tutorial';
 
 
     /*
@@ -155,6 +167,12 @@ export class Register extends React.Component {
                     Register
                   </Button>
                 </div>
+
+                {
+                    (this.state.error != '')
+                        ? <p className='settingsError' style={{'marginTop': '40px'}}>{this.state.error}</p>
+                        : null
+                }
               </div>
             </div>
           </div>

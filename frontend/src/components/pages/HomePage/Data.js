@@ -13,6 +13,19 @@ export const homeObjOne = {
   link: '/sign-up'
 };
 
+export const homeObjTwo = {
+  lightBg: false,
+  lightText: true,
+  lightTextDesc: true,
+  topLine: 'Welcome to Moviematch',
+  headline: 'Match your perfect Movie',
+  description:
+    'You and your friends don\'t know what film to watch together? No problem, just let MovieMatch decide, so you don\'t have to discuss for a long time, instead you can watch the perfect movie right away.',
+  imgStart: '',
+  img: 'images/like-dislike.svg',
+  alt: 'Like picture'
+};
+
 export const homeObjThree = {
   lightBg: true,
   lightText: false,

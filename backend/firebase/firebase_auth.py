@@ -36,6 +36,7 @@ def signup(request):
 
     if (email is None or password is None):
         return {'message': 'Error missing email or password'}, 400
+
     try:
         print("creating user")
         user = auth.create_user_with_email_and_password(
@@ -51,21 +52,23 @@ def signup(request):
             auth.send_email_verification(user['idToken'])
         except Exception as e:
             print("failed to push User to db\n" + str(e))
-            return {'message': f"Failed to push User to db",
-            'error' : str(e)
+            return {
+                'message': 'Could not create your account. Please make sure your email is valid.',
+                'error' : str(e)
             }, 400
 
         return {
-            'message': f"Successfully created user",
             'uid' : user['localId'],
-            'email' : email
-        }, 201
+            'email' : email,
+            'token': user['idToken'],
+            'refreshToken': user['refreshToken']
+        }, 200
     except Exception as e:
         print("Errormsg: \n" + str(e))
         return {
-            'message': 'Error creating user',
+            'message': 'Could not create your account. Please make sure your email is valid.',
             'error' : str(e)
-            }, 400
+        }, 400
 
 
 

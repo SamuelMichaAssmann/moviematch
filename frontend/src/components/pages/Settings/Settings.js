@@ -59,23 +59,12 @@ class Settings extends React.Component {
   async resendVerificationEmail() {
     this.setState({ successMessage: '', error: '' });
 
-    const response = await APIHandler.postRequest('http://127.0.0.1:5000/api/resendVerificationEmail', {
-      token: localStorage.getItem('token'),
-      refreshToken: localStorage.getItem('refreshToken')
-    });
+    const response = await APIHandler.resendVerificationEmail();
 
     if ('message' in response) {
       this.setState({ error: response.message });
     } else {
       this.setState({ successMessage: 'A verification email has been sent to you!', error: '' });
-
-      // Store new tokens if they had to be refreshed.
-      if ('newToken' in response && response.newToken != '') {
-        localStorage.setItem('token', response.newToken);
-      }
-      if ('newRefreshToken' in response && response.newRefreshToken != '') {
-        localStorage.setItem('refreshToken', response.newRefreshToken);
-      }
     }
   }
 

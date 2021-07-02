@@ -12,12 +12,11 @@ export const home = {
   lightBg: true,
   lightText: false,
   lightTextDesc: false,
-  headline: 'Verify your Email',
+  headline: 'Verify your email',
   description:
-    'Please check your email and confirm the link to complete the verification process.',
-  buttonLabel: 'Resend Email',
+    'Please check your email and click the link to complete the verification process. Make sure to check your Spam folder, too!',
+  buttonLabel: 'Resend verification email',
   imgStart: 'start',
   img: 'images/email.svg',
-  alt: 'email',
-  link: '/TMDb'
+  alt: 'email'
 };

@@ -40,7 +40,6 @@ export class Login extends React.Component {
         this.setState({
             password: '',
             email: ''
-
         })
     }
 

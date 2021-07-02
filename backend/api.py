@@ -111,7 +111,6 @@ def apigroupmatch():
 @cross_origin()
 def userback(): #uid, gid, movieid, kind (like, dislike, neutral), path . watch und antilist vom user
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
-    
     return db.userback(flask.request)
 
 
