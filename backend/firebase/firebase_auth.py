@@ -129,3 +129,5 @@ def resend_verification_email(request, allow_refresh=True, new_token='', new_ref
                 return { 'message': 'Could not send a verification email' }, 400
 
         return { 'message': 'Could not send a verification email' }, 400
+
+

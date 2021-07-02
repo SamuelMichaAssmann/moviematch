@@ -15,6 +15,7 @@ import Logout from './components/assets/SignIn/Logout';
 import Error404 from './components/assets/Error/Error404';
 import Policy from './components/assets/policy/policy';
 import ScrollToTop from './components/manage/ScrollToTop';
+import Delete from './components/pages/Delete/Delete';
 
 function App() {
   let isLoggedIn = false;
@@ -39,7 +40,9 @@ function App() {
           <Route path='/settings' component={Settings} />
           <Route path='/tutorial' component={Tutorial} />
           <Route path='/TMDb' component={() => { window.location.href = 'https://www.themoviedb.org/'; return null; }} />
+          <Route path='/delete' component={Delete}/>
           <Route component={Error404} ><Redirect to="/" /></Route>
+          
         </Switch>
         <Footer />
       </Router>

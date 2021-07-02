@@ -6,6 +6,7 @@ import { Textfield } from '../../assets/Textfield/Textfield';
 import { Button } from '../../assets/Button/Button';
 import APIHandler from '../../manage/api/APIHandler';
 import { FaSkull } from 'react-icons/fa';
+import firebase from 'firebase';
 
 const TEXT_FIELD_WIDTH = '300px';
 
@@ -26,6 +27,7 @@ class Settings extends React.Component {
     this.submitChanges = this.submitChanges.bind(this);
     this.resendVerificationEmail = this.resendVerificationEmail.bind(this);
     this.resetUserData = this.resetUserData.bind(this);
+    this.changeDelete = this.changeDelete.bind(this)
   }
 
   handleChange(event) { //updates state for input
@@ -86,6 +88,41 @@ class Settings extends React.Component {
       this.setState({ successMessage: 'Your data has been successfully reset.', error: '' });
     }
   }
+/*
+  async checkData(){
+
+    window.location.href = "/deleteAcc"
+  }*/
+
+  changeDelete(){
+    window.location.href = '/delete'
+  }
+
+  async deleteUser(){
+    let answer = window.confirm('Are you sure you want to delete your account?');
+    if (!answer) {
+      return;
+    }
+
+    const user = firebase.auth().currentUser;
+    this.setState({ successMessage: '', error: '' });
+
+    const response = await APIHandler.postRequest('http://127.0.0.1:5000/api/deleteUser', {
+      user_id: localStorage.getItem('uid')
+    });
+
+    if ('message' in response) {
+      this.setState({ error: response.message });
+    } else {
+      user.delete().then( () => {
+        localStorage.clear()
+        window.location.href = "/home";
+      }).catch((error) =>{
+        console.log("Error occured - User has not been deleted from auth")
+        this.setState({ error: error})
+      })
+    };
+  }
 
   render() {
     return (
@@ -108,12 +145,8 @@ class Settings extends React.Component {
                 value={this.state.username}
                 onChange={this.handleChange}
                 width={TEXT_FIELD_WIDTH} />
-              <Textfield
-                label='Email'
-                name='email'
-                value={this.state.email}
-                onChange={this.handleChange}
-                width={TEXT_FIELD_WIDTH} />
+              
+              
               <Textfield
                 label='Age'
                 name='age'
@@ -179,7 +212,7 @@ class Settings extends React.Component {
               <Button
                 buttonStyle='btn--outline'
                 extraClasses='btn--outline-red settingsButton settingsButtonBottom'
-                onClick={() => { console.log('Pressed 4') }}
+                onClick={this.changeDelete}
               >
                 <FaSkull /> Delete account <FaSkull />
               </Button>
