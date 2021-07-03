@@ -20,15 +20,15 @@ function Matching({
     thumbnailHeight,
     maxDescLength,
     emptyImage,
-    showNeutral=true,
-    onLike=null,
-    onDislike=null,
-    onNeutral=null,
+    showNeutral = true,
+    onLike = null,
+    onDislike = null,
+    onNeutral = null,
     rowExtraClasses = '',
     tableExtraClasses = '',
 }) {
-    let match = false;
-
+    const [match, setMatch] = useState(false);
+    let matchdata = null;
     const [state, setState] = useState({
         loaded: false,
         runtime: 0,
@@ -52,9 +52,16 @@ function Matching({
             "kind": kind,
             "path": dataPath
         }).then(data => {
+            matchdata = data
+            const matchmovie = data.movie_id
+            if (matchmovie != "false"){
+                setMatch(true)
+                console.log("Nice")
+            }
             //daten ob match
+            console.log(data)
         });
-        
+
         setState({
             loaded: false,
             runtime: 0,
@@ -90,36 +97,36 @@ function Matching({
         <>
             <div className={lightbg ? 'lightBg' : 'darkBg'}>
                 <div className={`movieThumbnailRow ${rowExtraClasses}`}>
-                    {state.loaded || lightbg ? 
-                    <MovieThumbnail
-                        src={state.thumbnailSrc}
-                        height={thumbnailHeight}
-                    /> : <Loading />}
+                    {state.loaded || lightbg ?
+                        <MovieThumbnail
+                            src={state.thumbnailSrc}
+                            height={thumbnailHeight}
+                        /> : <Loading />}
                     {lightbg ? '' :
-                    <div className='movieThumbnailMobile' align='center'>
-                        <RateButton {...likeButton} onClick={onLike} />
-                        {showNeutral ? <RateButton {...neutralButton} onClick={onNeutral} /> : null}
-                        <RateButton {...dislikeButton} onClick={onDislike} />
-                    </div>}
+                        <div className='movieThumbnailMobile' align='center'>
+                            <RateButton {...likeButton} onClick={onLike} />
+                            {showNeutral ? <RateButton {...neutralButton} onClick={onNeutral} /> : null}
+                            <RateButton {...dislikeButton} onClick={onDislike} />
+                        </div>}
                     <div>
                         <h2 className={lightbg ? 'lightmovieTitle' : 'darkmovieTitle'}>{state.title}</h2>
                         <p className={lightbg ? 'home__sek-subtitle lightmovieDescription' : 'home__sek-subtitle darkmovieDescription'}>{state.desc}</p>
                     </div>
                 </div>
                 {lightbg ? '' :
-                <div className='movieThumbnailDesktop' align='center'>
-                    <RateButton {...likeButton} onClick={onLike} />
-                    {showNeutral ? <RateButton {...neutralButton} onClick={onNeutral} /> : null}
-                    <RateButton {...dislikeButton} onClick={onDislike} />
-                </div>}
+                    <div className='movieThumbnailDesktop' align='center'>
+                        <RateButton {...likeButton} onClick={onLike} />
+                        {showNeutral ? <RateButton {...neutralButton} onClick={onNeutral} /> : null}
+                        <RateButton {...dislikeButton} onClick={onDislike} />
+                    </div>}
             </div>
-            {match ? <Match {...} onClick={() => match = false}/> : ""}
             <MovieInfo {... {
                 runtime: state.runtime,
                 rating: state.rating,
                 genres: state.genres,
                 tableExtraClasses: tableExtraClasses,
             }} />
+            {match ? <Match {...matchdata} onClick={() => setMatch(false)} /> : ""}
         </>
     );
 }

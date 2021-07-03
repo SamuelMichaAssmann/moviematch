@@ -25,8 +25,8 @@ def groupmatch(group, user, path):
         return "Waiting for movies!", 200
 
 
-def matchCheck(group, path):
-    movie_id = check(group, path)
+def matchCheck(group, user, path):
+    movie_id = check(group, user, path)
     if movie_id != None:
         return movieInfo(movie_id)
     else:

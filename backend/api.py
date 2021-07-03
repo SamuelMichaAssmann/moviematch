@@ -124,7 +124,7 @@ def groupback():
     path = flask.request.args.get('path')
     kind = flask.request.args.get('kind')
     setMovie(group_id, user_id, movie_id, path, kind)
-    match = matchCheck(group_id, path)
+    match = matchCheck(group_id, user_id, path)
     return match
 
 
