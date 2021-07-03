@@ -113,5 +113,12 @@ def resend_verification_email(request, allow_refresh=True, new_token='', new_ref
                 )
             except Exception:
                 return { 'message': 'Could not send a verification email' }, 400
-
         return { 'message': 'Could not send a verification email' }, 400
+      
+def isUserVerified(request):
+    request_token = request.json['refresh_token']
+    user = auth.refresh(request_token)
+    if (auth.get_account_info(user['idToken'])['users'][0]['emailVerified']):
+        return {'message' : "User is verified"},200
+    else: return {'message' : "User is not verified"}, 401
+

@@ -126,31 +126,6 @@ class Settings extends React.Component {
     }
   }
 
-  /*async deleteUser(){
-    let answer = window.confirm('Are you sure you want to delete your account?');
-    if (!answer) {
-      return;
-    }
-
-    const user = firebase.auth().currentUser;
-    this.setState({ successMessage: '', error: '' });
-
-    const response = await APIHandler.postRequest('http://127.0.0.1:5000/api/deleteUser', {
-      user_id: localStorage.getItem('uid')
-    });
-
-    if ('message' in response) {
-      this.setState({ error: response.message });
-    } else {
-      user.delete().then( () => {
-        localStorage.clear()
-        window.location.href = "/home";
-      }).catch((error) =>{
-        console.log("Error occured - User has not been deleted from auth")
-        this.setState({ error: error})
-      })
-    };
-  }*/
 
   render() {
     return (

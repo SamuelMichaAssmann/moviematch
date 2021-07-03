@@ -231,12 +231,20 @@ def delete_group():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
     return db.delete_group(flask.request)
 
+#Delete a user
 @app.route('/api/deleteUser', methods=['POST', 'OPTIONS'])
 @cross_origin()
 def delete_user():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
     return db.delete_user(flask.request)
 
+#Check if user is verified
+@app.route('/api/isUserVerified', methods=['POST', 'OPTIONS'])
+@cross_origin()
+def isUserVerified():
+    if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
+    return fb_a.isUserVerified(flask.request)
+  
 @app.errorhandler(404)
 def page_not_found(e):
     return e, 404
