@@ -606,7 +606,7 @@ def delete_group(request, force=False):
 
 '''
 Update the watch list or anti-watch list of a user.
-:param request: Request object containing user_id, movie_id and kind ('like' or 'dislike')
+:param request: Request object containing user_id, movie_id and kind ('like' or 'dislike').
 '''
 def userback(request):
     try:
