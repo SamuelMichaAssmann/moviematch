@@ -28,6 +28,6 @@ def groupmatch(group, user, path):
 def matchCheck(group, path):
     movie_id = check(group, path)
     if movie_id != None:
-        movieInfo(movie_id)
+        return movieInfo(movie_id)
     else:
-        return {"movieId" : "false"}
+        return {"movie_id": "false"}

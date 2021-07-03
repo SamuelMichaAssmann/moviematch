@@ -7,6 +7,7 @@ import { MovieThumbnail } from '../Image/MovieThumbnail';
 import { likeButton, neutralButton, dislikeButton } from './Data';
 import APIHandler from '../../manage/api/APIHandler';
 import MovieInfo from './MovieInfo/MovieInfo';
+import Match from '../Match/Match';
 
 const BASE_THUMBNAIL_URL = 'https://image.tmdb.org/t/p/w500';
 
@@ -26,6 +27,7 @@ function Matching({
     rowExtraClasses = '',
     tableExtraClasses = '',
 }) {
+    let match = false;
 
     const [state, setState] = useState({
         loaded: false,
@@ -49,6 +51,8 @@ function Matching({
             "movie_id": state.movieId,
             "kind": kind,
             "path": dataPath
+        }).then(data => {
+            //daten ob match
         });
         
         setState({
@@ -109,6 +113,7 @@ function Matching({
                     <RateButton {...dislikeButton} onClick={onDislike} />
                 </div>}
             </div>
+            {match ? <Match {...} onClick={() => match = false}/> : ""}
             <MovieInfo {... {
                 runtime: state.runtime,
                 rating: state.rating,

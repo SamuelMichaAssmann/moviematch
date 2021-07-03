@@ -124,7 +124,8 @@ def groupback():
     path = flask.request.args.get('path')
     kind = flask.request.args.get('kind')
     setMovie(group_id, user_id, movie_id, path, kind)
-    return "Data stored!", 201
+    match = matchCheck(group_id, path)
+    return match
 
 
 @app.route('/api/groupcheck', methods=['GET', 'OPTIONS'])
