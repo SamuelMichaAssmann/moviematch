@@ -100,9 +100,13 @@ Add movies to a user's watch list (i.e. union of existing watch list and new wat
 :param request: Request object with parameters user_id and watchlist.
 :return: Message and status.
 '''
+
 def update_watch_list(request):
-    userid = request.json('user_id')
-    new_watch_list = request.json('watchlist')
+    userid = request.json['user_id']
+    if 'movie_id' in request.json:
+        new_watch_list = [int(request.json['movie_id'])]
+    else:
+        new_watch_list = request.json['watchlist']
     
     old_watch_list = set(get_watch_list(userid))
 
@@ -123,6 +127,7 @@ def update_watch_list(request):
         return {'message': 'Watch list successfully updated'}, 200
     except Exception:
         return {'message': 'Error while updating watch list'}, 400
+
 
 '''
 Get the watch list of a given user.
@@ -148,7 +153,11 @@ Add movies to a user's anti-watch list (i.e. union of existing anti-watch list a
 '''
 def update_antiwatch(request):
     userid = request.json('userid')
-    new_anti_watch = request.json('newAntiwatch')
+
+    if 'movie_id' in request.json:
+        new_anti_watch = [int(request.json['movie_id'])]
+    else:
+        new_anti_watch = request.json('newAntiwatch')
 
     old_watch_list = set(get_antiwatch(userid))
 
@@ -610,28 +619,22 @@ Update the watch list or anti-watch list of a user.
 '''
 def userback(request):
     try:
-        uid = request.args.get('user_id')
-        temp = request.args.get('movie_id')
-        movie_id = int(temp)
-        kind = request.args.get('kind')
+        if 'movie_id' not in request.json:
+            return { 'message': 'First load' }, 400
+
+        kind = request.json['kind']
 
         if (kind == 'like'):
-            data = {
-                'userid' : uid,
-                'newwatchlist' : [movie_id]
-            }
-            updateWatchlistTest(uid, [movie_id]) #TODO update
+            update_watch_list(request)
             return {'message' : 'Succesfully wrote movie to db'}, 200
 
         if (kind == 'dislike'):
-            data = {
-                'userid' : uid,
-                'newAntiwatch' : [movie_id]
-            }
-            updateAntiwatchTest(uid, [movie_id]) #TODO update
-            return {'message' : 'Succesfully wrote movie to db'}, 200
-    except Exception:
-        return { 'message': 'Could not update watch list or anti-watch list' }, 400
+            update_antiwatch(request)
+            return {'message' : "Succesfully wrote movie to db"}, 200
+
+    except Exception as e:
+        print(str(e))
+        return { 'message': 'Userback failed' }, 400
 
 
 

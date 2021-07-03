@@ -52,7 +52,7 @@ function Matching({
             return;
         }
         
-        APIHandler.getRequest(setEndpoint, {
+        APIHandler.postRequest(setEndpoint, {
             "user_id": localStorage.getItem("uid"),
             "group_id": new URLSearchParams(window.location.search).get('id'),
             "movie_id": state.movieId,
