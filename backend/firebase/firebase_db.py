@@ -118,8 +118,12 @@ In order to get the existing movies, 'getWatchlist' is executed
 
 
 def updateWatchlist(request):
-    userid = request.json('user_id')
-    newwatchlist = request.json('watchlist')
+    print(request.json)
+    userid = request.json['user_id']
+    if 'movie_id' in request.json:
+        newwatchlist = [int(request.json['movie_id'])]
+    else:
+        newwatchlist = request.json['watchlist']
     
     oldWL = set(getWatchlist(userid))
 
@@ -146,33 +150,6 @@ def updateWatchlist(request):
         print("Error:\n " + str(e))
         return {'message': "Error while updating wl\n" + str(e)}, 400
 
-#Only for testing purpose - has to be deleted!!
-def updateWatchlistTest(userid, newwatchlist):
-    
-    oldWL = set(getWatchlist(userid))
-
-    if oldWL == newwatchlist:
-        print("No new movies watched")
-        return {'message' : 'Identical sets - no new movies watched'}
-
-    if "initial item" in oldWL:
-        data = {
-            "watchlist": list(newwatchlist)
-        }
-    else:
-
-        data = {
-            "watchlist": list(oldWL.union(newwatchlist))
-        }
-
-    try:
-        print("\nupdating wl")
-        db.child("users").child(userid).update(data)
-        print("\nSuccessfully updated wl")
-        return {'message': "wl successfully updated"}, 200
-    except Exception as e:
-        print("Error:\n " + str(e))
-        return {'message': "Error while updating wl\n" + str(e)}, 400
 
 
 '''
@@ -207,7 +184,10 @@ In order to get the existing movies, 'getAntiwatch' is executed
 
 def updateAntiwatch(request):
     userid = request.json('userid')
-    newAntiwatch = request.json('newAntiwatch')
+    if 'movie_id' in request.json:
+        newAntiwatch = [int(request.json['movie_id'])]
+    else:
+        newAntiwatch = request.json('newAntiwatch')
 
     oldWL = set(getAntiwatch(userid))
 
@@ -748,30 +728,17 @@ def delete_group(request, force=False):
 def userback(request):
     
     try:
-    
-        uid = request.args.get('user_id') #GET /api/userback?user_id=zv81EkJ1FPWScbOSuO2nhemuWQh2&group_id=null&movie_id=793723&kind=like&path=../data/usermatch.json HTTP/1.1" 201 -
-        temp = request.args.get('movie_id')
-        movie_id = int(temp)
-        kind = request.args.get('kind')
+        if 'movie_id' not in request.json:
+            return { 'message': 'First load' }, 400
+
+        kind = request.json['kind']
 
         if (kind == 'like'):
-            print("kind = like")
-            data = {
-                'userid' : uid,
-                'newwatchlist' : [movie_id]
-            }
-            print("trying to update WL")
-            updateWatchlistTest(uid, [movie_id])
-            return {'message' : "Succesfully wrote movie to db"}, 200
+            updateWatchlist(request)
+            return {'message' : 'Succesfully wrote movie to db'}, 200
 
         if (kind == 'dislike'):
-            print("dislike")
-            data = {
-                'userid' : uid,
-                'newAntiwatch' : [movie_id]
-            }
-            print("trying to update AW")
-            updateAntiwatchTest(uid, [movie_id])
+            updateAntiwatch(request)
             return {'message' : "Succesfully wrote movie to db"}, 200
 
     except Exception as e:

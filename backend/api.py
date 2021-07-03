@@ -107,7 +107,7 @@ def apigroupmatch():
     return groupmatch(group_id, user_id, path)
 
 
-@app.route('/api/userback', methods=['GET', 'OPTIONS'])
+@app.route('/api/userback', methods=['POST', 'OPTIONS'])
 @cross_origin()
 def userback(): #uid, gid, movieid, kind (like, dislike, neutral), path . watch und antilist vom user
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
