@@ -6,7 +6,7 @@ export default class APIHandler {
      * @param {Object} args 
      * @returns The result as an object.
      */
-    static async getRequest(url, args) {
+    static async getRequest(url, args, returnRawResponse=false) {
         let firstArgument = true;
         Object.entries(args).forEach(entry => {
             const [key, value] = entry;
@@ -15,6 +15,10 @@ export default class APIHandler {
         });
 
         const response = await fetch(url);
+        if (returnRawResponse) {
+            return response;
+        }
+
         return response.json();
     }
 

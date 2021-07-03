@@ -3,7 +3,6 @@ from os import system
 import pprint
 import pyrebase
 import json
-#from firebase_admin import credentials, auth
 from flask import Flask, request
 import backend.firebase.firebase_db  as db
 import requests
@@ -13,23 +12,11 @@ import requests
 pb = pyrebase.initialize_app(json.load(open('firebase/fbconfig.json')))
 auth = pb.auth()
 
-
-
-def check_token(f):  # middleware - check for valid token before performing fb_user action - not needed anymore
-    @wraps(f)
-    def wrap(*args, **kwargs):
-        if not request.headers.get('authorization'):
-            return {'message': 'No token provided'}, 400
-        try:
-            user = auth.verify_id_token(request.headers['authorization'])
-            request.user = user
-        except:
-            return {'message': 'Invalid token provided'}, 400
-        return f(*args, **kwargs)
-    return wrap
-
-
-
+'''
+Register a new user.
+:param request: Request object containing email and password.
+:return: Info + status.
+'''
 def signup(request):
     email = request.json['email']
     password = request.json['password']
@@ -38,24 +25,16 @@ def signup(request):
         return {'message': 'Error missing email or password'}, 400
 
     try:
-        print("creating user")
         user = auth.create_user_with_email_and_password(
             email=email,
             password=password
         )
-        pprint.pprint(user)
-        print("\nuser created")
-        print("\nwriting user to database")
 
         try:
-            db.pushNewUser(user['localId'], user['email'])
+            db.push_new_user(user['localId'], user['email'])
             auth.send_email_verification(user['idToken'])
-        except Exception as e:
-            print("failed to push User to db\n" + str(e))
-            return {
-                'message': 'Could not create your account. Please make sure your email is valid.',
-                'error' : str(e)
-            }, 400
+        except Exception:
+            return { 'message': 'Could not create your account. Please make sure your email is valid.' }, 400
 
         return {
             'uid' : user['localId'],
@@ -63,15 +42,14 @@ def signup(request):
             'token': user['idToken'],
             'refreshToken': user['refreshToken']
         }, 200
-    except Exception as e:
-        print("Errormsg: \n" + str(e))
-        return {
-            'message': 'Could not create your account. Please make sure your email is valid.',
-            'error' : str(e)
-        }, 400
+    except Exception:
+        return { 'message': 'Could not create your account. Please make sure your email is valid.' }, 400
 
-
-
+'''
+Let a user log in.
+:param request: Request object containing email and password.
+:return: Info + status.
+'''
 def sign_in(request):
     email = request.json['email']
     password = request.json['password']
@@ -90,14 +68,15 @@ def sign_in(request):
             'token': jwt,
             'refreshToken': refresh_token
         }, 200
-    except Exception as e:
-        print(str(e))
-        return {
-            'message': 'Incorrect username or password',
-            'error' : str(e)
-        }, 400
+    except Exception:
+        return { 'message': 'Incorrect username or password' }, 400
 
-def updatePwd(request):
+'''
+Reset a user's password.
+:param request: Request object containing email.
+:return: Message (or empty dictionary) + status.
+'''
+def reset_user_password(request):
     email = request.json['email']
 
     try:
@@ -106,6 +85,13 @@ def updatePwd(request):
     except Exception:
         return { 'message' : 'Could not send a password reset email' }, 400
 
+'''
+Resend a user's verification email.
+:param request: Request object containing token and refreshToken.
+:param allow_refresh: Whether or not to allow the use of the refresh token.
+:param new_token: The new ID token, if any.
+:param new_refresh_token: The new refresh token, if any.
+'''
 def resend_verification_email(request, allow_refresh=True, new_token='', new_refresh_token=''):
     try:
         user_token = request.json['token'] if new_token == '' else new_token
@@ -129,5 +115,3 @@ def resend_verification_email(request, allow_refresh=True, new_token='', new_ref
                 return { 'message': 'Could not send a verification email' }, 400
 
         return { 'message': 'Could not send a verification email' }, 400
-
-

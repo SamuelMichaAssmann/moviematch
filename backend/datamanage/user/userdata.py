@@ -1,24 +1,35 @@
 import json
 
-
-def getAllData(path):
+'''
+Get all data from a json file.
+:param path: Path to the JSON file.
+:return: The data (or None, if the file could not be loaded).
+'''
+def get_all_json_data(path):
     try:
         with open(path) as file:
             return json.load(file)
-    except Exception as e:
-        print(e)
+    except Exception:
         cleanup(path)
         return None
 
-
+'''
+Clean up JSON data. Call this in case of an error.
+:param path: Path to the JSON file.
+'''
 def cleanup(path):
     print("Error - Cleanup!")
     with open(path, 'w') as file:
             json.dump({}, file)
 
-
-def setData(user, movies, path):
-    data = getAllData(path)
+'''
+Set user watch data (movie IDs in a JSON file).
+:param user: The ID of the user.
+:param movies: A list of movie IDs.
+:param path: Path to the JSON file.
+'''
+def set_user_movie_data(user, movies, path):
+    data = get_all_json_data(path)
     try:  
         if data.get(user) == None:
             data[user] = []
@@ -30,9 +41,14 @@ def setData(user, movies, path):
     except Exception as e:
         print(e)
 
-
-def getData(user, path):
-    data = getAllData(path)
+'''
+Get watch data from a user.
+:param user: The ID of the user.
+:param path: Path to the JSON file.
+:return: The watch data.
+'''
+def get_user_movie_data(user, path):
+    data = get_all_json_data(path)
     try:
         if data.get(user) == None:
             return []
@@ -41,9 +57,14 @@ def getData(user, path):
         print(e)
         return []
 
-
-def getMovie(user, path):
-    data = getAllData(path)
+'''
+Get a movie linked to a given user, or None if the user did not interact with this movie.
+:param user: The user ID.
+:param path: The path to the JSON file.
+:return: The movie ID or None.
+'''
+def get_movie_by_user(user, path):
+    data = get_all_json_data(path)
     movie = None
     try:  
         if data.get(user) == None:
@@ -57,8 +78,13 @@ def getMovie(user, path):
         print(e)
     return movie
 
-
-def getLen(user, path):
-    if getData(user, path) == None:
+'''
+Count how many movies a user has interacted with.
+:param user: The ID of the user.
+:param path: The path to the JSON file.
+:return: The amount of movies the user has interacted with in the group.
+'''
+def get_user_movie_count(user, path):
+    if get_user_movie_data(user, path) == None:
         return 0
-    return len(getData(user, path))
+    return len(get_user_movie_data(user, path))
