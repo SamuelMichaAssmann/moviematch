@@ -58,6 +58,8 @@ function Matching({
             "movie_id": state.movieId,
             "kind": kind,
             "path": dataPath
+        }).catch(() => {
+            // Errors during set are fine, just load a new movie.
         });
         
         setState({

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './Tutorial.css'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
@@ -101,7 +101,12 @@ export default function CustomizedSteppers() {
     const [activeStep, setActiveStep] = React.useState(0);
     const [emailError, setEmailError] = React.useState('');
     const [emailSuccessMessage, setEmailSuccessMessage] = React.useState('');
+    const [emailVerified, setEmailVerified] = React.useState(false);
     const steps = getSteps();
+
+    useEffect(() => {
+        checkEmailVerified();
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     const handleNext = () => {
         if (activeStep === 0) {
@@ -111,10 +116,16 @@ export default function CustomizedSteppers() {
             }
 
             changeUsernameAndAge();
+        } else if (activeStep === 2) {
+            // Don't proceed if the user isn't verified yet.
+            if (!emailVerified) {
+                setEmailError('Please verify your email before proceeding');
+                return;
+            }
+
+            window.location.href = '/home';
         }
-        if (activeStep === 2) {
-            return window.location.href = "/home";
-        }
+
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
     };
 
@@ -125,6 +136,19 @@ export default function CustomizedSteppers() {
     const handleReset = () => {
         setActiveStep(0);
     };
+
+    async function checkEmailVerified() {
+        const response = await APIHandler.getRequest('http://127.0.0.1:5000/api/isUserVerified', {
+            user_id: localStorage.getItem('uid')
+        }, true);
+
+        if (response.status < 200 || response.status >= 300) {
+            setTimeout(checkEmailVerified, 2000);
+            return;
+        }
+
+        setEmailVerified(true);
+    }
 
     function getStepContent(step) {
         switch (step) {
