@@ -224,8 +224,6 @@ def change_user_data():
         if status < 200 or status >= 300:
             return { 'message': 'Could not update username' }, 400
 
-    # TODO Update email here
-
     if 'age' in flask.request.json and flask.request.json['age'] != '':
         data, status = db.updateAge(flask.request)
         if status < 200 or status >= 300:
@@ -275,13 +273,19 @@ def delete_group():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
     return db.delete_group(flask.request)
 
-
+#Delete a user
 @app.route('/api/deleteUser', methods=['POST', 'OPTIONS'])
 @cross_origin()
 def delete_user():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
     return db.delete_user(flask.request)
 
+#Check if user is verified
+@app.route('/api/isUserVerified', methods=['POST', 'OPTIONS'])
+@cross_origin()
+def isUserVerified():
+    if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
+    return fb_a.isUserVerified(flask.request)
 
 if __name__ == "__main__":
     app.run(port=5000, debug=True)
