@@ -52,7 +52,7 @@ def resend_verification_email():
 @cross_origin()
 def reset_password():
      if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
-     return fb_a.update_password(flask.request)
+     return fb_a.reset_user_password(flask.request)
 
 @app.route('/api', methods=['GET', 'OPTIONS'])
 @cross_origin()
@@ -68,7 +68,7 @@ def get_current_time():
 
 @app.route('/api/usermatch', methods=['GET', 'OPTIONS'])
 @cross_origin()
-def api_user_match(update_password):
+def api_user_match():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
     user_id = flask.request.args.get('user_id')
     path = flask.request.args.get('path')
