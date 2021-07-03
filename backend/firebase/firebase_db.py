@@ -11,260 +11,195 @@ pb = pyrebase.initialize_app(json.load(open('firebase/fbconfig.json')))
 db = pb.database()
 
 '''
-create new User /initial user push
-@param userid, email
-@returns message
+Create a new user.
+:param userid: The ID of the user.
+:param email: The email address of the user.
+:return: Message and status.
 '''
-
-
-def pushNewUser(userid, email):
+def push_new_user(userid, email):
     data = {
-        "name": "",
-        "email": email,
-        "watchlist": "",
-        "antiwatch": "",
-        "age": ""
+        'name': '',
+        'email': email,
+        'watchlist': '',
+        'antiwatch': '',
+        'age': ''
     }
 
     try:
-        print("writing user/ writing user data to db")
-        db.child("users").child(userid).set(data)
-        print("successfully wrote user-data to db")
-        return {'message': "User successfully written to db"}, 200
-    except Exception as e:
-        print("\n" + str(e))
-        return {'message': "Error while writing user to db\n" + str(e)}, 400
+        db.child('users').child(userid).set(data)
+        return {'message': 'User successfully written to db'}, 200
+    except Exception:
+        return {'message': 'Error while writing user to db'}, 400
 
-
-def setUser(userid, name, email, watchlist, antiwatch, age):
+'''
+Set a user's data.
+:param userid: The ID of the user to change.
+:param name: The new username.
+:param email: The new email address.
+:param watchlist: The watch list (liked movies).
+:param antiwatch: The anti-watch list (disliked movies).
+:param age: The user's age.
+:return: Message and status.
+'''
+def set_user(userid, name, email, watchlist, antiwatch, age):
     data = {
-        "name": name,
-        "email": email,
-        "watchlist": watchlist,
-        "antiwatch": antiwatch,
-        "age": age
+        'name': name,
+        'email': email,
+        'watchlist': watchlist,
+        'antiwatch': antiwatch,
+        'age': age
     }
 
     try:
-        print("setting user")
-        db.child("users").child(userid).update(data)
-        print("\nSuccessfully set user")
-        return {'message': "User set"}, 200
-    except Exception as e:
-        print("\n" + str(e))
-        return {'message': "Error while setting user\n" + str(e)}, 400
-
+        db.child('users').child(userid).update(data)
+        return {'message': 'User set'}, 200
+    except Exception:
+        return {'message': 'Error while setting user'}, 400
 
 '''
-updating name to user with localid = userid
-@param userid, name
-@throws Exception as e
-@returns message
+Update the name of a user.
+:param request: Request object with parameters user_id and username.
+:return: Message and status.
 '''
-
-
-def updateName(request):
+def update_name(request):
     userid = request.json['user_id']
     name = request.json['username']
 
     data = {
-        "name": name
+        'name': name
     }
 
     try:
-        print("\nchanging username")
-        db.child("users").child(userid).update(data)
-        print("\nSuccessfully updated username")
-
-        return {'message': "Username successfully updated"}, 200
-    except Exception as e:
-        print("\n" + str(e))
-        return {'message': "Error while updating username\n" + str(e)}, 400
-
+        db.child('users').child(userid).update(data)
+        return {'message': 'Username successfully updated'}, 200
+    except Exception:
+        return {'message': 'Error while updating username'}, 400
 
 '''
-updating age to user with localid = userid
-@param userid, age
-@throws Exception as e
-@returns message
+Update the age of a user.
+:param request: Request object with parameters user_id and age.
+:return: Message and status.
 '''
-
-
-def updateAge(request):
+def update_age(request):
     userid = request.json['user_id']
     age = request.json['age']
 
     data = {
-        "age": age
+        'age': age
     }
 
     try:
-        print("\nupdating age")
-        db.child("users").child(userid).update(data)
-        print("\nSuccessfully updated user-age")
-        return {'message': "User-Age successfully updated"}, 200
-    except Exception as e:
-        print("Error:\n " + str(e))
-        return {'message': "Error while updating User-Age\n" + str(e)}, 400
+        db.child('users').child(userid).update(data)
+        return {'message': 'Age successfully updated'}, 200
+    except Exception:
+        return {'message': 'Error while updating age'}, 400
 
 
 '''
-updateWL with union of existing wl and newwatchlist, which may contain new movies to user with localid = userid
-In order to get the existing movies, 'getWatchlist' is executed
-@param userid, newwatchlist
-@throws Exception as e
-@returns message
+Add movies to a user's watch list (i.e. union of existing watch list and new watch list).
+:param request: Request object with parameters user_id and watchlist.
+:return: Message and status.
 '''
 
-
-def updateWatchlist(request):
-    print(request.json)
+def update_watch_list(request):
     userid = request.json['user_id']
     if 'movie_id' in request.json:
-        newwatchlist = [int(request.json['movie_id'])]
+        new_watch_list = [int(request.json['movie_id'])]
     else:
-        newwatchlist = request.json['watchlist']
+        new_watch_list = request.json['watchlist']
     
-    oldWL = set(getWatchlist(userid))
+    old_watch_list = set(get_watch_list(userid))
 
-    if oldWL == newwatchlist:
-        print("No new movies watched")
-        return {'message' : 'Identical sets - no new movies watched'}
+    if old_watch_list == new_watch_list:
+        return {'message': 'Identical sets - no new movies watched'}
 
-    if "initial item" in oldWL:
+    if 'initial item' in old_watch_list:
         data = {
-            "watchlist": list(newwatchlist)
+            'watchlist': list(new_watch_list)
         }
     else:
-
         data = {
-            "watchlist": list(oldWL.union(newwatchlist))
+            'watchlist': list(old_watch_list.union(new_watch_list))
         }
 
     try:
-        print("\nupdating wl")
-        db.child("users").child(userid).update(data)
-        print("\nSuccessfully updated wl")
-        return {'message': "wl successfully updated"}, 200
-    except Exception as e:
-        print("Error:\n " + str(e))
-        return {'message': "Error while updating wl\n" + str(e)}, 400
-
+        db.child('users').child(userid).update(data)
+        return {'message': 'Watch list successfully updated'}, 200
+    except Exception:
+        return {'message': 'Error while updating watch list'}, 400
 
 
 '''
-Used to get existing Watchlist of user with localid = userid
-@param userid
-@returns list(wl)
+Get the watch list of a given user.
+:param userid: The ID of the user.
+:return: The watch list.
 '''
-# returns watchlist as a list
-
-
-def getWatchlist(userid):
+def get_watch_list(userid):
     wl = set()
     
     try:
-        tempwl = db.child("users").child(userid).child("watchlist").get()       
+        tempwl = db.child('users').child(userid).child('watchlist').get()       
         for x in tempwl.each():
             wl.add(x.val())
-    except:
-        wl.add("initial item")
+    except Exception:
+        wl.add('initial item')
+
     return list(wl)
 
-
-
 '''
-updateAW with union of existing aw and newAntiwatch, which may contain new movies to user with localid = userid
-In order to get the existing movies, 'getAntiwatch' is executed
-@param userid, newAntiwatch
-@throws Exception as e
-@returns message
+Add movies to a user's anti-watch list (i.e. union of existing anti-watch list and new anti-watch list).
+:param request: Request object with parameters userid and newAntiWatch.
+:return: Message and status.
 '''
-
-
-def updateAntiwatch(request):
+def update_antiwatch(request):
     userid = request.json('userid')
+
     if 'movie_id' in request.json:
-        newAntiwatch = [int(request.json['movie_id'])]
+        new_anti_watch = [int(request.json['movie_id'])]
     else:
-        newAntiwatch = request.json('newAntiwatch')
+        new_anti_watch = request.json('newAntiwatch')
 
-    oldWL = set(getAntiwatch(userid))
+    old_watch_list = set(get_antiwatch(userid))
 
-    if oldWL == newAntiwatch:
-        print("No new movies added to Antiwatch")
+    if old_watch_list == new_anti_watch:
+        print('No new movies added to Antiwatch')
         return {'message' : 'Identical sets - no new movies added to Antiwatch'}
 
-    if "initial item" in oldWL:
+    if 'initial item' in old_watch_list:
         data = {
-            "antiwatch": list(newAntiwatch)
+            'antiwatch': list(new_anti_watch)
         }
     else:
 
         data = {
-            "antiwatch": list(oldWL.union(newAntiwatch))
+            'antiwatch': list(old_watch_list.union(new_anti_watch))
         }
 
     try:
-        print("\nupdating aw")
-        db.child("users").child(userid).update(data)
-        print("\nSuccessfully updated aw")
-        return {'message': "aw successfully updated"}, 200
-    except Exception as e:
-        print("Error:\n " + str(e))
-        return {'message': "Error while updating aw\n" + str(e)}, 400
+        db.child('users').child(userid).update(data)
+        return {'message': 'aw successfully updated'}, 200
+    except Exception:
+        return {'message': 'Error while updating aw'}, 400
 
-
-#Only for testing - has to be deleted as soon as possible!!
-def updateAntiwatchTest(userid, newAntiwatch):
-    
-
-    oldWL = set(getAntiwatch(userid))
-
-    if oldWL == newAntiwatch:
-        print("No new movies added to Antiwatch")
-        return {'message' : 'Identical sets - no new movies added to Antiwatch'}
-
-    if "initial item" in oldWL:
-        data = {
-            "antiwatch": list(newAntiwatch)
-        }
-    else:
-
-        data = {
-            "antiwatch": list(oldWL.union(newAntiwatch))
-        }
-
-    try:
-        print("\nupdating aw")
-        db.child("users").child(userid).update(data)
-        print("\nSuccessfully updated aw")
-        return {'message': "aw successfully updated"}, 200
-    except Exception as e:
-        print("Error:\n " + str(e))
-        return {'message': "Error while updating aw\n" + str(e)}, 400
 '''
-Used to get existing Antiwatch of user with localid = userid
-@param userid
-@returns list(aw)
+Get the anti-watch list of a given user.
+:param userid: The ID of the user.
+:return: The anti-watch list.
 '''
-
-
-def getAntiwatch(userid):
-
+def get_antiwatch(userid):
     aw = set()
     
     try:
-        tempaw = db.child("users").child(userid).child("antiwatch").get()       
+        tempaw = db.child('users').child(userid).child('antiwatch').get()       
         for x in tempaw.each():
             aw.add(x.val())
     except Exception:
-        aw.add("initial item")
+        aw.add('initial item')
+
     return list(aw)
 
-
 '''
-Resets a user's matching and group data
+Reset a user's matching and group data
 :param request: Should contain user_id
 :return: empty dictionary + 200 if successful, dictionary with error message + 400 if unsuccessful
 '''
@@ -273,8 +208,8 @@ def reset_user_data(request):
 
     try:
         data = {
-            'watchlist': "",
-            'antiwatch': ""
+            'watchlist': '',
+            'antiwatch': ''
         }
 
         db.child('users').child(userid).update(data)
@@ -289,6 +224,11 @@ def reset_user_data(request):
         return { 'message': 'User data could not be reset' }, 400
 
 
+'''
+Delete a user from the database.
+:param request: Request object containing user_id.
+:return: Message (or empty dictionary) and status.
+'''
 def delete_user(request):
     userid = request.json['user_id']
     
@@ -303,6 +243,11 @@ def delete_user(request):
         print(e)
         return { 'message': 'User could not be deleted' }, 400
 
+'''
+Remove a given user from a given group.
+:param group: The group database object.
+:param request: Request object containing user_id.
+'''
 def remove_user_from_group(group, request):
     userid = request.json['user_id']
 
@@ -326,12 +271,11 @@ def remove_user_from_group(group, request):
     db.child('groups').child(group.key()).update(data)
 
 
-
 '''
-Returns a list of all groups that a given user is in. Each group contains the following properties:
+Retrieve a list of all groups that a given user is in. Each group contains the following properties:
 { id: string, name: string, members: list, owner: string }
-@param userid
-@returns the list of groups
+:param userid: The ID of the user.
+:return: The list of groups (or error message) + status.
 '''
 def get_user_group_info(userid):
     try:
@@ -352,73 +296,22 @@ def get_user_group_info(userid):
         ]
 
         return { 'groups': groups }, 200
-    except Exception as e:
-        print('Could not get group list\n' + 'Error : ' + str(e))
-        return {
-            'message' : 'Could not get group list',
-            'errorMsg' : str(e)
-        }, 400
-
+    except Exception:
+        return { 'message': 'Could not get group list' }, 400
 
 '''
-Used to get existing groups of user with localid = userid
-@param userid
-@returns list(gl)
+Retrieve all relevant information from a given group.
+:param groupid: The ID of the group.
+:return: Dictionary with group info, or error message + status.
 '''
-'''def getGroupList(userid):
-    gl = set()
-    
-    try:
-        tempgl = db.child("users").child(userid).child("groups").get()       
-        for x in tempgl.each():
-            gl.add(x.val())
-    except:
-         gl.add("initial item")
-    return list(gl)'''
-
-'''
-updateGroups with union of existing groups and newGroupList, which may contain new groups to user with localid = userid
-In order to get the existing groups, 'getGroupList' is executed
-@param userid, newGroupList
-@throws Exception as e
-@returns message
-'''
-
-
-'''def updateGroups(userid, newGroupList):
-
-    oldGL = set(getGroupList(userid))
-    if oldGL == newGroupList:
-        print("No new groups") 
-        return {'message' : 'Identical sets - no new groups entered'}
-
-
-    if "initial item" in oldGL:
-        data = {
-            "groups": list(newGroupList)
-        }
-    else:
-
-        data = {
-            "groups": list(oldGL.union(newGroupList))
-        }
-
-    try:
-        print("\nupdating gl")
-        db.child("users").child(userid).update(data)
-        print("\nSuccessfully updated gl")
-        return {'message': "gl successfully updated"}, 200
-    except Exception as e:
-        print("Error:\n " + str(e))
-        return {'message': "Error while updating gl\n" + str(e)}, 400'''
-
-def getGroupInfo(groupid):
+def get_group_info(groupid):
     gi = {}
 
     try:
-        tempgi = db.child("groups").child(groupid).get()
+        tempgi = db.child('groups').child(groupid).get()
         for x in tempgi.each():
             gi[x.key()] = x.val()
+            
         gi['members'] = [
             {
                 'name': user.val()['name'],
@@ -428,128 +321,101 @@ def getGroupInfo(groupid):
                 for member in gi['members']
                 if user.key() == member
         ]        
-        print(gi)
+        
         return gi
-    except Exception as e:
-        print("Group does not exist\n" + "Error : " + str(e))
-        return {
-            'message' : "GroupId does not exist",
-            'errorMsg' : str(e)
-        }, 400
+    except Exception:
+        return { 'message': 'GroupId does not exist' }, 400
 
-def initializeNewGroup(request):
+'''
+Create a new group in the database.
+:param request: Request object containing group_name, members and owner_id.
+:return: Message + status.
+'''
+def initialize_new_group(request):
     name = request.json['group_name']
     members = request.json['members']
     owner = request.json['owner_id']
 
     groupid = shortuuid.ShortUUID().random(length=10)
 
-    if (checkGroupExist(groupid)):
-        print("Does not Exist")
+    if (check_group_exists(groupid)):
         try:
             watchlist = set()
             antiwatch = set()
             for m in members:
-                
                 try: 
-                    print("get watchlist from " + m)
-                    watchlist = watchlist.union(set(getWatchlist(m)))
-                    antiwatch = antiwatch.union(set(getAntiwatch(m)))
+                    watchlist = watchlist.union(set(get_watch_list(m)))
+                    antiwatch = antiwatch.union(set(get_antiwatch(m)))
                 except Exception as e:
                     print(str(e))
 
-            if ("initial item" in watchlist):
-                print("removed i.i from wl")
-                watchlist.remove("initial item")
-                print("success")
+            if ('initial item' in watchlist):
+                watchlist.remove('initial item')
                 
-            if ("initial item" in antiwatch):
-                print("removed i.i from al")
-                antiwatch.remove("initial item")
-                print("success")
+            if ('initial item' in antiwatch):
+                antiwatch.remove('initial item')
 
             temp_inter = watchlist.intersection(antiwatch)
             watchlist.difference_update(temp_inter)
             antiwatch.difference_update(temp_inter)
 
             if (antiwatch == set()):
-                antiwatch = ""
+                antiwatch = ''
             else:
                 antiwatch = list(antiwatch)
+
             if (watchlist == set()):
-                watchlist = ""
+                watchlist = ''
             else:
                 watchlist = list(watchlist)
                 
-
-
             data = {
-                "name" : name,
-                "members" : members,
-                "owner" : owner,
-                "watchlist" : watchlist,
-                "antiwatch" : antiwatch,
-                "matched" : ""
+                'name': name,
+                'members': members,
+                'owner': owner,
+                'watchlist': watchlist,
+                'antiwatch': antiwatch,
+                'matched': ''
             }
 
-            print("creating group")
-            db.child("groups").child(groupid).set(data)
-            print("Group created")
-
-            for m in members:
-                try:
-                    print("update group for member: " + m)
-                    # updateGroups(m,[groupid])
-                    print("updated for " + m)
-                except Exception as e:
-                    return {
-                        'message' : "Error while inserting Group for each member",
-                        'error' : str(e)
-                    }, 400
-            print("\n\nsuccessfully updated all members")
-
+            db.child('groups').child(groupid).set(data)
             return { 'success': True }, 200
-        except Exception as e:
-            print("Error while creating Group. \n" + "Error : " + str(e))
-            return {
-                'message' : "Error while creating Group",
-                'error' : str(e)
-            }, 400
+        except Exception:
+            return { 'message' : 'Error while creating Group' }, 400
     else:
-        print("Group does exist already")
-        return {
-            'message' : "Group already exists - pls choose another name"
-        }, 400
+        return { 'message' : 'Group already exists - please choose another name' }, 400
 
-        # watchlist und antiwatch der gruppe initialize
-        # wenn watch und anti - aus beiden löschen
-
-def checkGroupExist(name):
+'''
+Check if a group exists.
+:param group_id: The ID of the group.
+:return: True if the group exists, False otherwise.
+'''
+def check_group_exists(group_id):
     try:
-        data = db.child("groups").child(name).get()
+        data = db.child('groups').child(group_id).get()
         if (data.val() == None):
             return True
-        else: return False
-    except:
+        else:
+            return False
+    except Exception:
         return False
 
 '''
-name
-members
-owner
+Remove all movies that are present in both the watch list and the anti-watch list of a given group.
+:param groupid: The ID of the group.
+:return: The new watch list and anti-watch list.
 '''
-
-def fetchAWandGL_Groups(groupid):
-    members = db.child("groups").child(groupid).child("members").get().val()
+def remove_watchlist_antiwatch_duplicates(groupid):
+    members = db.child('groups').child(groupid).child('members').get().val()
     
     watchlist = set()
     antiwatch = set()
 
     for m in members:
         try:
-            print("get watchlist from " + m)
-            watchlist = watchlist.union(set(getWatchlist(m)))
-            antiwatch = antiwatch.union(set(getAntiwatch(m)))
+            print('get watchlist from ' + m)
+            watchlist = watchlist.union(set(get_watch_list(m)))
+            antiwatch = antiwatch.union(set(get_antiwatch(m)))
         except Exception as e:
             print(str(e))
 
@@ -558,115 +424,128 @@ def fetchAWandGL_Groups(groupid):
     antiwatch.difference_update(temp_inter)
 
     data = {
-        "watchlist" : list(watchlist),
-        "antiwatch" : list(antiwatch)
+        'watchlist' : list(watchlist),
+        'antiwatch' : list(antiwatch)
     }
 
-    db.child("groups").child(groupid).update(data)
+    db.child('groups').child(groupid).update(data)
     return data
 
-
-def updateGroupAnti(request):
+'''
+Update the anti-watch list of a group.
+:param request: Request object containing groupid and newGroupAnti.
+:return: Message + status.
+'''
+def update_group_antiwatch(request):
     groupid = request.json('groupid')
-    newGroupAnti = request.json('newGroupAnti')
+    new_group_antiwatch = request.json('newGroupAnti')
 
-    oldAW = set(fetchAWandGL_Groups(groupid)['antiwatch'])
-    if oldAW == newGroupAnti:
-        print("No new Antiwatch added") 
+    old_antiwatch = set(remove_watchlist_antiwatch_duplicates(groupid)['antiwatch'])
+    if old_antiwatch == new_group_antiwatch:
+        print('No new Antiwatch added') 
         return {'message' : 'Identical sets - no new aw added'}
 
 
-    if "initial item" in oldAW:
+    if 'initial item' in old_antiwatch:
         data = {
-            "antiwatch": list(newGroupAnti)
+            'antiwatch': list(new_group_antiwatch)
         }
     else:
 
         data = {
-            "antiwatch": list(oldAW.union(newGroupAnti))
+            'antiwatch': list(old_antiwatch.union(new_group_antiwatch))
         }
 
     try:
-        print("\nupdating g_aw")
-        db.child("groups").child(groupid).update(data)
-        print("\nSuccessfully updated g_aw")
-        return {'message': "g_aw successfully updated"}, 200
-    except Exception as e:
-        print("Error:\n " + str(e))
-        return {'message': "Error while updating g_aw\n" + str(e)}, 400
+        db.child('groups').child(groupid).update(data)
+        return {'message': 'Group antiwatch successfully updated'}, 200
+    except Exception:
+        return {'message': 'Error while updating group antiwatch'}, 400
 
-
-def updateGroupWl(request):
+'''
+Update the watch list of a group.
+:param request: Request object containing groupid and newGroupAnti.
+:return: Message + status.
+'''
+def update_group_watch_list(request):
     groupid = request.json('groupid')
-    newGroupWl = request.json('newGroupAnti')
+    new_group_watchlist = request.json('newGroupAnti')
 
-    oldWL = set(fetchAWandGL_Groups(groupid)['watchlist'])
-    if oldWL == newGroupWl:
-        print("No new watchlist added") 
+    old_watch_list = set(remove_watchlist_antiwatch_duplicates(groupid)['watchlist'])
+    if old_watch_list == new_group_watchlist:
+        print('No new watchlist added') 
         return {'message' : 'Identical sets - no new wl added'}
 
 
-    if "initial item" in oldWL:
+    if 'initial item' in old_watch_list:
         data = {
-            "watchlist": list(newGroupWl)
+            'watchlist': list(new_group_watchlist)
         }
     else:
 
         data = {
-            "watchlist": list(oldWL.union(newGroupWl))
+            'watchlist': list(old_watch_list.union(new_group_watchlist))
         }
 
     try:
-        print("\nupdating g_wl")
-        db.child("groups").child(groupid).update(data)
-        print("\nSuccessfully updated g_wl")
-        return {'message': "g_wl successfully updated"}, 200
-    except Exception as e:
-        print("Error:\n " + str(e))
-        return {'message': "Error while updating g_wl \n" + str(e)}, 400
+        db.child('groups').child(groupid).update(data)
+        return {'message': 'Group watch list successfully updated'}, 200
+    except Exception:
+        return {'message': 'Error while updating group watch list'}, 400
 
-
-def getMatched(groupid):
+'''
+Get a list of all matched movies in a group.
+:param groupid: The ID of the group.
+:return: The list of matched movies.
+'''
+def get_matched(groupid):
     ml = set()
     
     try:
-        tempgl = db.child("groups").child(groupid).child("matching").get()       
+        tempgl = db.child('groups').child(groupid).child('matching').get()       
         for x in tempgl.each():
             ml.add(x.val())
-    except:
-         ml.add("initial item")
+    except Exception:
+         ml.add('initial item')
+
     return list(ml)
 
-def updateMatch(request):
+'''
+Update a group match (the list of matched movies).
+:param request: Request object containing groupid and newGroupAnti.
+:reutrn: Message + status.
+'''
+def update_group_match(request):
     groupid = request.json('groupid')
-    newMatchList = request.json('newGroupAnti')
+    new_match_list = request.json('newGroupAnti')
 
-    oldML = set(getMatched(groupid))
-    if oldML == newMatchList:
-        print("No new matches added") 
+    old_match_list = set(get_matched(groupid))
+    if old_match_list == new_match_list:
+        print('No new matches added') 
         return {'message' : 'Identical sets - no new matches added'}
 
 
-    if "initial item" in oldML:
+    if 'initial item' in old_match_list:
         data = {
-            "matched": list(newMatchList)
+            'matched': list(new_match_list)
         }
     else:
 
         data = {
-            "matched": list(oldML.union(newMatchList))
+            'matched': list(old_match_list.union(new_match_list))
         }
 
     try:
-        print("\nupdating g_ml")
-        db.child("groups").child(groupid).update(data)
-        print("\nSuccessfully updated g_ml")
-        return {'message': "g_ml successfully updated"}, 200
-    except Exception as e:
-        print("Error:\n " + str(e))
-        return {'message': "Error while updating g_ml \n" + str(e)}, 400
+        db.child('groups').child(groupid).update(data)
+        return {'message': 'Group match list successfully updated'}, 200
+    except Exception:
+        return {'message': 'Error while updating group match list'}, 400
 
-
+'''
+Let a user join a group.
+:param request: Request object containing user_id and group_id.
+:return: Message + status.
+'''
 def join_group(request):
     userid, groupid = '', ''
 
@@ -692,7 +571,11 @@ def join_group(request):
     except requests.exceptions.HTTPError:
         return { 'message': 'This group does not exist' }, 400
 
-
+'''
+Let a user leave a group.
+:param request: Request object containing user_id and group_id.
+:return: Message + status.
+'''
 def leave_group(request):
     userid = request.json['user_id']
     groupid = request.json['group_id']
@@ -706,6 +589,12 @@ def leave_group(request):
 
     db.child('groups').child(groupid).update(data)
 
+'''
+Delete a group from the database.
+:param request: Request object containing user_id and group_od.
+:param force: Set to True if the group should be deleted even if the user does not own the group.
+:return: Message + status.
+'''
 def delete_group(request, force=False):
     userid = request.json['user_id']
     groupid = request.json['group_id']
@@ -724,9 +613,11 @@ def delete_group(request, force=False):
     db.update(data)
     return { 'message': 'Group successfully deleted' }, 200
 
-
+'''
+Update the watch list or anti-watch list of a user.
+:param request: Request object containing user_id, movie_id and kind ('like' or 'dislike').
+'''
 def userback(request):
-    
     try:
         if 'movie_id' not in request.json:
             return { 'message': 'First load' }, 400
@@ -734,11 +625,11 @@ def userback(request):
         kind = request.json['kind']
 
         if (kind == 'like'):
-            updateWatchlist(request)
+            update_watch_list(request)
             return {'message' : 'Succesfully wrote movie to db'}, 200
 
         if (kind == 'dislike'):
-            updateAntiwatch(request)
+            update_antiwatch(request)
             return {'message' : "Succesfully wrote movie to db"}, 200
 
     except Exception as e:
