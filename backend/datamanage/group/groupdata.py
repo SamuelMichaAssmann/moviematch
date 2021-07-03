@@ -7,7 +7,14 @@ def getAllData(path):
             return json.load(file)
     except Exception as e:
         print(e)
+        cleanup(path)
         return None
+
+
+def cleanup(path):
+    print("Error - Cleanup!")
+    with open(path, 'w') as file:
+            json.dump({}, file)
 
 
 def setData(group, movies, path):
