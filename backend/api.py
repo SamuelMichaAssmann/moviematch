@@ -1,5 +1,5 @@
 from flask.globals import request
-from backend.datamanage.user.usermatch import usermatch
+from backend.datamanage.user.usermatch import user_match
 import flask
 import time
 import pyrebase
@@ -22,22 +22,6 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 pb = pyrebase.initialize_app(json.load(open('firebase/fbconfig.json')))
 auth = pb.auth()
 
-
-'''
-def check_token(f):  # middleware - check for valid token before performing fb_user action
-    @wraps(f)
-    def wrap(*args, **kwargs):
-        if not request.headers.get('authorization'):
-            return {'message': 'No token provided'}, 400
-        try:
-            user = auth.verify_id_token(request.headers['authorization'])
-            request.user = user
-        except:
-            return {'message': 'Invalid token provided'}, 400
-        return f(*args, **kwargs)
-    return wrap
-    ''' # - fbAdmin not working -> delete for now
-
 def _build_cors_preflight_response():
     ''' Initializes all necessary parameters for CORS, allowing our website to access the API '''
     response = flask.make_response()
@@ -46,20 +30,17 @@ def _build_cors_preflight_response():
     response.headers.add('Access-Control-Allow-Methods', '*')
     return response
 
-
 @app.route('/api/signup', methods=['POST', 'OPTIONS'])
 @cross_origin()
 def signup():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
     return fb_a.signup(flask.request)
 
-
 @app.route('/api/signin', methods=['POST', 'OPTIONS'])
 @cross_origin()
 def sign_in():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
     return fb_a.sign_in(flask.request)
-
 
 @app.route('/api/resendVerificationEmail', methods=['POST', 'OPTIONS'])
 @cross_origin()
@@ -69,10 +50,9 @@ def resend_verification_email():
 
 @app.route('/api/resetPwd', methods=['POST', 'OPTIONS'])
 @cross_origin()
-def resetPwd():
+def reset_password():
      if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
-     return fb_a.updatePwd(flask.request)
-
+     return fb_a.update_password(flask.request)
 
 @app.route('/api', methods=['GET', 'OPTIONS'])
 @cross_origin()
@@ -80,39 +60,35 @@ def version():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
     return 'Api v0.1.0'
 
-
 @app.route('/api/time', methods=['GET', 'OPTIONS'])
 @cross_origin()
 def get_current_time():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
     return {'time': time.time()}
 
-
 @app.route('/api/usermatch', methods=['GET', 'OPTIONS'])
 @cross_origin()
-def apiusermatch():
+def api_user_match(update_password):
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
     user_id = flask.request.args.get('user_id')
     path = flask.request.args.get('path')
-    return usermatch(user_id, path)
-
+    return user_match(user_id, path)
 
 @app.route('/api/groupmatch', methods=['GET', 'OPTIONS'])
 @cross_origin()
-def apigroupmatch():
+def api_group_match():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
     group_id = flask.request.args.get('group_id')
     user_id = flask.request.args.get('user_id')
     path = flask.request.args.get('path')
-    return groupmatch(group_id, user_id, path)
+    return group_match(group_id, user_id, path)
 
 
 @app.route('/api/userback', methods=['GET', 'OPTIONS'])
 @cross_origin()
-def userback(): #uid, gid, movieid, kind (like, dislike, neutral), path . watch und antilist vom user
+def userback(): # uid, gid, movieid, kind (like, dislike, neutral), path to watch and antiwatch-list from user
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
     return db.userback(flask.request)
-
 
 @app.route('/api/groupback', methods=['GET', 'OPTIONS'])
 @cross_origin()
@@ -123,27 +99,24 @@ def groupback():
     movie_id = flask.request.args.get('movie_id')
     path = flask.request.args.get('path')
     kind = flask.request.args.get('kind')
-    setMovie(group_id, user_id, movie_id, path, kind)
-    return "Data stored!", 201
-
+    set_movie(group_id, user_id, movie_id, path, kind)
+    return 'Data stored!', 201
 
 @app.route('/api/groupcheck', methods=['GET', 'OPTIONS'])
 @cross_origin()
-def apigroupcheck():
+def api_group_check():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
     group_id = flask.request.args.get('group_id')
     path = flask.request.args.get('path')
-    return matchCheck(group_id, path)
-
+    return match_check(group_id, path)
 
 @app.route('/api/groupcheckback', methods=['GET', 'OPTIONS'])
 @cross_origin()
-def apigroupcheckback():
+def api_group_check_back():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
     group_id = flask.request.args.get('group_id')
     path = flask.request.args.get('path')
     return {}
-
 
 @app.route('/api/groupList', methods=['GET', 'OPTIONS'])
 @cross_origin()
@@ -151,62 +124,47 @@ def get_group_list():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
     return db.get_user_group_info(flask.request.args.get('user_id'))
 
-
 @app.route('/api/newGroup', methods=['POST', 'OPTIONS'])
 @cross_origin()
-def initializeNewGroup():
+def initialize_new_group():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
-    return db.initializeNewGroup(flask.request)
-
+    return db.initialize_new_group(flask.request)
 
 @app.route('/api/getGroupInfo', methods=['GET', 'OPTIONS'])
 @cross_origin()
-def getGroupInfo():
+def get_group_info():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
-    return db.getGroupInfo(flask.request.args.get('group_id'))
+    return db.get_group_info(flask.request.args.get('group_id'))
 
-
-@app.errorhandler(404)
-def page_not_found(e):
-    return e, 404
-
-
-#updateWatchlist - user
 @app.route('/api/updateWatchlist', methods=['GET', 'OPTIONS'])
 @cross_origin()
-def updateWatchlist():
+def update_watch_list():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
-    return db.updateWatchlist(flask.request)
+    return db.update_watch_list(flask.request)
 
-
-#updateAntiwatchlist - user
 @app.route('/api/updateAntiwatch', methods=['GET', 'OPTIONS'])
 @cross_origin()
-def updateAntiwatch():
+def update_antiwatch():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
-    return db.updateAntiwatch(flask.request)
+    return db.update_antiwatch(flask.request)
 
-
-#updateAntilist - group
 @app.route('/api/updateGroupAnti', methods=['GET', 'OPTIONS'])
 @cross_origin()
-def updateGroupAnti():
+def update_group_antiwatch():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
-    return db.updateGroupAnti(flask.request)
+    return db.update_group_antiwatch(flask.request)
 
-#updateWatchlist - group
 @app.route('/api/updateGroupWl', methods=['GET', 'OPTIONS'])
 @cross_origin()
-def updateGroupWl():
+def update_group_watch_list():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
-    return db.updateGroupWl(flask.request)
+    return db.update_group_watch_list(flask.request)
 
-#update matching for groupid
 @app.route('/api/updateMatch', methods=['GET', 'OPTIONS'])
 @cross_origin()
-def updateMatch():
+def update_group_match():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
-    return db.updateMatch(flask.request)
+    return db.update_group_match(flask.request)
 
 # Change a user's data.
 # Pass the following arguments: email, password, user_id, username, age
@@ -220,14 +178,12 @@ def change_user_data():
         return { 'message': 'Incorrect password' }, 401
 
     if 'username' in flask.request.json and flask.request.json['username'] != '':
-        data, status = db.updateName(flask.request)
+        data, status = db.update_name(flask.request)
         if status < 200 or status >= 300:
             return { 'message': 'Could not update username' }, 400
 
-    # TODO Update email here
-
     if 'age' in flask.request.json and flask.request.json['age'] != '':
-        data, status = db.updateAge(flask.request)
+        data, status = db.update_age(flask.request)
         if status < 200 or status >= 300:
             return { 'message': 'Could not update age' }, 400
 
@@ -238,14 +194,14 @@ def change_user_data():
 @cross_origin()
 def change_username():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
-    return db.updateName(flask.request)
+    return db.update_name(flask.request)
 
 # Change a user's age.
 @app.route('/api/changeAge', methods=['POST', 'OPTIONS'])
 @cross_origin()
 def change_age():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
-    return db.updateAge(flask.request)
+    return db.update_age(flask.request)
 
 # Reset a user's matching and group data.
 @app.route('/api/resetUserData', methods=['POST', 'OPTIONS'])
@@ -275,13 +231,16 @@ def delete_group():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
     return db.delete_group(flask.request)
 
-
 @app.route('/api/deleteUser', methods=['POST', 'OPTIONS'])
 @cross_origin()
 def delete_user():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
     return db.delete_user(flask.request)
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return e, 404
 
-if __name__ == "__main__":
+
+if __name__ == '__main__':
     app.run(port=5000, debug=True)
