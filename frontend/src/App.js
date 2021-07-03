@@ -13,13 +13,12 @@ import Navbar from './components/assets/Navbar/Navbar';
 import Footer from './components/assets/Footer/Footer';
 import Logout from './components/assets/SignIn/Logout';
 import Error404 from './components/assets/Error/Error404';
-import Policy from './components/assets/policy/policy';
+import Policy from './components/assets/Policy/Policy';
 import ScrollToTop from './components/manage/ScrollToTop';
-import Delete from './components/pages/Delete/Delete';
 
 function App() {
   let isLoggedIn = false;
-  if (localStorage.getItem("uid") != null) {
+  if (localStorage.getItem('uid') != null) {
     isLoggedIn = true;
   }
 
@@ -30,7 +29,8 @@ function App() {
         <Navbar />
         <Switch>
           <Route path='/' exact component={Home} />
-          <Route path='/terms' exact component={Policy} />
+          <Route path='/home' component={Home} />
+          <Route path='/terms' component={Policy} />
           <Route path='/groups' component={Groups} />
           <Route path='/group' component={Group} />
           <Route path='/logout' component={Logout} />
@@ -40,9 +40,7 @@ function App() {
           <Route path='/settings' component={Settings} />
           <Route path='/tutorial' component={Tutorial} />
           <Route path='/TMDb' component={() => { window.location.href = 'https://www.themoviedb.org/'; return null; }} />
-          <Route path='/delete' component={Delete}/>
-          <Route component={Error404} ><Redirect to="/" /></Route>
-          
+          <Route component={Error404} ><Redirect to='/' /></Route>
         </Switch>
         <Footer />
       </Router>
@@ -53,11 +51,11 @@ function App() {
         <Navbar />
         <Switch>
           <Route path='/' exact component={Home} />
+          <Route path='/home' component={Home} />
           <Route path='/sign-up' component={SignUp} />
-          <Route path='/terms' exact component={Policy} />
-          <Route path='/tutorial' component={Tutorial} />
+          <Route path='/terms' component={Policy} />
           <Route path='/TMDb' component={() => { window.location.href = 'https://www.themoviedb.org/'; return null; }} />
-          <Route component={Error404} ><Redirect to="/" /></Route>
+          <Route component={Error404} ><Redirect to='/' /></Route>
         </Switch>
         <Footer />
       </Router>

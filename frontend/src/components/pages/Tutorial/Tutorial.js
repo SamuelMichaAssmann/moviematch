@@ -104,7 +104,7 @@ export default function CustomizedSteppers() {
     const steps = getSteps();
 
     const handleNext = () => {
-        if (activeStep == 0) {
+        if (activeStep === 0) {
             // Don't proceed if the user hasn't filled in everything correctly.
             if (error || userError) {
                 return;
@@ -112,7 +112,7 @@ export default function CustomizedSteppers() {
 
             changeUsernameAndAge();
         }
-        if (activeStep == 2) {
+        if (activeStep === 2) {
             return window.location.href = "/home";
         }
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -141,13 +141,13 @@ export default function CustomizedSteppers() {
                         />
 
                         {
-                            (emailSuccessMessage != '')
+                            (emailSuccessMessage !== '')
                                 ? <p className='settingsSuccess'>{emailSuccessMessage}</p>
                                 : null
                         }
 
                         {
-                            (emailError != '')
+                            (emailError !== '')
                                 ? <p className='settingsError'>{emailError}</p>
                                 : null
                         }

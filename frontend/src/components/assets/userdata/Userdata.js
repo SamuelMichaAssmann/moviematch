@@ -30,15 +30,16 @@ function Userdata() {
   const validate = (event) => {
     const target = event.target;
     const name = target.name;
-    const value = (name == 'age') ? target.value.replace(/\D/,'') : target.value; // Only numbers for age.
+    const value = (name === 'age') ? target.value.replace(/\D/,'') : target.value; // Only numbers for age.
 
-    if (name == 'username') {
+    if (name === 'username') {
       userName = value;
-    } else if (name == 'age') {
+    } else if (name === 'age') {
       userAge = value;
     }
 
     setUser({
+      ...user,
       [name]: value
     });
   };
@@ -46,14 +47,14 @@ function Userdata() {
 
   const { explain, find, advert } = state;
   error = [explain, find, advert].filter((v) => v).length !== 3;
-  userError = (userName.length == 0 || userAge.length == 0);
+  userError = (userName.length === 0 || userAge.length === 0);
 
   return (
 
     <div className='darkBg'>
       <div className='container settings'>
         <div>
-          <h1 className='heading' style={{ 'text-align': 'center' }}>
+          <h1 className='heading' style={{ 'textAlign': 'center' }}>
             Please enter your personal data
           </h1>
         </div>

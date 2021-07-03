@@ -278,9 +278,9 @@ def delete_group():
 
 @app.route('/api/deleteUser', methods=['POST', 'OPTIONS'])
 @cross_origin()
-def deleteUser():
+def delete_user():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
-    return db.deleteUser(flask.request)
+    return db.delete_user(flask.request)
 
 
 if __name__ == "__main__":

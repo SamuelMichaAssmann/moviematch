@@ -47,11 +47,17 @@ function Section({
                 </p>
                 {
                   buttonLabel
-                    ? <Link to={link}>
-                      <Button buttonSize='btn--wide' buttonColor='blue' onClick={onClick}>
-                        {buttonLabel}
-                      </Button>
-                    </Link>
+                    ? (
+                      link
+                        ? <Link to={link}>
+                          <Button buttonSize='btn--wide' buttonColor='blue' onClick={onClick}>
+                            {buttonLabel}
+                          </Button>
+                        </Link>
+                        : <Button buttonSize='btn--wide' buttonColor='blue' onClick={onClick}>
+                          {buttonLabel}
+                        </Button>
+                    )
                     : null
                 }
               </div>
