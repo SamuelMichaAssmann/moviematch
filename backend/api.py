@@ -241,9 +241,9 @@ def delete_user():
 #Check if user is verified
 @app.route('/api/isUserVerified', methods=['POST', 'OPTIONS'])
 @cross_origin()
-def isUserVerified():
+def is_user_verified():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
-    return fb_a.isUserVerified(flask.request)
+    return fb_a.is_user_verified(flask.request)
   
 @app.errorhandler(404)
 def page_not_found(e):

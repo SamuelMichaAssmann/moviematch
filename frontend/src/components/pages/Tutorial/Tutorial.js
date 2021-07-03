@@ -138,10 +138,11 @@ export default function CustomizedSteppers() {
     };
 
     async function checkEmailVerified() {
-        const response = await APIHandler.getRequest('http://127.0.0.1:5000/api/isUserVerified', {
-            user_id: localStorage.getItem('uid')
+        const response = await APIHandler.postRequest('http://127.0.0.1:5000/api/isUserVerified', {
+            refresh_token: localStorage.getItem('refreshToken')
         }, true);
 
+        console.log(response.status);
         if (response.status < 200 || response.status >= 300) {
             setTimeout(checkEmailVerified, 2000);
             return;

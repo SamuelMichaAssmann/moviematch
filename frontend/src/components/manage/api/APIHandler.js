@@ -28,7 +28,7 @@ export default class APIHandler {
      * @param {Object} args 
      * @returns The result as an object.
      */
-    static async postRequest(url, args) {
+    static async postRequest(url, args, returnRawResponse=false) {
         try {
             const response = await fetch(url, {
                 method: 'POST',
@@ -40,6 +40,10 @@ export default class APIHandler {
                 body: JSON.stringify(args)
             });
 
+            if (returnRawResponse) {
+                return response;
+            }
+            
             return response.json();
         } catch (e) {
             return e;
