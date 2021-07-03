@@ -2,11 +2,9 @@ import React from "react";
 import './SignIn.css';
 import { observer } from 'mobx-react';
 import { Textfield } from '../../assets/Textfield/Textfield';
-import firebase from "../../../firebase"; //firebase globally available
 import { Button } from '../Button/Button';
-import APIHandler from '../../manage/api/APIHandler'
-import Loading from "../Loading/Loading";
-import * as uM from '../../../userManager'
+import APIHandler from '../../manage/api/APIHandler';
+import Loading from '../Loading/Loading';
 
 
 export class Register extends React.Component {
@@ -35,7 +33,6 @@ export class Register extends React.Component {
     this.setState({
       [name]: value
     });
-    console.log({ name } + "   " + { value })
   }
 
   resetForm() { //resets form
@@ -43,8 +40,6 @@ export class Register extends React.Component {
       password: '',
       passwordConfirmation: '',
       email: ''
-
-
     })
   }
 
@@ -169,7 +164,7 @@ export class Register extends React.Component {
                 </div>
 
                 {
-                    (this.state.error != '')
+                    (this.state.error !== '')
                         ? <p className='settingsError' style={{'marginTop': '40px'}}>{this.state.error}</p>
                         : null
                 }

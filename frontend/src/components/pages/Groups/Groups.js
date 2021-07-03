@@ -116,7 +116,7 @@ export default class Groups extends React.Component {
   }
 
   async createGroup() {
-    const response = await APIHandler.postRequest('http://127.0.0.1:5000/api/newGroup', {
+    await APIHandler.postRequest('http://127.0.0.1:5000/api/newGroup', {
       group_name: this.state.createGroupName,
       members: [ localStorage.getItem('uid') ],
       owner_id: localStorage.getItem('uid')
@@ -143,7 +143,7 @@ export default class Groups extends React.Component {
       return <Loading />;
     }
 
-    if (this.state.groups.length == 0) {
+    if (this.state.groups.length === 0) {
       return <p className='noGroupsText'>You are not yet in any groups!</p>
     }
 

@@ -8,11 +8,11 @@ import APIHandler from '../../manage/api/APIHandler';
 function Match() {
   useEffect(() => {
     APIHandler.getRequest(matchingObj.getEndpoint, {
-      "user_id": localStorage.getItem("uid"),
-      "group_id": new URLSearchParams(window.location.search).get('id'),
-      "path": matchingObj.dataPath
+      'user_id': localStorage.getItem('uid'),
+      'group_id': new URLSearchParams(window.location.search).get('id'),
+      'path': matchingObj.dataPath
     }).then(data => {
-      if (data.movie_id != "false") {
+      if (data.movie_id !== 'false') {
         match();
       };
     });

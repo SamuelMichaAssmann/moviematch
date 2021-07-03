@@ -1,7 +1,5 @@
 import React from 'react';
 import './Section.css';
-import { Button } from '../Button/Button';
-import { Link } from 'react-router-dom';
 
 function Section({
   lightBg,

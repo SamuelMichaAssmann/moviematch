@@ -301,25 +301,7 @@ def reset_user_data(request):
 
         for group in db.child('groups').get().each():
             request.json['group_id'] = group.key()
-
-            # If this user owns the group, delete the group.
-            _, status = delete_group(request)
-            if status == 200:
-                continue
-
-            # Remove the user from the group.
-            members = group.val()['members']
-            if userid not in members: continue
-            members.remove(userid)
-
-            # If there are somehow no more users in this group, delete the group.
-            if len(members) == 0:
-                delete_group(request, force=True)
-                continue
-
-            # Update group info.
-            data = { 'members': members }
-            db.child('groups').child(group.key()).update(data)
+            remove_user_from_group(group, request)
 
         return {}, 200
     except Exception as e:
@@ -327,37 +309,41 @@ def reset_user_data(request):
         return { 'message': 'User data could not be reset' }, 400
 
 
-def deleteUser(request):
+def delete_user(request):
     userid = request.json['user_id']
     
     try:
         for group in db.child('groups').get().each():
             request.json['group_id'] = group.key()
-
-            # If this user owns the group, delete the group.
-            _, status = delete_group(request)
-            if status == 200:
-                continue
-
-            # Remove the user from the group.
-            members = group.val()['members']
-            if userid not in members: continue
-            members.remove(userid)
-
-            # If there are somehow no more users in this group, delete the group.
-            if len(members) == 0:
-                delete_group(request, force=True)
-                continue
-
-            # Update group info.
-            data = { 'members': members }
-            db.child('groups').child(group.key()).update(data)
-
+            remove_user_from_group(group, request)
             db.child('users').child(userid).remove()
+            
         return {}, 200
     except Exception as e:
         print(e)
         return { 'message': 'User could not be deleted' }, 400
+
+def remove_user_from_group(group, request):
+    userid = request.json['user_id']
+
+    # If this user owns the group, delete the group.
+    _, status = delete_group(request)
+    if status == 200:
+        return
+
+    # Remove the user from the group.
+    members = group.val()['members']
+    if userid not in members: return
+    members.remove(userid)
+
+    # If there are somehow no more users in this group, delete the group.
+    if len(members) == 0:
+        delete_group(request, force=True)
+        return
+
+    # Update group info.
+    data = { 'members': members }
+    db.child('groups').child(group.key()).update(data)
 
 
 

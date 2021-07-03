@@ -1,9 +1,8 @@
-import React, { componentDidMount } from 'react';
+import React from 'react';
 import './Group.css';
 import { GroupMember } from './GroupMember';
 import Loading from '../../assets/Loading/Loading';
 import Matching from '../../assets/Matching/Matching';
-import Match from './../../assets/Match/Match';
 import { matchingObj } from './Data';
 import APIHandler from '../../manage/api/APIHandler';
 

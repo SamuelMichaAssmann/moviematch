@@ -3,7 +3,6 @@ import { Button } from '../../assets/Button/Button';
 import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import './Navbar.css';
-import firebase from "firebase/app";
 import { FaBars, FaTimes } from 'react-icons/fa';
 import { IconContext } from 'react-icons/lib';
 
@@ -15,7 +14,6 @@ function Navbar() {
   }
 
   const [click, setClick] = useState(false);
-  const [button] = useState(true);
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => {
     setClick(false);

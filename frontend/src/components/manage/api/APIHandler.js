@@ -56,10 +56,10 @@ export default class APIHandler {
 
             if (!('message' in response)) {
                 // Store new tokens if they had to be refreshed.
-                if ('newToken' in response && response.newToken != '') {
+                if ('newToken' in response && response.newToken !== '') {
                     localStorage.setItem('token', response.newToken);
                 }
-                if ('newRefreshToken' in response && response.newRefreshToken != '') {
+                if ('newRefreshToken' in response && response.newRefreshToken !== '') {
                     localStorage.setItem('refreshToken', response.newRefreshToken);
                 }
             }
