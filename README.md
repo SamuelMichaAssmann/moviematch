@@ -23,12 +23,11 @@ user: mod@matchyourmovie.de
 pw: sh7up#KT!
 
 # IDE
-cd ./frontend && npm install
-
 pip install -r ./backend/requirements.txt
 
-
 cd ./frontend
+
+npm install
 
 npm start -> start the frontend
 
