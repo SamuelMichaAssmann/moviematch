@@ -1,43 +1,42 @@
-# Start
-npm start -> frontend
-npm run api -> backend
+# Info
+Team: Moritz Müller, Djemie Groot, Samuel Assmann
+Git: https://github.com/SamuelMichaAssmann/moviematch
+(Credentials -> nur hinzufügen über Git)
 
-### Install venv
-pip install virtualenv
-virtualenv venv
+# Docker
+2 Container -> 1 Compose
 
-### pip clear
-pip freeze | xargs pip uninstall -y
+# Users
+## existing
+user: testuser@matchyourmovie.de
+pw: DaMiPaWo200!
 
-### Activate venv
-.\backend\venv\Scripts\activate.ps1
-(Bei Fehlern)[https://stackoverflow.com/questions/18713086/virtualenv-wont-activate-on-windows/18713789]
-Set-ExecutionPolicy Unrestricted -Scope Process //for executing the venv in the current poweshellsession
+user: user@matchyourmovie.de
+pw: sh7up#KT!
 
-### Setup venv
-pip install flask python-dotenv gunicorn
+user: admin@matchyourmovie.de
+pw: sh7up#KT!
 
-# gunicorn
-sudo systemctl daemon-reload
-sudo systemctl start moviematch
-sudo systemctl status moviematch
+## not existing
+https://mail.ionos.de/ --> To verify the email
+user: mod@matchyourmovie.de
+pw: sh7up#KT!
 
-[Unit]
-Description=Match your Movie
-After=network.target
+# IDE
+cd ./frontend && npm install
+pip install -r ./backend/requirements.txt
 
-[Service]
-User=root
-WorkingDirectory=/home/moviematch/backend
-ExecStart=/home/moviematch/backend/venv/bin/gunicorn -b 127.0.0.1:5000 api:app
-Restart=always
+cd ./frontend
+npm start -> start the frontend
+npm run api -> start the backend
 
-[Install]
-WantedBy=multi-user.target
+# API
+## ThemovieDB
+Api-Key: d28d1550787892e34121c2918ec031b1
 
-# nginx
-sudo systemctl reload nginx
-/home/moviematch
+## Firebase
+Leider ist es uns nicht möglich sie in Firebase hinzuzufügen ohne eine valide Gmail.
 
-
-
+# Domains: 
+www.matchyourmovie.de, www.matchmovie.de
+(not uptodate)

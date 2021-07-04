@@ -565,13 +565,13 @@ def join_group(request):
     '''
     userid, groupid = '', ''
 
-    if 'user_id' in request.json and 'group_id' in request.json:
-        userid = request.json['user_id']
-        groupid = request.json['group_id']
-    else:
-        return { 'message': 'Please provide user_id and group_id parameters' }, 400
-
     try:
+        if 'user_id' in request.json and 'group_id' in request.json:
+            userid = request.json['user_id']
+            groupid = request.json['group_id']
+        else:
+            return { 'message': 'Please provide user_id and group_id parameters' }, 400
+
         members = db.child('groups').child(groupid).child('members').get().val()
         if userid in members:
             return { 'message': 'You are already a member of this group' }, 400
@@ -584,7 +584,7 @@ def join_group(request):
 
         db.child('groups').child(groupid).update(data)
         return {}, 200
-    except requests.exceptions.HTTPError:
+    except (requests.exceptions.HTTPError, TypeError):
         return { 'message': 'This group does not exist' }, 400
 
 
