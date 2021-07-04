@@ -9,7 +9,7 @@ import requests
 
 
 
-pb = pyrebase.initialize_app(json.load(open('firebase/fbconfig.json')))
+pb = pyrebase.initialize_app(json.load(open('./backend/firebase/fbconfig.json')))
 auth = pb.auth()
 
 

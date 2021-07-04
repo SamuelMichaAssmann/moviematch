@@ -1,0 +1,14 @@
+#Build step 1: build React-fe
+
+FROM node 
+WORKDIR /app
+ENV PATH /frontend/node_modules/.bin:$PATH
+RUN mkdir data && mkdir frontend
+COPY data /app/data
+COPY frontend /app/frontend
+RUN cd frontend && npm install && npm run build
+
+#Build step 2: build nginx container
+#FROM nginx
+#COPY --from=build-step /app/build /usr/share/nginx/html
+#COPY deployment/nginx.default.conf /etc/nginx/conf.d/default.conf

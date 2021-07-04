@@ -17,7 +17,7 @@ cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 # Connect to firebase
-pb = pyrebase.initialize_app(json.load(open('firebase/fbconfig.json')))
+pb = pyrebase.initialize_app(json.load(open('./backend/firebase/fbconfig.json')))
 auth = pb.auth()
 
 def _build_cors_preflight_response():
