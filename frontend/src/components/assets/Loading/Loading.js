@@ -1,6 +1,7 @@
 import React from 'react';
 import './Loading.css';
 
+// The Loading component renders a visually complex loading symbol.
 function Loading() {
 
     return (

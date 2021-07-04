@@ -6,6 +6,7 @@ import { Textfield } from '../../assets/Textfield/Textfield';
 import APIHandler from '../../manage/api/APIHandler';
 import Loading from '../Loading/Loading';
 
+// The Login component handles the user log-in section.
 export class Login extends React.Component {
     constructor(props) {
         super(props)
@@ -23,7 +24,11 @@ export class Login extends React.Component {
         this.resetPassword = this.resetPassword.bind(this);
     }
 
-    handleChange(event) { //updates state for input
+    /**
+     * Update the state when a text field has been changed.
+     * @param {*} event Event object containing info on the change.
+     */
+    handleChange(event) {
         const target = event.target;
         const value = target.value;
         const name = target.name;

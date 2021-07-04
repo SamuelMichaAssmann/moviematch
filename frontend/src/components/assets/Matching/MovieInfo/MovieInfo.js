@@ -2,6 +2,8 @@ import React from 'react';
 import './MovieInfo.css';
 import { AiFillStar } from 'react-icons/ai';
 
+// The MovieInfo component renders information of a movie to the user.
+// This information includes runtime, rating and genres.
 function MovieInfo({
     runtime,
     rating,

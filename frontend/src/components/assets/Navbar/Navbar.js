@@ -6,6 +6,8 @@ import './Navbar.css';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import { IconContext } from 'react-icons/lib';
 
+// The Navbar component handles the navigation bar at the top of the website, which
+// allows the user to navigate between pages.
 function Navbar() {
 
   let isLoggedIn = false;

@@ -1,6 +1,7 @@
 import React from 'react';
 import './RateButton.css';
 
+// The RateButton component creates a like, dislike or neutral button for matching.
 export default class RateButton extends React.Component {
 
     constructor(props) {
