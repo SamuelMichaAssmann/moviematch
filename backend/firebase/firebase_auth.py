@@ -12,12 +12,13 @@ import requests
 pb = pyrebase.initialize_app(json.load(open('firebase/fbconfig.json')))
 auth = pb.auth()
 
-'''
-Register a new user.
-:param request: Request object containing email and password.
-:return: Info + status.
-'''
+
 def signup(request):
+    '''
+    Register a new user.
+    :param request: Request object containing email and password.
+    :return: Info + status.
+    '''
     email = request.json['email']
     password = request.json['password']
 
@@ -45,12 +46,13 @@ def signup(request):
     except Exception:
         return { 'message': 'Could not create your account. Please make sure your email is valid.' }, 400
 
-'''
-Let a user log in.
-:param request: Request object containing email and password.
-:return: Info + status.
-'''
+
 def sign_in(request):
+    '''
+    Let a user log in.
+    :param request: Request object containing email and password.
+    :return: Info + status.
+    '''
     email = request.json['email']
     password = request.json['password']
 
@@ -71,12 +73,13 @@ def sign_in(request):
     except Exception:
         return { 'message': 'Incorrect username or password' }, 400
 
-'''
-Reset a user's password.
-:param request: Request object containing email.
-:return: Message (or empty dictionary) + status.
-'''
+
 def reset_user_password(request):
+    '''
+    Reset a user's password.
+    :param request: Request object containing email.
+    :return: Message (or empty dictionary) + status.
+    '''
     email = request.json['email']
 
     try:
@@ -85,14 +88,16 @@ def reset_user_password(request):
     except Exception:
         return { 'message' : 'Could not send a password reset email' }, 400
 
-'''
-Resend a user's verification email.
-:param request: Request object containing token and refreshToken.
-:param allow_refresh: Whether or not to allow the use of the refresh token.
-:param new_token: The new ID token, if any.
-:param new_refresh_token: The new refresh token, if any.
-'''
+
 def resend_verification_email(request, allow_refresh=True, new_token='', new_refresh_token=''):
+    '''
+    Resend a user's verification email.
+    :param request: Request object containing token and refreshToken.
+    :param allow_refresh: Whether or not to allow the use of the refresh token.
+    :param new_token: The new ID token, if any.
+    :param new_refresh_token: The new refresh token, if any.
+    :return: Message + status or { newToken, newRefreshToken } + status
+    '''
     try:
         user_token = request.json['token'] if new_token == '' else new_token
         auth.send_email_verification(user_token)
@@ -115,11 +120,13 @@ def resend_verification_email(request, allow_refresh=True, new_token='', new_ref
                 return { 'message': 'Could not send a verification email' }, 400
         return { 'message': 'Could not send a verification email' }, 400
       
-'''
-Check if a user has verified their email.
-:param request: Request object containing refresh_token.
-'''
+
 def is_user_verified(request):
+    '''
+    Check if a user has verified their email.
+    :param request: Request object containing refresh_token.
+    :return: Message + status.
+    '''
     request_token = request.json['refresh_token']
     user = auth.refresh(request_token)
     if (auth.get_account_info(user['idToken'])['users'][0]['emailVerified']):
