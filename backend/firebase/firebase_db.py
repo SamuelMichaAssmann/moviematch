@@ -10,13 +10,14 @@ import requests
 pb = pyrebase.initialize_app(json.load(open('firebase/fbconfig.json')))
 db = pb.database()
 
-'''
-Create a new user.
-:param userid: The ID of the user.
-:param email: The email address of the user.
-:return: Message and status.
-'''
+
 def push_new_user(userid, email):
+    '''
+    Create a new user.
+    :param userid: The ID of the user.
+    :param email: The email address of the user.
+    :return: Message and status.
+    '''
     data = {
         'name': '',
         'email': email,
@@ -31,17 +32,18 @@ def push_new_user(userid, email):
     except Exception:
         return {'message': 'Error while writing user to db'}, 400
 
-'''
-Set a user's data.
-:param userid: The ID of the user to change.
-:param name: The new username.
-:param email: The new email address.
-:param watchlist: The watch list (liked movies).
-:param antiwatch: The anti-watch list (disliked movies).
-:param age: The user's age.
-:return: Message and status.
-'''
+
 def set_user(userid, name, email, watchlist, antiwatch, age):
+    '''
+    Set a user's data.
+    :param userid: The ID of the user to change.
+    :param name: The new username.
+    :param email: The new email address.
+    :param watchlist: The watch list (liked movies).
+    :param antiwatch: The anti-watch list (disliked movies).
+    :param age: The user's age.
+    :return: Message and status.
+    '''
     data = {
         'name': name,
         'email': email,
@@ -56,12 +58,13 @@ def set_user(userid, name, email, watchlist, antiwatch, age):
     except Exception:
         return {'message': 'Error while setting user'}, 400
 
-'''
-Update the name of a user.
-:param request: Request object with parameters user_id and username.
-:return: Message and status.
-'''
+
 def update_name(request):
+    '''
+    Update the name of a user.
+    :param request: Request object with parameters user_id and username.
+    :return: Message and status.
+    '''
     userid = request.json['user_id']
     name = request.json['username']
 
@@ -75,12 +78,13 @@ def update_name(request):
     except Exception:
         return {'message': 'Error while updating username'}, 400
 
-'''
-Update the age of a user.
-:param request: Request object with parameters user_id and age.
-:return: Message and status.
-'''
+
 def update_age(request):
+    '''
+    Update the age of a user.
+    :param request: Request object with parameters user_id and age.
+    :return: Message and status.
+    '''
     userid = request.json['user_id']
     age = request.json['age']
 
@@ -95,13 +99,12 @@ def update_age(request):
         return {'message': 'Error while updating age'}, 400
 
 
-'''
-Add movies to a user's watch list (i.e. union of existing watch list and new watch list).
-:param request: Request object with parameters user_id and watchlist.
-:return: Message and status.
-'''
-
 def update_watch_list(request):
+    '''
+    Add movies to a user's watch list (i.e. union of existing watch list and new watch list).
+    :param request: Request object with parameters user_id and watchlist.
+    :return: Message and status.
+    '''
     userid = request.json['user_id']
     if 'movie_id' in request.json:
         new_watch_list = [int(request.json['movie_id'])]
@@ -129,12 +132,12 @@ def update_watch_list(request):
         return {'message': 'Error while updating watch list'}, 400
 
 
-'''
-Get the watch list of a given user.
-:param userid: The ID of the user.
-:return: The watch list.
-'''
 def get_watch_list(userid):
+    '''
+    Get the watch list of a given user.
+    :param userid: The ID of the user.
+    :return: The watch list.
+    '''
     wl = set()
     
     try:
@@ -146,12 +149,13 @@ def get_watch_list(userid):
 
     return list(wl)
 
-'''
-Add movies to a user's anti-watch list (i.e. union of existing anti-watch list and new anti-watch list).
-:param request: Request object with parameters userid and newAntiWatch.
-:return: Message and status.
-'''
+
 def update_antiwatch(request):
+    '''
+    Add movies to a user's anti-watch list (i.e. union of existing anti-watch list and new anti-watch list).
+    :param request: Request object with parameters userid and newAntiWatch.
+    :return: Message and status.
+    '''
     userid = request.json('userid')
 
     if 'movie_id' in request.json:
@@ -181,12 +185,13 @@ def update_antiwatch(request):
     except Exception:
         return {'message': 'Error while updating aw'}, 400
 
-'''
-Get the anti-watch list of a given user.
-:param userid: The ID of the user.
-:return: The anti-watch list.
-'''
+
 def get_antiwatch(userid):
+    '''
+    Get the anti-watch list of a given user.
+    :param userid: The ID of the user.
+    :return: The anti-watch list.
+    '''
     aw = set()
     
     try:
@@ -198,12 +203,13 @@ def get_antiwatch(userid):
 
     return list(aw)
 
-'''
-Reset a user's matching and group data
-:param request: Should contain user_id
-:return: empty dictionary + 200 if successful, dictionary with error message + 400 if unsuccessful
-'''
+
 def reset_user_data(request):
+    '''
+    Reset a user's matching and group data
+    :param request: Request object containing user_id.
+    :return: empty dictionary + 200 if successful, dictionary with error message + 400 if unsuccessful.
+    '''
     userid = request.json['user_id']
 
     try:
@@ -224,12 +230,12 @@ def reset_user_data(request):
         return { 'message': 'User data could not be reset' }, 400
 
 
-'''
-Delete a user from the database.
-:param request: Request object containing user_id.
-:return: Message (or empty dictionary) and status.
-'''
 def delete_user(request):
+    '''
+    Delete a user from the database.
+    :param request: Request object containing user_id.
+    :return: Message (or empty dictionary) and status.
+    '''
     userid = request.json['user_id']
     
     try:
@@ -243,12 +249,13 @@ def delete_user(request):
         print(e)
         return { 'message': 'User could not be deleted' }, 400
 
-'''
-Remove a given user from a given group.
-:param group: The group database object.
-:param request: Request object containing user_id.
-'''
+
 def remove_user_from_group(group, request):
+    '''
+    Remove a given user from a given group.
+    :param group: The group database object.
+    :param request: Request object containing user_id.
+    '''
     userid = request.json['user_id']
 
     # If this user owns the group, delete the group.
@@ -271,13 +278,13 @@ def remove_user_from_group(group, request):
     db.child('groups').child(group.key()).update(data)
 
 
-'''
-Retrieve a list of all groups that a given user is in. Each group contains the following properties:
-{ id: string, name: string, members: list, owner: string }
-:param userid: The ID of the user.
-:return: The list of groups (or error message) + status.
-'''
 def get_user_group_info(userid):
+    '''
+    Retrieve a list of all groups that a given user is in. Each group contains the following properties:
+    { id: string, name: string, members: list, owner: string }
+    :param userid: The ID of the user.
+    :return: The list of groups (or error message) + status.
+    '''
     try:
         groups = [
             {
@@ -299,12 +306,13 @@ def get_user_group_info(userid):
     except Exception:
         return { 'message': 'Could not get group list' }, 400
 
-'''
-Retrieve all relevant information from a given group.
-:param groupid: The ID of the group.
-:return: Dictionary with group info, or error message + status.
-'''
+
 def get_group_info(groupid):
+    '''
+    Retrieve all relevant information from a given group.
+    :param groupid: The ID of the group.
+    :return: Dictionary with group info, or error message + status.
+    '''
     gi = {}
 
     try:
@@ -326,12 +334,13 @@ def get_group_info(groupid):
     except Exception:
         return { 'message': 'GroupId does not exist' }, 400
 
-'''
-Create a new group in the database.
-:param request: Request object containing group_name, members and owner_id.
-:return: Message + status.
-'''
+
 def initialize_new_group(request):
+    '''
+    Create a new group in the database.
+    :param request: Request object containing group_name, members and owner_id.
+    :return: Message + status.
+    '''
     name = request.json['group_name']
     members = request.json['members']
     owner = request.json['owner_id']
@@ -385,12 +394,13 @@ def initialize_new_group(request):
     else:
         return { 'message' : 'Group already exists - please choose another name' }, 400
 
-'''
-Check if a group exists.
-:param group_id: The ID of the group.
-:return: True if the group exists, False otherwise.
-'''
+
 def check_group_exists(group_id):
+    '''
+    Check if a group exists.
+    :param group_id: The ID of the group.
+    :return: True if the group exists, False otherwise.
+    '''
     try:
         data = db.child('groups').child(group_id).get()
         if (data.val() == None):
@@ -400,12 +410,13 @@ def check_group_exists(group_id):
     except Exception:
         return False
 
-'''
-Remove all movies that are present in both the watch list and the anti-watch list of a given group.
-:param groupid: The ID of the group.
-:return: The new watch list and anti-watch list.
-'''
+
 def remove_watchlist_antiwatch_duplicates(groupid):
+    '''
+    Remove all movies that are present in both the watch list and the anti-watch list of a given group.
+    :param groupid: The ID of the group.
+    :return: The new watch list and anti-watch list.
+    '''
     members = db.child('groups').child(groupid).child('members').get().val()
     
     watchlist = set()
@@ -431,12 +442,13 @@ def remove_watchlist_antiwatch_duplicates(groupid):
     db.child('groups').child(groupid).update(data)
     return data
 
-'''
-Update the anti-watch list of a group.
-:param request: Request object containing groupid and newGroupAnti.
-:return: Message + status.
-'''
+
 def update_group_antiwatch(request):
+    '''
+    Update the anti-watch list of a group.
+    :param request: Request object containing groupid and newGroupAnti.
+    :return: Message + status.
+    '''
     groupid = request.json('groupid')
     new_group_antiwatch = request.json('newGroupAnti')
 
@@ -462,12 +474,13 @@ def update_group_antiwatch(request):
     except Exception:
         return {'message': 'Error while updating group antiwatch'}, 400
 
-'''
-Update the watch list of a group.
-:param request: Request object containing groupid and newGroupAnti.
-:return: Message + status.
-'''
+
 def update_group_watch_list(request):
+    '''
+    Update the watch list of a group.
+    :param request: Request object containing groupid and newGroupAnti.
+    :return: Message + status.
+    '''
     groupid = request.json('groupid')
     new_group_watchlist = request.json('newGroupAnti')
 
@@ -493,12 +506,13 @@ def update_group_watch_list(request):
     except Exception:
         return {'message': 'Error while updating group watch list'}, 400
 
-'''
-Get a list of all matched movies in a group.
-:param groupid: The ID of the group.
-:return: The list of matched movies.
-'''
+
 def get_matched(groupid):
+    '''
+    Get a list of all matched movies in a group.
+    :param groupid: The ID of the group.
+    :return: The list of matched movies.
+    '''
     ml = set()
     
     try:
@@ -510,12 +524,13 @@ def get_matched(groupid):
 
     return list(ml)
 
-'''
-Update a group match (the list of matched movies).
-:param request: Request object containing groupid and newGroupAnti.
-:reutrn: Message + status.
-'''
+
 def update_group_match(request):
+    '''
+    Update a group match (the list of matched movies).
+    :param request: Request object containing groupid and newGroupAnti.
+    :return: Message + status.
+    '''
     groupid = request.json('groupid')
     new_match_list = request.json('newGroupAnti')
 
@@ -541,12 +556,13 @@ def update_group_match(request):
     except Exception:
         return {'message': 'Error while updating group match list'}, 400
 
-'''
-Let a user join a group.
-:param request: Request object containing user_id and group_id.
-:return: Message + status.
-'''
+
 def join_group(request):
+    '''
+    Let a user join a group.
+    :param request: Request object containing user_id and group_id.
+    :return: Message + status.
+    '''
     userid, groupid = '', ''
 
     if 'user_id' in request.json and 'group_id' in request.json:
@@ -571,12 +587,13 @@ def join_group(request):
     except requests.exceptions.HTTPError:
         return { 'message': 'This group does not exist' }, 400
 
-'''
-Let a user leave a group.
-:param request: Request object containing user_id and group_id.
-:return: Message + status.
-'''
+
 def leave_group(request):
+    '''
+    Let a user leave a group.
+    :param request: Request object containing user_id and group_id.
+    :return: Message + status.
+    '''
     userid = request.json['user_id']
     groupid = request.json['group_id']
 
@@ -589,13 +606,14 @@ def leave_group(request):
 
     db.child('groups').child(groupid).update(data)
 
-'''
-Delete a group from the database.
-:param request: Request object containing user_id and group_od.
-:param force: Set to True if the group should be deleted even if the user does not own the group.
-:return: Message + status.
-'''
+
 def delete_group(request, force=False):
+    '''
+    Delete a group from the database.
+    :param request: Request object containing user_id and group_id.
+    :param force: Set to True if the group should be deleted even if the user does not own the group.
+    :return: Message + status.
+    '''
     userid = request.json['user_id']
     groupid = request.json['group_id']
 
@@ -613,11 +631,12 @@ def delete_group(request, force=False):
     db.update(data)
     return { 'message': 'Group successfully deleted' }, 200
 
-'''
-Update the watch list or anti-watch list of a user.
-:param request: Request object containing user_id, movie_id and kind ('like' or 'dislike').
-'''
+
 def userback(request):
+    '''
+    Update the watch list or anti-watch list of a user.
+    :param request: Request object containing user_id, movie_id and kind ('like' or 'dislike').
+    '''
     try:
         if 'movie_id' not in request.json:
             return { 'message': 'First load' }, 400
