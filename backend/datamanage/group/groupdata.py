@@ -1,4 +1,5 @@
 import json
+import backend.firebase.firebase_db as db
 
 '''
 Get all data from a json file.
@@ -82,7 +83,6 @@ def set_movie(group, user, movie, path, kind):
                 data.get(group).get(movie).append(user)
         else:
             del data.get(group)[movie]
-
         with open(path, 'w') as file:
             json.dump(data, file)
     except Exception as e:
@@ -110,31 +110,29 @@ def get_movie_in_group(group, user, path):
 
 def check(group, user, path):
     data = get_all_json_data(path)
-    length = 1  # Firebase length of userlist
-    movie = None
+    length = len(db.get_group_info(group)['members'])
     try:
-        for k, v in data.get(group).items():
-            if len(v) == length:
-                movie = k
-                data.get(group).pop(movie)
-                write_match(k, group)
-                break
-
+        for movie, users in data.get(group).items():
+            print(f"DEBUG - {movie}, {users}")
+            if len(users) == length:
+                del data.get(group)[movie]
+                write_match(group)
         with open(path, 'w') as file:
             json.dump(data, file)
     except Exception as e:
         print(e)
-        
+    
     movie = get_movie_in_group(group, user, '../data/match.json')
     if movie != None:
-        set_movie(group, user, movie, '../data/match.json', 'like')
+        kind = 'like'
+        set_movie(group, user, movie, '../data/match.json', kind)
         return movie
     return None
 
 
-def write_match(movie, group):
+def write_match(group):
     path = '../data/match.json'
-    set_group_movie_data(group, [movie], path)
+    set_group_movie_data(group, [], path)
 
 '''
 Count how many movies a user has interacted with in a given group.

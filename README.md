@@ -22,6 +22,22 @@ sudo systemctl daemon-reload
 sudo systemctl start moviematch
 sudo systemctl status moviematch
 
+[Unit]
+Description=Match your Movie
+After=network.target
+
+[Service]
+User=root
+WorkingDirectory=/home/moviematch/backend
+ExecStart=/home/moviematch/backend/venv/bin/gunicorn -b 127.0.0.1:5000 api:app
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
 # nginx
 sudo systemctl reload nginx
 /home/moviematch
+
+
+
