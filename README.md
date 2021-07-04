@@ -22,7 +22,7 @@ https://mail.ionos.de/ --> To verify the email
 user: mod@matchyourmovie.de
 pw: sh7up#KT!
 
-# IDE
+# To run the frontend and backend
 pip install -r ./backend/requirements.txt
 
 cd ./frontend
