@@ -6,6 +6,7 @@ import APIHandler from '../../manage/api/APIHandler';
 const MAX_NAME_LENGTH = 100;
 const MAX_MEMBER_LENGTH = 40;
 
+// The GroupListEntry component handles a single group in the group list on the "Groups" page.
 export default class GroupListEntry extends React.Component {
 
     constructor(props) {
@@ -27,6 +28,14 @@ export default class GroupListEntry extends React.Component {
         this.getIsOwnerDiv = this.getIsOwnerDiv.bind(this);
     }
 
+    /**
+     * Retrieve a string to represent the members in a group entry.
+     * If there are 0 members, "No members" is shown.
+     * If there are 1 or 2 members, the member names are shown.
+     * If there are more than 2 members, the first two members are shown, plus the amount of other users.
+     * @param {List} members 
+     * @returns The members string.
+     */
     getMemberString(members) {
         switch (members.length) {
             case 0:
@@ -46,6 +55,13 @@ export default class GroupListEntry extends React.Component {
         }
     }
 
+    /**
+     * Trim a string to a certain maximum length.
+     * If the string exceeds this length, it is cut off by three periods (...).
+     * @param {*} str The string to trim.
+     * @param {*} maxLength The maximum length of the string, in characters.
+     * @returns The trimmed string.
+     */
     trimString(str, maxLength) {
         if (str.length <= maxLength) {
             return str;
@@ -54,12 +70,20 @@ export default class GroupListEntry extends React.Component {
         return str.substring(0, maxLength - 3) + '...';
     }
 
+    /**
+     * Handle clicking on the group entry (i.e. open the group so that the user can
+     * join or leave/delete the group).
+     */
     onClick() {
         if (this.state.canClickGroup) {
             this.setState({ open: !this.state.open });
         }
     }
 
+    /**
+     * Retrieve the join and leave/delete button elements for when the group is clicked.
+     * @returns The HTML content.
+     */
     getButtons() {
         if (!this.state.open && this.state.canClickGroup) {
             return null;
@@ -88,16 +112,28 @@ export default class GroupListEntry extends React.Component {
         );
     }
 
+    /**
+     * Check if the currently logged in user owns the group.
+     * @returns True if the user owns the group, false if not.
+     */
     isOwner() {
         return (this.state.owner === localStorage.getItem('uid'));
     }
 
+    /**
+     * Retrieve the div element that displays if the user owns the group.
+     * @returns The div element.
+     */
     getIsOwnerDiv() {
         return this.isOwner()
             ? <div className='groupListEntryMembers'>Owned by me.</div>
             : null;
     }
 
+    /**
+     * Attempt to delete a group (only possible if the user owns the group, but this is handled
+     * on the backend).
+     */
     async deleteGroup() {
         this.setState({ canClickGroup: false, open: true });
         await APIHandler.postRequest('http://127.0.0.1:5000/api/deleteGroup', {
@@ -108,6 +144,9 @@ export default class GroupListEntry extends React.Component {
         window.location.reload();
     }
 
+    /**
+     * Leave a group that the user is in.
+     */
     async leaveGroup() {
         this.setState({ canClickGroup: false, open: true });
         await APIHandler.postRequest('http://127.0.0.1:5000/api/leaveGroup', {
@@ -118,6 +157,9 @@ export default class GroupListEntry extends React.Component {
         window.location.reload();
     }
 
+    /**
+     * Join a group, i.e. go to the group page for this group.
+     */
     joinGroup() {
         this.setState({ canClickGroup: false });
         window.location.href = `group?id=${this.state.id}`;

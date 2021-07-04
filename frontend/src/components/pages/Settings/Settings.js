@@ -10,6 +10,10 @@ import firebase from 'firebase';
 
 const TEXT_FIELD_WIDTH = '300px';
 
+// The Settings component handles the settings page of the website.
+// On this page, the user can update their username, age and password.
+// They can also request a new verification email, reset their matching and group data
+// and even delete their entire account.
 class Settings extends React.Component {
 
   constructor(props) {
@@ -29,6 +33,10 @@ class Settings extends React.Component {
     this.deleteUser = this.deleteUser.bind(this)
   }
 
+  /**
+   * Update the state when a text field has been changed.
+   * @param {Object} event Event object containing info on the change.
+   */
   handleChange(event) { //updates state for input
     const target = event.target;
     const name = target.name;
@@ -39,6 +47,9 @@ class Settings extends React.Component {
     });
   }
 
+  /**
+   * Submit the new user data to the database.
+   */
   async submitChanges() {
     this.setState({ successMessage: '', error: '' });
 
@@ -57,6 +68,9 @@ class Settings extends React.Component {
     }
   }
 
+  /**
+   * Attempt to send the user a new verification email.
+   */
   async resendVerificationEmail() {
     this.setState({ successMessage: '', error: '' });
 
@@ -69,6 +83,9 @@ class Settings extends React.Component {
     }
   }
 
+  /**
+   * Attempt to reset a user's matching and group data.
+   */
   async resetUserData() {
     let answer = window.confirm('Are you sure you want to reset your matching and group data?');
     if (!answer) {
@@ -88,6 +105,9 @@ class Settings extends React.Component {
     }
   }
 
+  /**
+   * Attempt to delete the user's account.
+   */
   async deleteUser() {
     let answer = window.confirm('Are you sure you want to delete your account?');
     if (!answer) {
@@ -125,7 +145,6 @@ class Settings extends React.Component {
       this.setState({ error: error.message });
     }
   }
-
 
   render() {
     return (

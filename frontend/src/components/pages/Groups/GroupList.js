@@ -1,6 +1,7 @@
 import React from 'react';
 import GroupListEntry from './GroupListEntry'
 
+// The GroupList component handles the group list on the "Groups" page.
 export const GroupList = ({
     groups
 }) => {

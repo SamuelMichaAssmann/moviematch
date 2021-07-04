@@ -1,3 +1,4 @@
+// The APIHandler class handles interactions with an API (in this case, our backend).
 export default class APIHandler {
 
     /**

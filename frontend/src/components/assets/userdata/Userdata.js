@@ -11,6 +11,8 @@ export var userError = false;
 export var userName = '';
 export var userAge = '';
 
+// The Userdata component handles the first section of the tutorial, where the user must specify their
+// username and age, as well as tick some boxes.
 function Userdata() {
   const [state, setState] = React.useState({
     explain: false,
@@ -23,10 +25,18 @@ function Userdata() {
     age: '',
   });
 
+  /**
+   * Update the state when a text field has been changed.
+   * @param {Object} event Event object containing info on the change.
+   */
   const handleChange = (event) => {
     setState({ ...state, [event.target.name]: event.target.checked });
   };
 
+  /**
+   * Validate the username and age of the user, then update the user state accordingly.
+   * @param {Object} event Event object containing info on the change.
+   */
   const validate = (event) => {
     const target = event.target;
     const name = target.name;
@@ -50,7 +60,6 @@ function Userdata() {
   userError = (userName.length === 0 || userAge.length === 0);
 
   return (
-
     <div className='darkBg'>
       <div className='container settings'>
         <div>
