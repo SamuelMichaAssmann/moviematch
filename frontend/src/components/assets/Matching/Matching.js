@@ -73,8 +73,6 @@ function Matching({
                 "path": dataPath
             }).then(matchData => {
                 console.log(matchData);
-                console.log(matchData.movie_id);
-                console.log(matchData.titel);
                 if (matchData.movie_id !== 'false') {
                     setMatch({
                         hasMatch: true,
@@ -85,8 +83,6 @@ function Matching({
                         genres: matchData.genres,
                         thumbnailSrc: matchData.thumbnailSrc
                     });
-                    console.log("Error: ")
-                    console.log(match);
                 } else {
                     setMatch({hasMatch: false});
                 }
