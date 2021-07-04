@@ -34,14 +34,15 @@ def group_match(group, user, path):
     else:
         return 'Waiting for movies!', 200
 
+
 '''
 Check if a match can be established.
 :param group: The ID of the group.
 :param path: The path to the JSON file.
 '''
-def match_check(group, path):
-    movie_id = check(group, path)
+def match_check(group, user, path):
+    movie_id = check(group, user, path)
     if movie_id != None:
-        retrieve_movie_info(movie_id)
+        return retrieve_movie_info(movie_id)
     else:
         return {'movieId' : 'false'}

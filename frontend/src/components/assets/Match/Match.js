@@ -1,54 +1,51 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import './Match.css';
 import confetti from "canvas-confetti";
-import { matchingObj } from './Data';
-import Matching from '../../assets/Matching/Matching';
-import APIHandler from '../../manage/api/APIHandler';
+import { MovieThumbnail } from '../Image/MovieThumbnail';
+import MovieInfo from '../Matching/MovieInfo/MovieInfo';
 
-function Match() {
-  useEffect(() => {
-    APIHandler.getRequest(matchingObj.getEndpoint, {
-      'user_id': localStorage.getItem('uid'),
-      'group_id': new URLSearchParams(window.location.search).get('id'),
-      'path': matchingObj.dataPath
-    }).then(data => {
-      if (data.movie_id !== 'false') {
-        match();
-      };
-    });
-  }, []);
-  
-  const match = () => {
-    confetti({
-      particleCount: 300,
-      spread: 360,
-      startVelocity: 50,
-    });
-
-    const modal = document.querySelector(`.modal`);
-    const contentWrapper = modal.querySelector(".content-wrapper");
-    const close = modal.querySelector(".close");
-
-    close.addEventListener("click", () => modal.classList.remove("open"));
-
-    modal.addEventListener("click", () => modal.classList.remove("open"));
-    contentWrapper.addEventListener("click", (e) => e.stopPropagation());
-    modal.classList.toggle("open");
-  }
+function Match({
+  title,
+  desc,
+  runtime,
+  rating,
+  genres,
+  thumbnailSrc,
+  onClick,
+}) {
+  console.log(title);
+  confetti({
+    particleCount: 300,
+    spread: 360,
+    startVelocity: 50
+  });
 
   return (
-    <>
-      <div class="modal" >
-        <article class="content-wrapper">
-          <button class="close"></button>
-          <div className="scrollview">
-            <h2 className='matchheading'>You got a match!</h2>
-            <Matching {...matchingObj} />
+    <div className="modal open" >
+      <article className="content-wrapper">
+        <button className="close" onClick={onClick}></button>
+        <div className="scrollview">
+          <h2 className='matchheading'>You got a match!</h2>
+          <div className='movieThumbnailRow movieThumbnailRowGroup'>
+            <MovieThumbnail
+              src={thumbnailSrc}
+              height="400"
+            />
+            <div>
+              <h2 className='lightmovieTitle'>{title}</h2>
+              <p className='home__sek-subtitle lightmovieDescription'>{desc}</p>
+            </div>
           </div>
-        </article>
-      </div>
-    </>
+          <MovieInfo {... {
+            runtime: runtime,
+            rating: rating,
+            genres: genres,
+            tableExtraClasses: 'movieTableGroup',
+          }} />
+        </div>
+      </article>
+    </div>
   );
-}
+};
 
 export default Match;

@@ -10,17 +10,7 @@ def get_all_json_data(path):
         with open(path) as file:
             return json.load(file)
     except Exception:
-        cleanup(path)
         return None
-
-'''
-Clean up JSON data. Call this in case of an error.
-:param path: Path to the JSON file.
-'''
-def cleanup(path):
-    print('Error - Cleanup!')
-    with open(path, 'w') as file:
-        json.dump({}, file)
 
 '''
 Set group watch data (movie IDs in a JSON file).
@@ -118,23 +108,33 @@ def get_movie_in_group(group, user, path):
     return None
 
 
-def check(group, path):
+def check(group, user, path):
     data = get_all_json_data(path)
-    length = 3  # Firebase length of userlist
+    length = 1  # Firebase length of userlist
     movie = None
     try:
-        if data.get(group) == None:
-            return None
         for k, v in data.get(group).items():
             if len(v) == length:
                 movie = k
                 data.get(group).pop(movie)
+                write_match(k, group)
                 break
+
         with open(path, 'w') as file:
             json.dump(data, file)
     except Exception as e:
         print(e)
-    return movie
+        
+    movie = get_movie_in_group(group, user, '../data/match.json')
+    if movie != None:
+        set_movie(group, user, movie, '../data/match.json', 'like')
+        return movie
+    return None
+
+
+def write_match(movie, group):
+    path = '../data/match.json'
+    set_group_movie_data(group, [movie], path)
 
 '''
 Count how many movies a user has interacted with in a given group.
