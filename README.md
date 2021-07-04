@@ -24,10 +24,14 @@ pw: sh7up#KT!
 
 # IDE
 cd ./frontend && npm install
+
 pip install -r ./backend/requirements.txt
 
+
 cd ./frontend
+
 npm start -> start the frontend
+
 npm run api -> start the backend
 
 # API
