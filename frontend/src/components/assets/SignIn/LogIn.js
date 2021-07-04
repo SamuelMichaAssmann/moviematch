@@ -26,7 +26,7 @@ export class Login extends React.Component {
 
     /**
      * Update the state when a text field has been changed.
-     * @param {*} event Event object containing info on the change.
+     * @param {Object} event Event object containing info on the change.
      */
     handleChange(event) {
         const target = event.target;
@@ -38,6 +38,9 @@ export class Login extends React.Component {
         });
     }
 
+    /**
+     * Reset the email and password input fields.
+     */
     resetForm() {
         this.setState({
             password: '',
@@ -45,6 +48,9 @@ export class Login extends React.Component {
         })
     }
 
+    /**
+     * Request a password reset email.
+     */
     async resetPassword() {
         if (this.state.email === '') {
             this.setState({ successMessage: '', error: 'Please enter a valid email' });
@@ -54,16 +60,19 @@ export class Login extends React.Component {
         this.setState({ successMessage: '', error: '', loading: true });
 
         const response = await APIHandler.postRequest('http://127.0.0.1:5000/api/resetPwd', {
-          email: this.state.email
+            email: this.state.email
         });
-    
-        if ('message' in response) {
-          this.setState({ loading: false, successMessage: '', error: response.message });
-        } else {
-          this.setState({ loading: false, successMessage: 'A password reset email has been sent to you!', error: '' });
-        }
-      }
 
+        if ('message' in response) {
+            this.setState({ loading: false, successMessage: '', error: response.message });
+        } else {
+            this.setState({ loading: false, successMessage: 'A password reset email has been sent to you!', error: '' });
+        }
+    }
+
+    /**
+     * Log the user in using Firebase.
+     */
     async logInFirebase() {
         const data = {
             email: this.state.email,
@@ -87,43 +96,7 @@ export class Login extends React.Component {
         this.setState({ loading: false });
 
         window.location.href = '/home';
-
-
-
-
-        //console.log("Redirecting");
-        //window.location.href = '/home';
-
-        /*
-
-        firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
-            .then((userCredential) => {
-                //Signed in
-                var user = userCredential.user;
-                console.log("Signed IN");
-                //redirect to home or desired component
-
-
-                if (!user.emailVerified) {
-                    console.log("User is not verified");
-                    firebase.auth().signOut().then(() => {
-                        // Sign-out successful.
-                        console.log("Signed out");
-                    }).catch((error) => {
-                        alert(error);
-                        // An error happened.
-                    });
-                }
-                
-
-            })
-            .catch((error) => {
-                this.resetform();
-                var errorCode = error.code;
-                var errorMessage = error.message;
-                alert(errorMessage + "\n" + { errorCode })
-            });*/
-    };
+    }
 
     render() {
         return (

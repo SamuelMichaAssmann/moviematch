@@ -17,6 +17,7 @@ import { matchingObj, home } from './Data';
 import Userdata, { error, userError, userName, userAge } from '../../assets/Userdata/Userdata';
 import APIHandler from '../../manage/api/APIHandler';
 
+// Handles the line between the circles at the top of the tutorial page.
 const ColorlibConnector = withStyles({
     alternativeLabel: {
         top: 22,
@@ -41,6 +42,7 @@ const ColorlibConnector = withStyles({
     },
 })(StepConnector);
 
+// Handles the icons for the circles at the top of the tutorial page.
 const useColorlibStepIconStyles = makeStyles({
     root: {
         backgroundColor: '#ccc',
@@ -60,6 +62,8 @@ const useColorlibStepIconStyles = makeStyles({
     },
 });
 
+// The ColorlibStepIcon component handles the complete bar at the top of the tutorial.
+// This bar represents the three phases of the tutorial (user data, matching, email verification).
 function ColorlibStepIcon(props) {
     const Stepper = useColorlibStepIconStyles();
     const { active, completed } = props;
@@ -92,10 +96,16 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+/**
+ * Retrieve a list of string representations of the three phases (steps) of the tutorial.
+ * @returns The list of strings.
+ */
 function getSteps() {
     return ['Userdata', 'Select some movies', 'Verify your email'];
 }
 
+// The CustomizedSteppers component handles the content of the current tutorial phase (step).
+// It also handles switching between these phases.
 export default function CustomizedSteppers() {
     const stepper = useStyles();
     const [activeStep, setActiveStep] = React.useState(0);
@@ -104,10 +114,17 @@ export default function CustomizedSteppers() {
     const [emailVerified, setEmailVerified] = React.useState(false);
     const steps = getSteps();
 
+    /**
+     * When the tutorial is first loaded, start checking if the user's email has been verified.
+     */
     useEffect(() => {
         checkEmailVerified();
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+    /**
+     * Handle switching to the next tutorial phase.
+     * Under certain circumstances this is not allowed.
+     */
     const handleNext = () => {
         if (activeStep === 0) {
             // Don't proceed if the user hasn't filled in everything correctly.
@@ -129,14 +146,24 @@ export default function CustomizedSteppers() {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
     };
 
+    /**
+     * Handle switching to the previous tutorial phase.
+     * This is always allowed.
+     */
     const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
+    /**
+     * Handle resetting the tutorial (i.e. going back to the first tutorial phase).
+     */
     const handleReset = () => {
         setActiveStep(0);
     };
 
+    /**
+     * Check if a user's email has been verified and update the state if so.
+     */
     async function checkEmailVerified() {
         const response = await APIHandler.postRequest('http://127.0.0.1:5000/api/isUserVerified', {
             refresh_token: localStorage.getItem('refreshToken')
@@ -151,6 +178,11 @@ export default function CustomizedSteppers() {
         setEmailVerified(true);
     }
 
+    /**
+     * Retrieve the HTML content for a given tutorial phase.
+     * @param {int} step The tutorial phase (0, 1 or 2).
+     * @returns The HTML content.
+     */
     function getStepContent(step) {
         switch (step) {
             case 0:
@@ -183,6 +215,9 @@ export default function CustomizedSteppers() {
         }
     }
 
+    /**
+     * Attempt to change the username and age of the user.
+     */
     function changeUsernameAndAge() {
         APIHandler.postRequest('http://127.0.0.1:5000/api/changeUsername', {
             user_id: localStorage.getItem('uid'),
@@ -195,6 +230,9 @@ export default function CustomizedSteppers() {
         });
     }
 
+    /**
+     * Attempt to send the user a new verification email.
+     */
     async function resendVerificationEmail() {
         setEmailError('');
         setEmailSuccessMessage('');

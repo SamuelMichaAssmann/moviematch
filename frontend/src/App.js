@@ -16,6 +16,8 @@ import Error404 from './components/assets/Error/Error404';
 import Policy from './components/assets/Policy/Policy';
 import ScrollToTop from './components/manage/ScrollToTop';
 
+// The App component is the top-most component of the website and handles routing to the
+// different pages.
 function App() {
   let isLoggedIn = false;
   if (localStorage.getItem('uid') != null) {
