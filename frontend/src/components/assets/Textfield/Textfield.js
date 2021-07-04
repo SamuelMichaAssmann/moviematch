@@ -1,6 +1,7 @@
 import React from 'react';
 import './Textfield.css';
 
+// The Textfield component handles a graphical text input field for the user.
 export const Textfield = ({
     label,
     name,

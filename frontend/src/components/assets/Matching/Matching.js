@@ -11,6 +11,8 @@ import Match from '../Match/Match';
 
 const BASE_THUMBNAIL_URL = 'https://image.tmdb.org/t/p/w500';
 
+// The Matching component handles movie matching, i.e. requesting a new movie based on the Machine Learning
+// model on the backend, then liking, disliking or skipping the movie to feed more info into this model.
 function Matching({
     lightbg,
     dataPath,
@@ -26,13 +28,7 @@ function Matching({
     rowExtraClasses = '',
     tableExtraClasses = '',
 }) {
-    const [match, setMatch] = useState({
-        hasMatch: false,
-        title: "Teststring",
-        runtime: 0,
-        rating: 0,
-        genres: 'none',
-    });
+    const [match, setMatch] = useState({hasMatch: false});
 
     const mounted = useRef(() => ({ current: true }), []);
 
@@ -47,6 +43,10 @@ function Matching({
     if (onDislike == null) onDislike = () => getMovie('dislike');
     if (onNeutral == null) onNeutral = () => getMovie('neutral');
 
+    /**
+     * Request a new movie when the component is first mounted.
+     * Once the component becomes unmounted, stop requesting new movies.
+     */
     useEffect(() => {
         getMovie();
         return () => {
@@ -54,11 +54,16 @@ function Matching({
         }
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+    /**
+     * Get a new movie to show the user based on previous input.
+     * @param {String} kind 'like' or 'dislike' depending on user input.
+     */
     const getMovie = (kind) => {
         if (!mounted.current) {
             return;
         }
         
+        // If the user had previously liked or disliked a movie, register this info.
         if (state.movieId) {
             APIHandler.postRequest(setEndpoint, {
                 "user_id": localStorage.getItem("uid"),
@@ -66,29 +71,26 @@ function Matching({
                 "movie_id": state.movieId,
                 "kind": kind,
                 "path": dataPath
-            }).then(data => {
-                console.log(data);
-                const matchmovie = data.movie_id;
-                console.log(data.movie_id);
-                console.log(data.titel);
-                if (matchmovie !== "false") {
+            }).then(matchData => {
+                if (matchData.movie_id !== 'false') {
                     setMatch({
                         hasMatch: true,
-                        title: data.titel,
-                        desc: data.desc,
-                        runtime: data.runtime,
-                        rating: data.rating,
-                        genres: data.genres,
-                        thumbnailSrc: data.thumbnailSrc
+                        title: matchData.titel,
+                        desc: matchData.desc,
+                        runtime: matchData.runtime,
+                        rating: matchData.rating,
+                        genres: matchData.genres,
+                        thumbnailSrc: matchData.thumbnailSrc
                     });
-                    console.log("Error: ")
-                    console.log(match);
+                } else {
+                    setMatch({hasMatch: false});
                 }
             }).catch(() => {
                 // Errors during set are fine, just load a new movie.
             });
         }
 
+        // Reset movie info while a new movie is being requested.
         setState({
             ...state,
             loaded: false,
@@ -97,6 +99,7 @@ function Matching({
             genres: 'none'
         });
 
+        // Request a new movie.
         APIHandler.getRequest(getEndpoint, {
             "user_id": localStorage.getItem("uid"),
             "group_id": new URLSearchParams(window.location.search).get('id'),
@@ -139,7 +142,9 @@ function Matching({
                         </div>}
                     <div>
                         <h2 className={lightbg ? 'lightmovieTitle' : 'darkmovieTitle'}>{state.title}</h2>
-                        <p className={lightbg ? 'home__sek-subtitle lightmovieDescription' : 'home__sek-subtitle darkmovieDescription'}>{state.desc}</p>
+                        <p className={lightbg
+                            ? 'home__sek-subtitle lightmovieDescription'
+                            : 'home__sek-subtitle darkmovieDescription'}>{state.desc}</p>
                     </div>
                 </div>
                 {lightbg ? '' :
@@ -149,6 +154,7 @@ function Matching({
                         <RateButton {...dislikeButton} onClick={onDislike} />
                     </div>}
             </div>
+            
             <MovieInfo {... {
                 runtime: state.runtime,
                 rating: state.rating,

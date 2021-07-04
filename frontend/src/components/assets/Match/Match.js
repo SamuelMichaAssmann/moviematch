@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './Match.css';
 import confetti from "canvas-confetti";
 import { MovieThumbnail } from '../Image/MovieThumbnail';
 import MovieInfo from '../Matching/MovieInfo/MovieInfo';
 
+// The Match component handles the popup that is displayed when a group finds a match.
+// Also includes confetti to make the event feel more satisfying.
 function Match({
   title,
   desc,
@@ -13,7 +15,6 @@ function Match({
   thumbnailSrc,
   onClick,
 }) {
-  console.log(title);
   confetti({
     particleCount: 300,
     spread: 360,

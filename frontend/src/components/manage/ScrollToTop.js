@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 
+// The ScrollToTop function forces the page to scroll all the way to the top.
 function ScrollToTop({ history }) {
   useEffect(() => {
     const unlisten = history.listen(() => {

@@ -8,6 +8,7 @@ import APIHandler from '../../manage/api/APIHandler';
 
 const MAX_MEMBER_NAME_LENGTH = 20;
 
+// The Group component handles the group page where users can like or dislike movies to find a movie match.
 export default class Group extends React.Component {
 
     constructor(props) {
@@ -27,6 +28,9 @@ export default class Group extends React.Component {
         
     }
 
+    /**
+     * Retrieve information about the group from the backend.
+     */
     async getGroupInfo() {
         const response = await APIHandler.getRequest('http://127.0.0.1:5000/api/getGroupInfo', {
             group_id: this.groupId
@@ -46,6 +50,13 @@ export default class Group extends React.Component {
         });
     }
 
+    /**
+     * Trim a string to a certain maximum length.
+     * If the string exceeds this length, it is cut off by three periods (...).
+     * @param {*} str The string to trim.
+     * @param {*} maxLength The maximum length of the string, in characters.
+     * @returns The trimmed string.
+     */
     trimString(str, maxLength) {
         if (str.length <= maxLength) {
             return str;
@@ -54,6 +65,10 @@ export default class Group extends React.Component {
         return str.substring(0, maxLength - 3) + '...';
     }
 
+    /**
+     * Retrieve div elements for the member list.
+     * @returns The member list div elements.
+     */
     getMemberDivs() {
         return this.state.members.map((memberInfo, index) => {
             return (
@@ -62,6 +77,10 @@ export default class Group extends React.Component {
         });
     }
 
+    /**
+     * Get all content for the group page (header, matching, member list).
+     * @returns The group HTML content.
+     */
     getGroupContent() {
         if (!this.state.loaded) {
             return (
@@ -78,7 +97,7 @@ export default class Group extends React.Component {
                     {`ID: ${this.groupId}`}
                 </h2>
                 <div className='groupViewContainer darkBg'>
-                    <div className='groupContent'>{this.getGroupPhaseContent()}</div>
+                    <div className='groupContent'>{this.getGroupMatchingContent()}</div>
                     <div className='groupMemberList'>
                         <h2 className='groupTitle'>Members</h2>
                         <div className='groupMembers'>
@@ -90,8 +109,11 @@ export default class Group extends React.Component {
         );
     }
 
-    getGroupPhaseContent() {
-
+    /**
+     * Retrieve HTML elements for the matching section of the group.
+     * @returns The HTML content.
+     */
+    getGroupMatchingContent() {
         return (
             <div>
                 <Matching {...matchingObj} />

@@ -5,6 +5,8 @@ import { Button } from '../../assets/Button/Button';
 import { Textfield } from '../../assets/Textfield/Textfield';
 import Loading from '../../assets/Loading/Loading';
 
+// The Groups component handles the "Groups" page, letting the user create a group, join
+// a group and interact with their current group list.
 export default class Groups extends React.Component {
 
   constructor(props) {
@@ -30,6 +32,9 @@ export default class Groups extends React.Component {
     this.getGroups();
   }
 
+  /**
+   * Get a list of groups that the user is currently in.
+   */
   async getGroups() {
     const response = await APIHandler.getRequest('http://127.0.0.1:5000/api/groupList', {
       user_id: localStorage.getItem('uid')
@@ -43,6 +48,10 @@ export default class Groups extends React.Component {
     }
   }
 
+  /**
+   * Retrieve HTML content for the "create group" part of the page.
+   * @returns The HTML content.
+   */
   getCreateGroupFields() {
     if (!this.state.clickedCreateGroup) {
       return null;
@@ -78,6 +87,10 @@ export default class Groups extends React.Component {
     )
   }
 
+  /**
+   * Retrieve HTML content for the "join new group" part of the page.
+   * @returns The HTML content.
+   */
   getJoinGroupFields() {
     if (!this.state.clickedJoinGroup) {
       return null;
@@ -115,6 +128,9 @@ export default class Groups extends React.Component {
     )
   }
 
+  /**
+   * Attempt to create a new group using the current state.
+   */
   async createGroup() {
     await APIHandler.postRequest('http://127.0.0.1:5000/api/newGroup', {
       group_name: this.state.createGroupName,
@@ -125,6 +141,9 @@ export default class Groups extends React.Component {
     window.location.reload();
   }
 
+  /**
+   * Attempt to join an existing group using the current state.
+   */
   async joinGroup() {
     const response = await APIHandler.postRequest('http://127.0.0.1:5000/api/joinGroup', {
       user_id: localStorage.getItem('uid'),
@@ -138,6 +157,11 @@ export default class Groups extends React.Component {
     }
   }
 
+  /**
+   * Get HTML content for the group list.
+   * If the user is not in any groups, this info is displayed to them.
+   * @returns The HTML content.
+   */
   getGroupListElements() {
     if (!this.state.loadedGroupList) {
       return <Loading />;
@@ -150,6 +174,10 @@ export default class Groups extends React.Component {
     return <GroupList groups={this.state.groups} />;
   }
 
+  /**
+   * Update the state when a text field has been changed.
+   * @param {Object} event Event object containing info on the change.
+   */
   handleChange(event) { //updates state for input
     const target = event.target;
     const value = target.value;

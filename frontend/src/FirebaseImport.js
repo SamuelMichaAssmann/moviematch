@@ -1,10 +1,13 @@
-//Import Core_Firebase SDK - has to be installed and named first
+// This file sets up the necessary Firebase settings, allowing the website to interact with
+// our Firebase server.
+
+// Import Core_Firebase SDK - has to be installed and named first.
 import firebase from "firebase/app"
 
-//Import Analytics for project (Optional)
-import "firebase/auth"
+// Import Analytics for project (Optional).
+// import "firebase/auth"
 
-//Import desired firebase-modules (products)
+// Import desired firebase-modules (products).
 import "firebase/auth" //import firebase_Authentification
 import "firebase/database" //import firebase_RealtimeDatabase
 

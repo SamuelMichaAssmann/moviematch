@@ -6,7 +6,7 @@ import { Button } from '../Button/Button';
 import APIHandler from '../../manage/api/APIHandler';
 import Loading from '../Loading/Loading';
 
-
+// The Register component handles the user registration section.
 export class Register extends React.Component {
   constructor(props) {
     super(props)
@@ -25,6 +25,10 @@ export class Register extends React.Component {
 
   }
 
+  /**
+   * Update the state when a text field has been changed.
+   * @param {Object} event Event object containing info on the change.
+   */
   handleChange(event) { //updates state for input
     const target = event.target;
     const value = target.value;
@@ -35,7 +39,10 @@ export class Register extends React.Component {
     });
   }
 
-  resetForm() { //resets form
+  /**
+   * Reset the password, repeat password and email input fields.
+   */
+  resetForm() {
     this.setState({
       password: '',
       passwordConfirmation: '',
@@ -43,13 +50,10 @@ export class Register extends React.Component {
     })
   }
 
-  /*
-   If pwdconfirmation does not match : Cancel
-   pwdconfirmation does match : login and send verificationmail - user is able to log in after verification
-  */
-
-  async registerFirebase() { //register new user with firebase.auth()
-
+  /**
+   * Register a new account in Firebase.
+   */
+  async registerFirebase() {
     if (this.state.password.length < 6) {
       this.setState({ error: 'Your password must be at least 6 characters long.' });
       return;
@@ -80,44 +84,6 @@ export class Register extends React.Component {
     localStorage.setItem('refreshToken', response['refreshToken']);
     this.setState({ loading: false });
     window.location.href = '/tutorial';
-
-
-    /*
-    const args = {
-      email: this.state.email,
-      password: this.state.password  
-    };
-
-    const response = await axios.post('http://localhost:5000/api/signup', args);
-    console.log(response);
-    */
-
-    /*
-        if (this.state.confirmation == true) {
-          firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
-            .then((userCredential) => {
-              //Signed in
-              var user = userCredential.user;
-              user.sendEmailVerification();
-              //redirect to VerificationSite?
-              alert("Success! You are now a registered member of MovieMatch. Please check your mailbox to verify your adress");
-              this.resetForm();
-              
-              window.location.href = '/sign-up';
-            })
-            .catch((error) => {
-              var errorMessage = error.message;
-              alert(errorMessage + "\nPlease try again.");
-              this.resetForm();
-    
-            });
-        }
-        else {
-          alert("Passwords did not match");
-          this.resetForm();
-          console.log("resetRunning");
-    
-         }*/
   }
 
   render() {

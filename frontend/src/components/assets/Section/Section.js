@@ -3,6 +3,8 @@ import './Section.css';
 import { Button } from '../Button/Button';
 import { Link } from 'react-router-dom';
 
+// The Section component renders a horizontal section containing a header, a description, a button and/or an image.
+// This component is best used on informational, non-interactive parts of the website.
 function Section({
   lightBg,
   topLine,

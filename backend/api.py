@@ -140,7 +140,8 @@ def api_group_match():
     group_id = flask.request.args.get('group_id')
     user_id = flask.request.args.get('user_id')
     path = flask.request.args.get('path')
-    return group_match(group_id, user_id, path)
+    movie = group_match(group_id, user_id, path)
+    return movie
 
 
 @app.route('/api/userback', methods=['POST', 'OPTIONS'])
@@ -156,7 +157,7 @@ def userback():
     '''
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
     db.userback(flask.request)
-    return { 'movie_id': 'false' }
+    return { 'movie_id' : 'false' }
 
 
 @app.route('/api/groupback', methods=['POST', 'OPTIONS'])
@@ -173,15 +174,17 @@ def groupback():
     :return: The movie info.
     '''
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
-    print(flask.request.json)
-    group_id = flask.request.json['group_id']
-    user_id = flask.request.json['user_id']
-    movie_id = flask.request.json['movie_id']
-    path = flask.request.json['path']
-    kind = flask.request.json['kind']
-    set_movie(group_id, user_id, movie_id, path, kind)
-    match = match_check(group_id, user_id, path)
-    return match
+    try:
+        group_id = flask.request.json['group_id']
+        user_id = flask.request.json['user_id']
+        movie_id = flask.request.json['movie_id']
+        path = flask.request.json['path']
+        kind = flask.request.json['kind']
+        set_movie(group_id, user_id, movie_id, path, kind)
+        movie = match_check(group_id, user_id, path)
+        return movie
+    except Exception:
+        return { 'movie_id' : 'false' }
 
 
 @app.route('/api/groupList', methods=['GET', 'OPTIONS'])
