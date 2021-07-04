@@ -156,7 +156,7 @@ def userback():
     '''
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
     db.userback(flask.request)
-    return { 'movie_id': 'false' }
+    return { 'movie_id' : 'false' }
 
 
 @app.route('/api/groupback', methods=['POST', 'OPTIONS'])

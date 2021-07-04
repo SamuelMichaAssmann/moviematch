@@ -113,6 +113,7 @@ def check(group, user, path):
     length = len(db.get_group_info(group)['members'])
     try:
         for movie, users in data.get(group).items():
+            print(f"DEBUG - {movie}, {users}")
             if len(users) == length:
                 del data.get(group)[movie]
                 write_match(group)

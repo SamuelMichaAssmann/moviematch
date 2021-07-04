@@ -45,4 +45,4 @@ def match_check(group, user, path):
     if movie_id != None:
         return retrieve_movie_info(movie_id)
     else:
-        return {'movieId' : 'false'}
+        return {'movie_id' : 'false'}

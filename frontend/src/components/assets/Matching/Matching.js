@@ -28,13 +28,7 @@ function Matching({
     rowExtraClasses = '',
     tableExtraClasses = '',
 }) {
-    const [match, setMatch] = useState({
-        hasMatch: false,
-        title: "Teststring",
-        runtime: 0,
-        rating: 0,
-        genres: 'none',
-    });
+    const [match, setMatch] = useState({hasMatch: false});
 
     const mounted = useRef(() => ({ current: true }), []);
 
@@ -77,23 +71,24 @@ function Matching({
                 "movie_id": state.movieId,
                 "kind": kind,
                 "path": dataPath
-            }).then(data => {
-                console.log(data);
-                const matchmovie = data.movie_id;
-                console.log(data.movie_id);
-                console.log(data.titel);
-                if (matchmovie !== "false") {
+            }).then(matchData => {
+                console.log(matchData);
+                console.log(matchData.movie_id);
+                console.log(matchData.titel);
+                if (matchData.movie_id !== 'false') {
                     setMatch({
                         hasMatch: true,
-                        title: data.titel,
-                        desc: data.desc,
-                        runtime: data.runtime,
-                        rating: data.rating,
-                        genres: data.genres,
-                        thumbnailSrc: data.thumbnailSrc
+                        title: matchData.titel,
+                        desc: matchData.desc,
+                        runtime: matchData.runtime,
+                        rating: matchData.rating,
+                        genres: matchData.genres,
+                        thumbnailSrc: matchData.thumbnailSrc
                     });
                     console.log("Error: ")
                     console.log(match);
+                } else {
+                    setMatch({hasMatch: false});
                 }
             }).catch(() => {
                 // Errors during set are fine, just load a new movie.
