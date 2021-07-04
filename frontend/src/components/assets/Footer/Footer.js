@@ -7,6 +7,8 @@ import {
   FaYoutube
 } from 'react-icons/fa';
 
+// The Footer component creates a footer that is used across the entire website.
+// This footer contains links to the terms and conditions as well as social media.
 function Footer() {  
   return (
     <div className='footer-container'>

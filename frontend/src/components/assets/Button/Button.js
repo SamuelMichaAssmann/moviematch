@@ -7,6 +7,7 @@ const SIZES = ['btn--medium', 'btn--large', 'btn--mobile', 'btn--wide'];
 
 const COLOR = ['primary', 'blue', 'red', 'green'];
 
+// The Button component creates a clickable and stylable button.
 export const Button = ({
   children,
   type,

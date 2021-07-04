@@ -1,5 +1,6 @@
 import React from "react";
 
+// The Error component renders a simple 404 page.
 function Error() {
     return (
         <>
