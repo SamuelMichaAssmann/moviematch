@@ -169,7 +169,6 @@ export default function CustomizedSteppers() {
             refresh_token: localStorage.getItem('refreshToken')
         }, true);
 
-        console.log(response.status);
         if (response.status < 200 || response.status >= 300) {
             setTimeout(checkEmailVerified, 2000);
             return;

@@ -72,7 +72,6 @@ function Matching({
                 "kind": kind,
                 "path": dataPath
             }).then(matchData => {
-                console.log(matchData);
                 if (matchData.movie_id !== 'false') {
                     setMatch({
                         hasMatch: true,

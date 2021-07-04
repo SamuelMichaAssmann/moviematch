@@ -5,7 +5,7 @@
 import firebase from "firebase/app"
 
 // Import Analytics for project (Optional).
-import "firebase/auth"
+// import "firebase/auth"
 
 // Import desired firebase-modules (products).
 import "firebase/auth" //import firebase_Authentification

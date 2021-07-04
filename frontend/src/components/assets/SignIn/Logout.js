@@ -1,4 +1,4 @@
-import firebase from 'firebase';
+import firebase from '../../../FirebaseImport';
 
 // The Logout function lets the user log out from their account.
 function Logout() {

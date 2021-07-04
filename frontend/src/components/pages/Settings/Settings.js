@@ -6,7 +6,7 @@ import { Textfield } from '../../assets/Textfield/Textfield';
 import { Button } from '../../assets/Button/Button';
 import APIHandler from '../../manage/api/APIHandler';
 import { FaSkull } from 'react-icons/fa';
-import firebase from 'firebase';
+import firebase from '../../../FirebaseImport';
 
 const TEXT_FIELD_WIDTH = '300px';
 
