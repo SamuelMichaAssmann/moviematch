@@ -1,22 +1,24 @@
 import requests
 
-'''
-Get a string of genres based on a list of genre data.
-:param genre_list: A list of genre data.
-:return: The string of genres.
-'''
+
 def get_genres_string(genre_list):
+    '''
+    Get a string of genres based on a list of genre data.
+    :param genre_list: A list of genre data.
+    :return: The string of genres.
+    '''
     genre = []
     for g in genre_list:
         genre.append(g['name'])
     return ', '.join(genre)
 
-'''
-Remove the initial item of a match list.
-:param matchlist: The match list.
-:return: The match list without the initial item.
-'''
+
 def removeinit(matchlist):
+    '''
+    Remove the initial item of a match list.
+    :param matchlist: The match list.
+    :return: The match list without the initial item.
+    '''
     if matchlist == None:
         return []
     if 'initial item' in matchlist:
@@ -26,12 +28,13 @@ def removeinit(matchlist):
         return matchlist
     return matchlist
 
-'''
-Request information about a movie from TheMovieDB.
-:param movie_id: The ID of the movie.
-:return: Information about this movie as a dictionary.
-'''
+
 def retrieve_movie_info(movie_id):
+    '''
+    Request information about a movie from TheMovieDB.
+    :param movie_id: The ID of the movie.
+    :return: Information about this movie as a dictionary.
+    '''
     try:
         result = requests.get(f'https://api.themoviedb.org/3/movie/{movie_id}?api_key=d28d1550787892e34121c2918ec031b1')
         movie = result.json()
@@ -53,13 +56,14 @@ def get_element(clusters):
     clusters.remove(value)
     return value
 
-'''
-Find new movies based on the current watch list.
-:param clusters: The Machine Learning clusters to base the result on.
-:param watchlist: The current watch list.
-:return: The new movie list.
-'''
+
 def get_movies(clusters, watchlist):
+    '''
+    Find new movies based on the current watch list.
+    :param clusters: The Machine Learning clusters to base the result on.
+    :param watchlist: The current watch list.
+    :return: The new movie list.
+    '''
     movie_list = []
     while len(movie_list) <= 20:
         genre = get_element(clusters)[0]
@@ -71,12 +75,13 @@ def get_movies(clusters, watchlist):
                 movie_list.append(r['id'])
     return movie_list
 
-'''
-Get information for all movies in a watch list.
-:param watchlist: The watch list with movie IDs.
-:returns: A list of movie information.
-'''
+
 def get_watch_info(watchlist):
+    '''
+    Get information for all movies in a watch list.
+    :param watchlist: The watch list with movie IDs.
+    :returns: A list of movie information.
+    '''
     movie_list = []
     try:
         for movie_id in watchlist:
@@ -88,11 +93,12 @@ def get_watch_info(watchlist):
         pass
     return movie_list
 
-'''
-Get a list of all genres acknowledged by TheMovieDB.
-:return: A list of genre IDs.
-'''
+
 def get_genre_list():
+    '''
+    Get a list of all genres acknowledged by TheMovieDB.
+    :return: A list of genre IDs.
+    '''
     genrelist = requests.get('https://api.themoviedb.org/3/genre/movie/list?api_key=d28d1550787892e34121c2918ec031b1')
     genrelist = genrelist.json().get('genres')
     g = []
@@ -100,11 +106,12 @@ def get_genre_list():
         g.append(genre.get('id'))
     return g
 
-'''
-Get a list of default movie IDs, for when the Machine Learning model does not have enough data to make predictions.
-:return: The list of movie IDs.
-'''
+
 def get_default_movie_list():
+    '''
+    Get a list of default movie IDs, for when the Machine Learning model does not have enough data to make predictions.
+    :return: The list of movie IDs.
+    '''
     watchlist = 'https://api.themoviedb.org/3/discover/movie?api_key=d28d1550787892e34121c2918ec031b1&sort_by=popularity.desc&include_adult=false&include_video=false&page=100'
     r = requests.get(watchlist)
     r = r.json()
