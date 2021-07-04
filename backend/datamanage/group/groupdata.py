@@ -114,8 +114,8 @@ def check(group, user, path):
     try:
         for movie, users in data.get(group).items():
             if len(users) == length:
-                data.get(group).pop(movie)
-                write_match(movie, group)
+                del data.get(group)[movie]
+                write_match(group)
         with open(path, 'w') as file:
             json.dump(data, file)
     except Exception as e:
@@ -123,14 +123,15 @@ def check(group, user, path):
     
     movie = get_movie_in_group(group, user, '../data/match.json')
     if movie != None:
-        set_movie(group, user, movie, '../data/match.json', 'like')
+        kind = 'like'
+        set_movie(group, user, movie, '../data/match.json', kind)
         return movie
     return None
 
 
-def write_match(movie, group):
+def write_match(group):
     path = '../data/match.json'
-    set_group_movie_data(group, [movie], path)
+    set_group_movie_data(group, [], path)
 
 '''
 Count how many movies a user has interacted with in a given group.

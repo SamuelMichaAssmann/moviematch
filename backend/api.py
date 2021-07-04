@@ -179,9 +179,6 @@ def groupback():
     path = flask.request.json['path']
     kind = flask.request.json['kind']
     set_movie(group_id, user_id, movie_id, path, kind)
-    # -->
-    print(f"DEBUG - {group_id}, {user_id}, {path}")
-    # <--
     return match_check(group_id, user_id, path)
 
 
