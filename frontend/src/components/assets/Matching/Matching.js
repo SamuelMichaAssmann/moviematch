@@ -59,33 +59,35 @@ function Matching({
             return;
         }
         
-        APIHandler.postRequest(setEndpoint, {
-            "user_id": localStorage.getItem("uid"),
-            "group_id": new URLSearchParams(window.location.search).get('id'),
-            "movie_id": state.movieId,
-            "kind": kind,
-            "path": dataPath
-        }).then(data => {
-            console.log(data);
-            const matchmovie = data.movie_id;
-            console.log(data.movie_id);
-            console.log(data.titel);
-            if (matchmovie != "false") {
-                setMatch({
-                    hasMatch: true,
-                    title: data.titel,
-                    desc: data.desc,
-                    runtime: data.runtime,
-                    rating: data.rating,
-                    genres: data.genres,
-                    thumbnailSrc: data.thumbnailSrc
-                });
-                console.log("Error: ")
-                console.log(match);
-            };
-        }).catch(() => {
-            // Errors during set are fine, just load a new movie.
-        });
+        if (state.movieId) {
+            APIHandler.postRequest(setEndpoint, {
+                "user_id": localStorage.getItem("uid"),
+                "group_id": new URLSearchParams(window.location.search).get('id'),
+                "movie_id": state.movieId,
+                "kind": kind,
+                "path": dataPath
+            }).then(data => {
+                console.log(data);
+                const matchmovie = data.movie_id;
+                console.log(data.movie_id);
+                console.log(data.titel);
+                if (matchmovie !== "false") {
+                    setMatch({
+                        hasMatch: true,
+                        title: data.titel,
+                        desc: data.desc,
+                        runtime: data.runtime,
+                        rating: data.rating,
+                        genres: data.genres,
+                        thumbnailSrc: data.thumbnailSrc
+                    });
+                    console.log("Error: ")
+                    console.log(match);
+                }
+            }).catch(() => {
+                // Errors during set are fine, just load a new movie.
+            });
+        }
 
         setState({
             ...state,

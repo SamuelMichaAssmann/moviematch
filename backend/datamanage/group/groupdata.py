@@ -134,7 +134,7 @@ def check(group, user, path):
 
 def write_match(movie, group):
     path = '../data/match.json'
-    setData(group, [movie], path)
+    set_group_movie_data(group, [movie], path)
 
 '''
 Count how many movies a user has interacted with in a given group.

@@ -91,15 +91,16 @@ def userback(): # uid, gid, movieid, kind (like, dislike, neutral), path to watc
     db.userback(flask.request)
     return {"movie_id": "false"}
 
-@app.route('/api/groupback', methods=['GET', 'OPTIONS'])
+@app.route('/api/groupback', methods=['POST', 'OPTIONS'])
 @cross_origin()
 def groupback():
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
-    group_id = flask.request.args.get('group_id')
-    user_id = flask.request.args.get('user_id')
-    movie_id = flask.request.args.get('movie_id')
-    path = flask.request.args.get('path')
-    kind = flask.request.args.get('kind')
+    print(flask.request.json)
+    group_id = flask.request.json['group_id']
+    user_id = flask.request.json['user_id']
+    movie_id = flask.request.json['movie_id']
+    path = flask.request.json['path']
+    kind = flask.request.json['kind']
     set_movie(group_id, user_id, movie_id, path, kind)
     match = match_check(group_id, user_id, path)
     return match
