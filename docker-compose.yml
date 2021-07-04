@@ -1,0 +1,13 @@
+services:
+    api:
+        build:
+            context: .
+            dockerfile: Dockerfile.api
+        image: moviem_api
+    client:
+        build:
+            context: .
+            dockerfile: Dockerfile.client
+        image: moviem_fe
+        ports:
+            - "3000:80"
