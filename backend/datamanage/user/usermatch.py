@@ -4,20 +4,29 @@ from backend.firebase.firebase_db import *
 from backend.datamanage.apidata import *
 import threading
 
-
+'''
+Find new movies for a user based on the Machine Learning data.
+:param user: The ID of the user.
+:param path: Path to the JSON file.
+'''
 def movies(user, path):
-    watchlist = removeinit(getWatchlist(user))
-    antiwatch = removeinit(getAntiwatch(user))
+    watchlist = removeinit(get_watch_list(user))
+    antiwatch = removeinit(get_antiwatch(user))
     clusters = cluster(watchlist, antiwatch)
-    movies = getMovies(clusters, getData(user, path))
-    setData(user, movies, path)
+    movies = get_movies(clusters, get_user_movie_data(user, path))
+    set_user_movie_data(user, movies, path)
 
-
-def usermatch(user, path):
-    if (getLen(user, path) == 20) or (getLen(user, path) == 0):
+'''
+Attempts to find a movie match (a movie suggestion for a single user).
+:param user: The ID of the user.
+:param path: The path to the JSON file.
+:return: The movie info, or message + status.
+'''
+def user_match(user, path):
+    if (get_user_movie_count(user, path) == 20) or (get_user_movie_count(user, path) == 0):
         threading.Thread(target=movies, args=(user, path,)).start()
-    movie_id = getMovie(user, path)
+    movie_id = get_movie_by_user(user, path)
     if movie_id != None:
-        return movieInfo(movie_id)
+        return retrieve_movie_info(movie_id)
     else:
         return 'No movie found!', 200

@@ -6,7 +6,7 @@ export default class APIHandler {
      * @param {Object} args 
      * @returns The result as an object.
      */
-    static async getRequest(url, args) {
+    static async getRequest(url, args, returnRawResponse=false) {
         let firstArgument = true;
         Object.entries(args).forEach(entry => {
             const [key, value] = entry;
@@ -15,6 +15,10 @@ export default class APIHandler {
         });
 
         const response = await fetch(url);
+        if (returnRawResponse) {
+            return response;
+        }
+
         return response.json();
     }
 
@@ -24,7 +28,7 @@ export default class APIHandler {
      * @param {Object} args 
      * @returns The result as an object.
      */
-    static async postRequest(url, args) {
+    static async postRequest(url, args, returnRawResponse=false) {
         try {
             const response = await fetch(url, {
                 method: 'POST',
@@ -36,6 +40,10 @@ export default class APIHandler {
                 body: JSON.stringify(args)
             });
 
+            if (returnRawResponse) {
+                return response;
+            }
+            
             return response.json();
         } catch (e) {
             return e;
@@ -56,10 +64,10 @@ export default class APIHandler {
 
             if (!('message' in response)) {
                 // Store new tokens if they had to be refreshed.
-                if ('newToken' in response && response.newToken != '') {
+                if ('newToken' in response && response.newToken !== '') {
                     localStorage.setItem('token', response.newToken);
                 }
-                if ('newRefreshToken' in response && response.newRefreshToken != '') {
+                if ('newRefreshToken' in response && response.newRefreshToken !== '') {
                     localStorage.setItem('refreshToken', response.newRefreshToken);
                 }
             }

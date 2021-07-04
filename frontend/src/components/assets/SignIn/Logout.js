@@ -1,11 +1,15 @@
-import React from 'react';
-import { BrowserRouter as Redirect } from 'react-router-dom';
 import firebase from 'firebase';
 
 function Logout() {
-    firebase.auth().signOut();
+    try {
+        firebase.auth().signOut();
+    } catch {
+        // If no Firebase authorization was initialized previously, clear local storage only.
+    }
+
     localStorage.clear();
-    return window.location.href = "/home";
+    window.location.href = '/home';
+    return '';
 }
 
 export default Logout;

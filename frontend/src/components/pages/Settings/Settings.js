@@ -16,7 +16,6 @@ class Settings extends React.Component {
     super(props);
     this.state = {
       username: '',
-      email: '',
       age: '',
       currentPassword: '',
       successMessage: '',
@@ -27,13 +26,13 @@ class Settings extends React.Component {
     this.submitChanges = this.submitChanges.bind(this);
     this.resendVerificationEmail = this.resendVerificationEmail.bind(this);
     this.resetUserData = this.resetUserData.bind(this);
-    this.changeDelete = this.changeDelete.bind(this)
+    this.deleteUser = this.deleteUser.bind(this)
   }
 
   handleChange(event) { //updates state for input
     const target = event.target;
     const name = target.name;
-    const value = (name == 'age') ? target.value.replace(/\D/, '') : target.value; // Only numbers for age.
+    const value = (name === 'age') ? target.value.replace(/\D/, '') : target.value; // Only numbers for age.
 
     this.setState({
       [name]: value
@@ -75,7 +74,7 @@ class Settings extends React.Component {
     if (!answer) {
       return;
     }
-    
+
     this.setState({ successMessage: '', error: '' });
 
     const response = await APIHandler.postRequest('http://127.0.0.1:5000/api/resetUserData', {
@@ -88,41 +87,45 @@ class Settings extends React.Component {
       this.setState({ successMessage: 'Your data has been successfully reset.', error: '' });
     }
   }
-/*
-  async checkData(){
 
-    window.location.href = "/deleteAcc"
-  }*/
-
-  changeDelete(){
-    window.location.href = '/delete'
-  }
-
-  async deleteUser(){
+  async deleteUser() {
     let answer = window.confirm('Are you sure you want to delete your account?');
     if (!answer) {
       return;
     }
 
-    const user = firebase.auth().currentUser;
-    this.setState({ successMessage: '', error: '' });
+    this.setState({ error: '', successMessage: '' });
 
-    const response = await APIHandler.postRequest('http://127.0.0.1:5000/api/deleteUser', {
-      user_id: localStorage.getItem('uid')
-    });
+    try {
+      firebase.auth().signInWithEmailAndPassword(localStorage.getItem('email'), this.state.currentPassword)
+        .then((userCredential) => {
+          // Signed in
+          let user = userCredential.user;
 
-    if ('message' in response) {
-      this.setState({ error: response.message });
-    } else {
-      user.delete().then( () => {
-        localStorage.clear()
-        window.location.href = "/home";
-      }).catch((error) =>{
-        console.log("Error occured - User has not been deleted from auth")
-        this.setState({ error: error})
-      })
-    };
+          APIHandler.postRequest('http://127.0.0.1:5000/api/deleteUser', {
+            user_id: localStorage.getItem('uid')
+          }).then((response) => {
+            if ('message' in response) {
+              this.setState({ error: response.message });
+            } else {
+              user.delete().then(() => {
+                localStorage.clear();
+                window.location.href = '/home';
+              }).catch((error) => {
+                this.setState({ error: error.message })
+              })
+            }
+          }).catch((error) => {
+            this.setState({ error: error.message });
+          });
+        }).catch((error) => {
+          this.setState({ error: error.message });
+        });
+    } catch (error) {
+      this.setState({ error: error.message });
+    }
   }
+
 
   render() {
     return (
@@ -145,8 +148,8 @@ class Settings extends React.Component {
                 value={this.state.username}
                 onChange={this.handleChange}
                 width={TEXT_FIELD_WIDTH} />
-              
-              
+
+
               <Textfield
                 label='Age'
                 name='age'
@@ -169,13 +172,13 @@ class Settings extends React.Component {
 
             <div className='settingsButtonDiv'>
               {
-                (this.state.successMessage != '')
+                (this.state.successMessage !== '')
                   ? <p className='settingsSuccess'>{this.state.successMessage}</p>
                   : null
               }
 
               {
-                (this.state.error != '')
+                (this.state.error !== '')
                   ? <p className='settingsError'>{this.state.error}</p>
                   : null
               }
@@ -212,7 +215,7 @@ class Settings extends React.Component {
               <Button
                 buttonStyle='btn--outline'
                 extraClasses='btn--outline-red settingsButton settingsButtonBottom'
-                onClick={this.changeDelete}
+                onClick={this.deleteUser}
               >
                 <FaSkull /> Delete account <FaSkull />
               </Button>

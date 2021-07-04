@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import '../Section/Section.css';
 import './Matching.css';
 import Loading from '../Loading/Loading';
@@ -15,7 +15,7 @@ function Matching({
     lightbg,
     dataPath,
     getEndpoint,
-    setEntpoint,
+    setEndpoint,
     thumbnailHeight,
     maxDescLength,
     emptyImage,
@@ -33,11 +33,14 @@ function Matching({
         rating: 0,
         genres: 'none',
     });
+
+    const mounted = useRef(() => ({ current: true }), []);
+
     const [state, setState] = useState({
         loaded: false,
         runtime: 0,
         rating: 0,
-        genres: 'none',
+        genres: 'none'
     });
 
     if (onLike == null) onLike = () => getMovie('like');
@@ -46,10 +49,17 @@ function Matching({
 
     useEffect(() => {
         getMovie();
-    }, []);
+        return () => {
+            mounted.current = false;
+        }
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     const getMovie = (kind) => {
-        APIHandler.getRequest(setEntpoint, {
+        if (!mounted.current) {
+            return;
+        }
+        
+        APIHandler.postRequest(setEndpoint, {
             "user_id": localStorage.getItem("uid"),
             "group_id": new URLSearchParams(window.location.search).get('id'),
             "movie_id": state.movieId,
@@ -73,13 +83,16 @@ function Matching({
                 console.log("Error: ")
                 console.log(match);
             };
+        }).catch(() => {
+            // Errors during set are fine, just load a new movie.
         });
 
         setState({
+            ...state,
             loaded: false,
             runtime: 0,
             rating: 0,
-            genres: 'none',
+            genres: 'none'
         });
 
         APIHandler.getRequest(getEndpoint, {
@@ -88,6 +101,7 @@ function Matching({
             "path": dataPath
         }).then(data => {
             setState({
+                ...state,
                 loaded: true,
                 movieId: data.movie_id,
                 thumbnailSrc: (data.thumbnailSrc == null)
@@ -99,7 +113,7 @@ function Matching({
                     : data.desc,
                 runtime: data.runtime,
                 rating: data.rating,
-                genres: data.genres,
+                genres: data.genres
             });
         }).catch(() => {
             setTimeout(() => getMovie(), 1000);

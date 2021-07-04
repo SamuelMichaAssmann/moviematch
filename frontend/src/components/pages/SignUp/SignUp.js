@@ -30,7 +30,7 @@ class SignUp extends React.Component {
   }
 
   render() {
-    const { isLoginActive: isLoginActive } = this.state;
+    const { isLoginActive } = this.state;
     const current = isLoginActive ? "Register" : "Login";
     const currentActive = isLoginActive ? "login" : "register";
     return (

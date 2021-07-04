@@ -3,15 +3,13 @@ import './SignIn.css';
 import { Button } from '../Button/Button';
 import { observer } from 'mobx-react';
 import { Textfield } from '../../assets/Textfield/Textfield';
-import firebase from "../../../firebase"; //firebase globally available
-import APIHandler from '../../manage/api/APIHandler'
-import * as uM from '../../../userManager'
-import Loading from '../Loading/Loading'
+import APIHandler from '../../manage/api/APIHandler';
+import Loading from '../Loading/Loading';
 
 export class Login extends React.Component {
     constructor(props) {
         super(props)
-        this.state = { //use this to constantly update input fields
+        this.state = {
             email: '',
             password: '',
             loading: false,
@@ -33,10 +31,9 @@ export class Login extends React.Component {
         this.setState({
             [name]: value
         });
-
     }
 
-    resetForm() { //resets form
+    resetForm() {
         this.setState({
             password: '',
             email: ''
@@ -44,7 +41,7 @@ export class Login extends React.Component {
     }
 
     async resetPassword() {
-        if (this.state.email == '') {
+        if (this.state.email === '') {
             this.setState({ successMessage: '', error: 'Please enter a valid email' });
             return;
         }
@@ -83,6 +80,7 @@ export class Login extends React.Component {
         localStorage.setItem('refreshToken', response['refreshToken']);
         localStorage.setItem('loginState', 'true');
         this.setState({ loading: false });
+
         window.location.href = '/home';
 
 
@@ -155,13 +153,13 @@ export class Login extends React.Component {
                                 </Button>
 
                                 {
-                                    (this.state.successMessage != '')
+                                    (this.state.successMessage !== '')
                                         ? <p className='settingsSuccess'>{this.state.successMessage}</p>
                                         : null
                                 }
 
                                 {
-                                    (this.state.error != '')
+                                    (this.state.error !== '')
                                         ? <p className='settingsError'>{this.state.error}</p>
                                         : null
                                 }

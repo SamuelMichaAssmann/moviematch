@@ -1,5 +1,5 @@
 import React from 'react';
-import { term1, term2, term3, term4, term5, term6, term7, term8, term9, term10, term11, term12 , term13, term14, term15, term16, term17, term18, term19, term20,} from './conditions';
+import { term1, term2, term3, term4, term5, term6, term7, term8, term9, term10, term11, term12 , term13, term14, term15, term16, term17, term18, term19, term20,} from './Conditions';
 import Section from '../Section/Sectiontext';
 
 function Policy() {

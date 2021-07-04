@@ -17,13 +17,13 @@ function Match({
   confetti({
     particleCount: 300,
     spread: 360,
-    startVelocity: 50,
+    startVelocity: 50
   });
 
   return (
-    <div class="modal open" >
-      <article class="content-wrapper">
-        <button class="close" onClick={onClick}></button>
+    <div className="modal open" >
+      <article className="content-wrapper">
+        <button className="close" onClick={onClick}></button>
         <div className="scrollview">
           <h2 className='matchheading'>You got a match!</h2>
           <div className='movieThumbnailRow movieThumbnailRowGroup'>

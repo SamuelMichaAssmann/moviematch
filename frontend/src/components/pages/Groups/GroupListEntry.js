@@ -42,7 +42,7 @@ export default class GroupListEntry extends React.Component {
             default:
                 return `${this.trimString(members[0], MAX_MEMBER_LENGTH)}, `
                     + `${this.trimString(members[1], MAX_MEMBER_LENGTH)} and ${members.length - 2} `
-                    + `other${(members.length == 3) ? '' : 's'}.`;
+                    + `other${(members.length === 3) ? '' : 's'}.`;
         }
     }
 
@@ -89,7 +89,7 @@ export default class GroupListEntry extends React.Component {
     }
 
     isOwner() {
-        return (this.state.owner == localStorage.getItem('uid'));
+        return (this.state.owner === localStorage.getItem('uid'));
     }
 
     getIsOwnerDiv() {
