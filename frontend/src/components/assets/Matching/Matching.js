@@ -7,7 +7,7 @@ import { MovieThumbnail } from '../Image/MovieThumbnail';
 import { likeButton, neutralButton, dislikeButton } from './Data';
 import APIHandler from '../../manage/api/APIHandler';
 import MovieInfo from './MovieInfo/MovieInfo';
-import {Match} from '../Match/Match';
+import { Match } from '../Match/Match';
 
 const BASE_THUMBNAIL_URL = 'https://image.tmdb.org/t/p/w500';
 
@@ -16,7 +16,6 @@ function Matching({
     dataPath,
     getEndpoint,
     setEntpoint,
-    checkEntpoint,
     thumbnailHeight,
     maxDescLength,
     emptyImage,
@@ -28,7 +27,7 @@ function Matching({
     tableExtraClasses = '',
 }) {
     const [match, setMatch] = useState(false);
-    let matchdata = null;
+    let matchdata = {};
     const [state, setState] = useState({
         loaded: false,
         runtime: 0,
@@ -54,12 +53,9 @@ function Matching({
         }).then(data => {
             matchdata = data
             const matchmovie = data.movie_id
-            if (matchmovie != "false"){
+            if (matchmovie != "false") {
                 setMatch(true)
-                console.log("Nice")
             }
-            //daten ob match
-            console.log(data)
         });
 
         setState({
@@ -126,7 +122,12 @@ function Matching({
                 genres: state.genres,
                 tableExtraClasses: tableExtraClasses,
             }} />
-            {match ? <Match {...matchdata} onClick={() => setMatch(false)} /> : ""}
+            {match ? <Match {... {
+                titel: matchdata.titel,
+                runtime: matchdata.runtime,
+                rating: matchdata.rating,
+                genres: matchdata.genres
+            }} onClick={() => setMatch(false)} /> : ""}
         </>
     );
 }

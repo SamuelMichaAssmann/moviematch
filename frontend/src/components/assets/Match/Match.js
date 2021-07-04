@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import './Match.css';
 import confetti from "canvas-confetti";
 import { MovieThumbnail } from '../Image/MovieThumbnail';
@@ -10,9 +10,9 @@ export const Match = ({
   runtime,
   rating,
   genres,
-  thumbnailSrc,
-  onclick
+  onclick,
 }) => {
+  
   confetti({
     particleCount: 300,
     spread: 360,
@@ -26,10 +26,10 @@ export const Match = ({
         <div className="scrollview">
           <h2 className='matchheading'>You got a match!</h2>
           <div className='movieThumbnailRow movieThumbnailRowGroup'>
-            <MovieThumbnail
-              src={thumbnailSrc}
+            {/* <MovieThumbnail
+              src={data.thumbnailSrc}
               height="400"
-            />
+            /> */}
             <div>
               <h2 className='lightmovieTitle'>{title}</h2>
               <p className='home__sek-subtitle lightmovieDescription'>{desc}</p>
