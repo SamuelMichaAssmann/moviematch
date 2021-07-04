@@ -173,15 +173,16 @@ def groupback():
     :return: The movie info.
     '''
     if flask.request.method == 'OPTIONS': return _build_cors_preflight_response()
-    print(flask.request.json)
     group_id = flask.request.json['group_id']
     user_id = flask.request.json['user_id']
     movie_id = flask.request.json['movie_id']
     path = flask.request.json['path']
     kind = flask.request.json['kind']
     set_movie(group_id, user_id, movie_id, path, kind)
-    match = match_check(group_id, user_id, path)
-    return match
+    # -->
+    print(f"DEBUG - {group_id}, {user_id}, {path}")
+    # <--
+    return match_check(group_id, user_id, path)
 
 
 @app.route('/api/groupList', methods=['GET', 'OPTIONS'])
