@@ -15,6 +15,7 @@ pw: DaMiPaWo200!
 user: media@matchyourmovie.de
 pw: DaMiPaWo200!
 
+# existing
 user: testuser@matchyourmovie.de
 pw: DaMiPaWo200!
 
@@ -23,6 +24,6 @@ pw: sh7up#KT!
 
 user: admin@matchyourmovie.de
 pw: sh7up#KT!
-
+# not existing
 user: mod@matchyourmovie.de
 pw: sh7up#KT!
