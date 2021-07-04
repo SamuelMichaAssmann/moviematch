@@ -4,6 +4,7 @@ import Register from "../../assets/SignIn/Register";
 import { Button } from '../../assets/Button/Button';
 import "./SignUp.css"
 
+// The SignUp component handles the "Sign up" page, where the user can log in or register.
 class SignUp extends React.Component {
   constructor(props) {
     super(props);
@@ -12,10 +13,18 @@ class SignUp extends React.Component {
     };
   }
 
+  /**
+   * If the component is first mounted (created), add the right side component (register).
+   * This is only relevant for the desktop version of the page.
+   */
   componentDidMount() {
     this.rightSide.classList.add("right");
   }
 
+  /**
+   * Switch between login and register.
+   * This is only relevant for the desktop version of the page.
+   */
   changeState() {
     const { isLoginActive } = this.state;
 
@@ -77,6 +86,9 @@ class SignUp extends React.Component {
   }
 }
 
+// The RightSide component handles the tab on the side of the SignUp page that lets the user
+// switch between login and register.
+// This is only relevant for the desktop version of the page.
 const RightSide = props => {
   return (
     <div
