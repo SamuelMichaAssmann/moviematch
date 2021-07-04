@@ -4,15 +4,16 @@ import confetti from "canvas-confetti";
 import { MovieThumbnail } from '../Image/MovieThumbnail';
 import MovieInfo from '../Matching/MovieInfo/MovieInfo';
 
-export const Match = ({
+function Match({
   title,
   desc,
   runtime,
   rating,
   genres,
-  onclick,
-}) => {
-  
+  thumbnailSrc,
+  onClick,
+}) {
+  console.log(title);
   confetti({
     particleCount: 300,
     spread: 360,
@@ -22,14 +23,14 @@ export const Match = ({
   return (
     <div class="modal open" >
       <article class="content-wrapper">
-        <button class="close" onclick={onclick}></button>
+        <button class="close" onClick={onClick}></button>
         <div className="scrollview">
           <h2 className='matchheading'>You got a match!</h2>
           <div className='movieThumbnailRow movieThumbnailRowGroup'>
-            {/* <MovieThumbnail
-              src={data.thumbnailSrc}
+            <MovieThumbnail
+              src={thumbnailSrc}
               height="400"
-            /> */}
+            />
             <div>
               <h2 className='lightmovieTitle'>{title}</h2>
               <p className='home__sek-subtitle lightmovieDescription'>{desc}</p>
@@ -46,3 +47,5 @@ export const Match = ({
     </div>
   );
 };
+
+export default Match;

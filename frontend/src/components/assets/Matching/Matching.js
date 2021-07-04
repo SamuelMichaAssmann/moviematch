@@ -7,7 +7,7 @@ import { MovieThumbnail } from '../Image/MovieThumbnail';
 import { likeButton, neutralButton, dislikeButton } from './Data';
 import APIHandler from '../../manage/api/APIHandler';
 import MovieInfo from './MovieInfo/MovieInfo';
-import { Match } from '../Match/Match';
+import Match from '../Match/Match';
 
 const BASE_THUMBNAIL_URL = 'https://image.tmdb.org/t/p/w500';
 
@@ -26,8 +26,13 @@ function Matching({
     rowExtraClasses = '',
     tableExtraClasses = '',
 }) {
-    const [match, setMatch] = useState(false);
-    let matchdata = {};
+    const [match, setMatch] = useState({
+        hasMatch: false,
+        title: "Teststring",
+        runtime: 0,
+        rating: 0,
+        genres: 'none',
+    });
     const [state, setState] = useState({
         loaded: false,
         runtime: 0,
@@ -51,11 +56,23 @@ function Matching({
             "kind": kind,
             "path": dataPath
         }).then(data => {
-            matchdata = data
-            const matchmovie = data.movie_id
+            console.log(data);
+            const matchmovie = data.movie_id;
+            console.log(data.movie_id);
+            console.log(data.titel);
             if (matchmovie != "false") {
-                setMatch(true)
-            }
+                setMatch({
+                    hasMatch: true,
+                    title: data.titel,
+                    desc: data.desc,
+                    runtime: data.runtime,
+                    rating: data.rating,
+                    genres: data.genres,
+                    thumbnailSrc: data.thumbnailSrc
+                });
+                console.log("Error: ")
+                console.log(match);
+            };
         });
 
         setState({
@@ -122,12 +139,16 @@ function Matching({
                 genres: state.genres,
                 tableExtraClasses: tableExtraClasses,
             }} />
-            {match ? <Match {... {
-                titel: matchdata.titel,
-                runtime: matchdata.runtime,
-                rating: matchdata.rating,
-                genres: matchdata.genres
-            }} onClick={() => setMatch(false)} /> : ""}
+            
+            {match.hasMatch ? <Match 
+                title={match.title}
+                desc={match.desc}
+                runtime={match.runtime}
+                rating={match.rating}
+                genres={match.genres}
+                thumbnailSrc={BASE_THUMBNAIL_URL + match.thumbnailSrc}
+                onClick={() => setMatch({hasMatch: false})}
+                /> : null}
         </>
     );
 }

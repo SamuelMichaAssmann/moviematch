@@ -80,31 +80,28 @@ def getMovie(group, user, path):
 
 
 def check(group, user, path):
-    movie = getMovie(group, user, "../data/match.json")
-    if movie != None:
-        setMovie(group, user, movie, "../data/match.json", "like")
-        return movie
     data = getAllData(path)
-    length = 3  # Firebase length of userlist
-    movie = None
+    length = 1  # Firebase length of userlist
+
     try:
-        if data.get(group) == None:
-            return None
         for k, v in data.get(group).items():
             if len(v) == length:
                 movie = k
                 data.get(group).pop(movie)
-                writeMatch(k,group)
-                break
+                writeMatch(k, group)
         with open(path, 'w') as file:
             json.dump(data, file)
     except Exception as e:
         print(e)
-    return movie
+        
+    movie = getMovie(group, user, "../data/match.json")
+    if movie != None:
+        setMovie(group, user, movie, "../data/match.json", "like")
+        return movie
+    return None
 
 
 def writeMatch(movie, group):
-    # Firebase add match
     path = "../data/match.json"
     setData(group, [movie], path)
 
